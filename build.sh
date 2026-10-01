@@ -10,6 +10,6 @@ if [ -x ".venv/bin/python" ]; then
 fi
 
 "$PYTHON" -m PyInstaller --noconfirm --clean --onefile --windowed \
-  --name Pong main.py
+  --name Pong --add-data "pong/assets:pong/assets" main.py
 
 echo "Terminé : dist/Pong"

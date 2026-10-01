@@ -38,8 +38,10 @@ jobs:
       - name: Construire l'exécutable
         shell: bash
         run: |
+          # Séparateur de --add-data : ';' sous Windows, ':' ailleurs.
+          if [ "$RUNNER_OS" = "Windows" ]; then SEP=";"; else SEP=":"; fi
           python -m PyInstaller --noconfirm --clean --onefile --windowed \
-            --name Pong main.py
+            --name Pong --add-data "pong/assets${SEP}pong/assets" main.py
 
       - name: Publier l'exécutable
         uses: actions/upload-artifact@v4
