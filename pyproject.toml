@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pong"
+version = "1.0.0"
+description = "Jeu Pong en Python (pygame) — 1 ou 2 joueurs, avec tutoriel complet"
+requires-python = ">=3.9"
+dependencies = ["pygame>=2.5,<3"]
+
+[tool.setuptools]
+packages = ["pong", "pong.scenes"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-q"

@@ -1,0 +1,5 @@
+-r requirements.txt
+
+# Outils de développement et de packaging
+pytest>=8,<10
+pyinstaller>=6,<7

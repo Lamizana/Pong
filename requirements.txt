@@ -1,0 +1,2 @@
+# Dépendances d'exécution
+pygame>=2.5,<3
