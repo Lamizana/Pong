@@ -4,7 +4,7 @@ import random
 
 import pygame
 
-from .. import settings
+from .. import settings, synthwave
 from ..ai import AI
 from ..ball import Ball
 from ..paddle import Paddle
@@ -131,30 +131,44 @@ class GameScene(Scene):
     # --- Affichage ---
 
     def draw(self, surface):
-        surface.fill(settings.BLACK)
+        self.app.background.draw(surface, pygame.time.get_ticks() / 1000.0)
         self._draw_net(surface)
         self._draw_scores(surface)
-        pygame.draw.rect(surface, settings.WHITE, self.left_paddle.rect)
-        pygame.draw.rect(surface, settings.WHITE, self.right_paddle.rect)
-        pygame.draw.circle(surface, settings.ACCENT,
+
+        # Raquettes néon avec halo.
+        for paddle in (self.left_paddle, self.right_paddle):
+            synthwave.glow_rect(surface, paddle.rect, settings.NEON_PINK)
+            pygame.draw.rect(surface, settings.NEON_PINK, paddle.rect, border_radius=5)
+            pygame.draw.rect(surface, settings.TEXT_COLOR, paddle.rect.inflate(-6, -6),
+                             width=2, border_radius=4)
+
+        # Balle néon avec halo.
+        synthwave.glow_circle(surface, (self.ball.x, self.ball.y), self.ball.radius,
+                              settings.NEON_CYAN, spread=14)
+        pygame.draw.circle(surface, settings.NEON_CYAN,
                            (int(self.ball.x), int(self.ball.y)), self.ball.radius)
+        pygame.draw.circle(surface, settings.TEXT_COLOR,
+                           (int(self.ball.x), int(self.ball.y)),
+                           max(2, self.ball.radius // 3))
+
         if self.serve_timer > 0:
-            self.app.draw_text(surface, "Prêt !", self.app.font_medium, settings.GRAY,
-                               center=(settings.WINDOW_WIDTH // 2,
-                                       settings.WINDOW_HEIGHT // 2 + 80))
+            synthwave.glow_text(surface, self.app.font_medium, "Prêt !",
+                                settings.NEON_YELLOW,
+                                center=(settings.WINDOW_WIDTH // 2,
+                                        settings.WINDOW_HEIGHT // 2 + 80))
         self._draw_mode_label(surface)
 
     def _draw_scores(self, surface):
         center_x = settings.WINDOW_WIDTH // 2
-        self.app.draw_text(surface, str(self.score.left), self.app.font_large,
-                           settings.WHITE, center=(center_x - 80, 60))
-        self.app.draw_text(surface, str(self.score.right), self.app.font_large,
-                           settings.WHITE, center=(center_x + 80, 60))
+        synthwave.glow_text(surface, self.app.font_large, str(self.score.left),
+                            settings.NEON_CYAN, center=(center_x - 80, 60))
+        synthwave.glow_text(surface, self.app.font_large, str(self.score.right),
+                            settings.NEON_PINK, center=(center_x + 80, 60))
 
     @staticmethod
     def _draw_net(surface):
         for y in range(0, settings.WINDOW_HEIGHT, 30):
-            pygame.draw.rect(surface, settings.DARK_GRAY,
+            pygame.draw.rect(surface, settings.NEON_PURPLE,
                              (settings.WINDOW_WIDTH // 2 - 2, y, 4, 16))
 
     def _draw_mode_label(self, surface):
@@ -162,5 +176,5 @@ class GameScene(Scene):
             label = settings.AI_LEVELS[self.level]["label"]
         else:
             label = "2 joueurs"
-        self.app.draw_text(surface, label, self.app.font_small, settings.GRAY,
+        self.app.draw_text(surface, label, self.app.font_small, settings.TEXT_DIM,
                            topleft=(10, 10))

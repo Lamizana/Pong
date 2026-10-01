@@ -2,7 +2,7 @@
 
 import pygame
 
-from .. import settings
+from .. import settings, synthwave
 from .base import Scene
 
 
@@ -22,17 +22,26 @@ class GameOverScene(Scene):
             self.app.switch_scene("menu")
 
     def draw(self, surface):
-        surface.fill(settings.BLACK)
+        self.app.background.draw(surface, pygame.time.get_ticks() / 1000.0)
         center_x = settings.WINDOW_WIDTH // 2
+
+        # Panneau translucide derrière le texte.
+        panel = pygame.Surface((settings.WINDOW_WIDTH, 260), pygame.SRCALPHA)
+        panel.fill((*settings.SKY_TOP, 165))
+        surface.blit(panel, (0, 130))
+
         if self.winner == "left":
             title = "Victoire du joueur 1 !"
+            color = settings.NEON_CYAN
         elif self.mode == "1p":
             title = "Victoire de l'IA !"
+            color = settings.NEON_PINK
         else:
             title = "Victoire du joueur 2 !"
-        self.app.draw_text(surface, title, self.app.font_large, settings.GREEN,
-                           center=(center_x, 220))
+            color = settings.NEON_PINK
+        synthwave.glow_text(surface, self.app.font_large, title, color,
+                            center=(center_x, 220), spread=5)
         self.app.draw_text(surface, "Entrée : rejouer", self.app.font_small,
-                           settings.GRAY, center=(center_x, 320))
+                           settings.TEXT_COLOR, center=(center_x, 320))
         self.app.draw_text(surface, "M ou Q : menu", self.app.font_small,
-                           settings.GRAY, center=(center_x, 350))
+                           settings.TEXT_DIM, center=(center_x, 350))

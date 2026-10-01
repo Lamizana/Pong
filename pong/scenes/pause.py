@@ -2,7 +2,7 @@
 
 import pygame
 
-from .. import settings
+from .. import settings, synthwave
 from .base import Scene
 
 
@@ -25,14 +25,14 @@ class PauseScene(Scene):
         self.game.draw(surface)  # partie figée en arrière-plan
 
         overlay = pygame.Surface((settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT))
-        overlay.set_alpha(170)
-        overlay.fill(settings.BLACK)
+        overlay.set_alpha(190)
+        overlay.fill(settings.SKY_TOP)
         surface.blit(overlay, (0, 0))
 
         center_x = settings.WINDOW_WIDTH // 2
-        self.app.draw_text(surface, "PAUSE", self.app.font_large, settings.WHITE,
-                           center=(center_x, 240))
+        synthwave.glow_text(surface, self.app.font_large, "PAUSE",
+                            settings.NEON_CYAN, center=(center_x, 240), spread=4)
         self.app.draw_text(surface, "P ou Entrée : reprendre", self.app.font_small,
-                           settings.GRAY, center=(center_x, 320))
+                           settings.TEXT_COLOR, center=(center_x, 320))
         self.app.draw_text(surface, "Q : retour au menu", self.app.font_small,
-                           settings.GRAY, center=(center_x, 350))
+                           settings.TEXT_DIM, center=(center_x, 350))

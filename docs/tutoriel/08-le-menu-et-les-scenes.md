@@ -127,6 +127,14 @@ L'option sélectionnée est en blanc et précédée d'un `>`, les autres sont gr
 Le `240 + i * 60` espace les lignes de 60 pixels, une technique simple pour aligner
 une liste verticalement.
 
+> **Note** : pour l'instant le fond est **noir uni** (`settings.BLACK`) et les couleurs
+> sont sobres — c'est volontaire, pour se concentrer sur la mécanique. Le
+> [chapitre 12](12-style-synthwave.md) remplacera ce rendu par le décor rétro
+> synthwave, sans toucher à la logique.
+
 ## Étape suivante
 
 → [09 — Les sons](09-les-sons.md)
+
+> Pour le style visuel final (thème rétro synthwave), voir le
+> [chapitre 12](12-style-synthwave.md).

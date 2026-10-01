@@ -1,11 +1,19 @@
 # Pong 🏓
 
+---
+
+Pong jeu Python (pygame), 1 ou 2 joueurs
+
+---
+
 Un jeu **Pong** complet en **Python** (pygame), jouable à **1 joueur** (contre une IA
 à 3 niveaux de difficulté) ou à **2 joueurs**, et déployable en **exécutable Linux et
 Windows**.
 
 Ce dépôt contient aussi un **tutoriel détaillé en français** qui explique comment le
 jeu a été construit, étape par étape.
+
+![Aperçu du jeu](docs/screenshots/game.png)
 
 ## Fonctionnalités
 
@@ -15,6 +23,8 @@ jeu a été construit, étape par étape.
 - 🎯 **Physique de rebond avancée** : l'angle dépend du point d'impact sur la raquette.
 - 🔊 **Sons générés en code** (aucun fichier audio requis).
 - ⏸️ **Pause** (reprise exactement où l'on s'était arrêté).
+- 🌆 **Thème rétro synthwave** : soleil couchant, grille en perspective, halos néon,
+  scanlines et étoiles scintillantes.
 - ✅ **Suite de tests automatisés** (physique, IA, score, parcours des scènes).
 
 ## Installation
@@ -79,10 +89,12 @@ Pong/
 │   ├── ai.py                # adversaire automatique
 │   ├── score.py             # score et victoire
 │   ├── sound.py             # sons générés
+│   ├── synthwave.py         # décor et effets néon
 │   ├── app.py               # fenêtre, boucle, scènes
 │   └── scenes/              # menu, partie, pause, fin de partie
+├── scripts/render_preview.py   # génère des aperçus PNG
 ├── tests/                   # tests pytest
-└── docs/tutoriel/           # tutoriel complet (FR)
+└── docs/                    # tutoriel (FR) + captures d'écran
 ```
 
 ## Tutoriel
@@ -91,7 +103,8 @@ Le tutoriel complet se trouve dans **[`docs/tutoriel/`](docs/tutoriel/README.md)
 
 00. Introduction · 01. Installation · 02. Structure · 03. Boucle de jeu ·
 04. Raquettes · 05. Balle et physique · 06. IA · 07. Score et victoire ·
-08. Menu et scènes · 09. Sons · 10. Pause · 11. Packaging et déploiement
+08. Menu et scènes · 09. Sons · 10. Pause · 11. Packaging et déploiement ·
+12. Style rétro synthwave
 
 ## Licence
 

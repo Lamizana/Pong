@@ -6,6 +6,7 @@ from . import settings
 from .scenes.game import GameScene
 from .scenes.menu import MenuScene
 from .sound import SoundManager
+from .synthwave import SynthwaveBackground
 
 
 class App:
@@ -24,6 +25,9 @@ class App:
         self.clock = pygame.time.Clock()
         self.sound = SoundManager(enabled=sound_enabled)
         self.running = True
+
+        # Décor partagé par toutes les scènes (thème rétro synthwave).
+        self.background = SynthwaveBackground()
 
         self.font_small = pygame.font.SysFont(None, 28)
         self.font_medium = pygame.font.SysFont(None, 44)
