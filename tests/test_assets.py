@@ -2,6 +2,7 @@
 
 import pygame
 
+from pong import settings
 from pong.resources import AssetStore
 
 
@@ -11,8 +12,9 @@ def test_asset_store_loads_expected_sizes():
 
     assert store.background.get_size() == (900, 600)
     assert store.menu_background.get_size() == (900, 600)
-    assert store.paddle_left.get_height() == 150
-    assert store.paddle_right.get_height() == 150
+    # Le sprite de raquette épouse la hauteur de la zone de frappe.
+    assert store.paddle_left.get_height() == settings.PADDLE_HEIGHT
+    assert store.paddle_right.get_height() == settings.PADDLE_HEIGHT
     assert max(store.ball.get_size()) <= 64
 
 

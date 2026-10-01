@@ -93,3 +93,25 @@ def test_game_draw_blits_background_image():
     assert app.screen.get_at((10, 590))[:3] == app.assets.background.get_at((10, 590))[:3]
     pygame.quit()
 
+
+def test_ball_bounces_when_touching_paddle_corner():
+    """Régression : le carré englobant de la balle rate le coin supérieur
+    (bord tangent), alors que son cercle touche la raquette. La balle doit
+    rebondir au lieu de traverser."""
+    app = App(sound_enabled=False)
+    game = GameScene(app, mode="2p")
+    game.serve_timer = 0.0
+    paddle = game.left_paddle
+    ball = game.ball
+    # Cercle chevauchant le coin supérieur gauche, carré englobant à l'extérieur.
+    ball.x = paddle.rect.left
+    ball.y = paddle.rect.top - ball.radius + 0.5
+    ball.vx, ball.vy = -100.0, 0.0
+    ball.speed = 100.0
+
+    game.update(0.001)
+
+    assert ball.vx > 0, "la balle a traversé la raquette sur un coin"
+    pygame.quit()
+
+

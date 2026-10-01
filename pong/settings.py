@@ -32,7 +32,7 @@ FIELD_HEIGHT = FIELD_BOTTOM - FIELD_TOP
 
 # --- Raquette ---
 PADDLE_WIDTH = 15
-PADDLE_HEIGHT = 100
+PADDLE_HEIGHT = 80
 PADDLE_INSET = 4            # écart entre le bord du terrain et le sprite
 PADDLE_SPEED = 520          # pixels par seconde
 

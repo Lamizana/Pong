@@ -7,6 +7,7 @@ import pygame
 from .. import settings, synthwave
 from ..ai import AI
 from ..ball import Ball
+from ..collision import circle_rect_contact
 from ..paddle import Paddle
 from ..score import Score
 from .base import Scene
@@ -91,18 +92,42 @@ class GameScene(Scene):
 
     def _handle_paddles(self):
         """Gère l'éventuelle collision balle/raquette. Renvoie True si une a eu lieu."""
-        ball = self.ball
-        if ball.vx < 0 and ball.rect.colliderect(self.left_paddle.rect):
-            ball.x = self.left_paddle.rect.right + ball.radius
-            ball.bounce_off_paddle(self.left_paddle.center_y, direction=1)
+        if self._resolve_paddle(self.left_paddle, direction=1):
             self._after_paddle_hit()
             return True
-        if ball.vx > 0 and ball.rect.colliderect(self.right_paddle.rect):
-            ball.x = self.right_paddle.rect.left - ball.radius
-            ball.bounce_off_paddle(self.right_paddle.center_y, direction=-1)
+        if self._resolve_paddle(self.right_paddle, direction=-1):
             self._after_paddle_hit()
             return True
         return False
+
+    def _resolve_paddle(self, paddle, direction):
+        """Détecte et résout une collision balle/raquette (cercle vs rectangle).
+
+        `direction` : +1 renvoie la balle vers la droite (raquette gauche), -1
+        vers la gauche. La détection par cercle (et non par boîte englobante)
+        évite que la balle traverse la raquette sur un coin. Renvoie True si une
+        collision a été traitée.
+        """
+        ball = self.ball
+        # Ne tester que si la balle se dirige vers cette raquette.
+        if ball.vx * direction >= 0:
+            return False
+
+        rect = paddle.rect
+        contact = circle_rect_contact(ball.x, ball.y, ball.radius, rect)
+        if contact is None:
+            return False
+
+        (normal_x, normal_y), penetration = contact
+        if rect.top <= ball.y <= rect.bottom:
+            # Face latérale : rebond horizontal, angle selon le point d'impact.
+            ball.x = rect.right + ball.radius if direction > 0 else rect.left - ball.radius
+        else:
+            # Coin haut/bas : on ressort la balle le long de la normale.
+            ball.x += normal_x * penetration
+            ball.y += normal_y * penetration
+        ball.bounce_off_paddle(paddle.center_y, direction=direction)
+        return True
 
     def _after_paddle_hit(self):
         self.app.sound.paddle_hit()
