@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
   <img src="https://img.shields.io/badge/pygame-2.6-1B75BB?style=for-the-badge" alt="pygame">
-  <img src="https://img.shields.io/badge/Th%C3%A8me-R%C3%A9tro_Synthwave-FF2E95?style=for-the-badge" alt="Thème rétro synthwave">
+  <img src="https://img.shields.io/badge/Th%C3%A8me-Cyberpunk-FF2E95?style=for-the-badge" alt="Thème cyberpunk">
   <img src="https://img.shields.io/badge/Licence-MIT-green?style=for-the-badge" alt="Licence MIT">
 </p>
 
@@ -34,8 +34,9 @@ score) est **séparée de l'affichage**, entièrement **testée**, et accompagn�
 **tutoriel pas à pas en français**. Il se déploie en **exécutable autonome** (Linux et
 Windows) via PyInstaller et GitHub Actions.
 
-Le tout habillé d'un thème **rétro synthwave** : soleil couchant, grille en perspective,
-néons et étoiles scintillantes.
+Le tout habillé d'un thème **cyberpunk** : fond illustré (ville néon, portail
+doré, grille en perspective), raquettes mécaniques, balle cybernétique — des
+images générées par IA chargées comme assets.
 
 ---
 
@@ -76,7 +77,7 @@ néons et étoiles scintillantes.
 | **Physique de rebond avancée** | L'angle de la balle dépend du point d'impact sur la raquette |
 | **Sons générés en code** | Bruitages synthétisés, aucun fichier audio requis |
 | **Pause** | Reprise exactement où la partie s'était arrêtée |
-| **Theme retro synthwave** | Soleil couchant, grille en perspective, halos néon, scanlines, animations |
+| **Theme cyberpunk** | Fond illustré (ville néon, portail doré, grille), raquettes mécaniques, balle cybernétique, halos néon |
 | **Tests automatises** | Physique, IA, score et parcours des scènes, sans ouvrir de fenêtre |
 | **Packaging multiplateforme** | Exécutables Linux et Windows via PyInstaller + GitHub Actions |
 
@@ -107,11 +108,15 @@ Pong/
 │   ├── ai.py                    # Adversaire automatique (3 niveaux)
 │   ├── score.py                 # Score et condition de victoire
 │   ├── sound.py                 # Génération et lecture des sons
-│   ├── synthwave.py             # Décor et effets néon du thème
+│   ├── synthwave.py             # Effets néon (halos, textes lumineux)
+│   ├── resources.py             # Chargement des images du thème
+│   ├── assets/                  # Images : fond, menu, raquettes, balle (PNG)
 │   ├── app.py                   # Fenêtre, boucle de jeu, gestion des scènes
 │   └── scenes/                  # Menu, partie, pause, fin de partie
 ├── scripts/
-│   └── render_preview.py        # Génère les aperçus PNG
+│   ├── render_preview.py        # Génère les aperçus PNG
+│   └── prepare_assets.py        # Détoure/redimensionne les images sources
+├── images/                      # Images sources (JPEG, hors dépôt)
 ├── tests/                       # Tests pytest
 ├── docs/
 │   ├── tutoriel/                # Tutoriel complet (12 chapitres)
