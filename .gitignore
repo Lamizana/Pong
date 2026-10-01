@@ -14,6 +14,9 @@ build/
 dist/
 *.spec
 
+# Images sources (matière première, non requises au runtime)
+images/
+
 # Scratch interne (ledger de développement)
 .superpowers/
 

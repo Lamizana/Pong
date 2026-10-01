@@ -3,3 +3,5 @@
 # Outils de développement et de packaging
 pytest>=8,<10
 pyinstaller>=6,<7
+# Prétraitement des images (scripts/prepare_assets.py)
+Pillow>=10,<12
