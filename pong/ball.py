@@ -49,14 +49,18 @@ class Ball:
         self.y += self.vy * dt
 
     def handle_walls(self):
-        """Rebondit sur les bords haut/bas. Renvoie True si un rebond a eu lieu."""
-        if self.y - self.radius <= 0:
+        """Rebondit sur les bords haut/bas. Renvoie True si un rebond a eu lieu.
+
+        On ne corrige que si la balle se dirige *vers* le mur : évite de « coller »
+        une balle immobile (vy == 0) et les doubles rebonds.
+        """
+        if self.vy < 0 and self.y - self.radius <= 0:
             self.y = self.radius
-            self.vy = abs(self.vy)
+            self.vy = -self.vy
             return True
-        if self.y + self.radius >= settings.WINDOW_HEIGHT:
+        if self.vy > 0 and self.y + self.radius >= settings.WINDOW_HEIGHT:
             self.y = settings.WINDOW_HEIGHT - self.radius
-            self.vy = -abs(self.vy)
+            self.vy = -self.vy
             return True
         return False
 

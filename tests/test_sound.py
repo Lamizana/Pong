@@ -27,6 +27,14 @@ def test_tone_is_not_silent():
     assert any(byte != 0 for byte in data)
 
 
+def test_tone_fades_in_and_out():
+    data = generate_tone(440, 90)
+    values = struct.unpack("<" + "h" * (len(data) // 2), data)
+    # Enveloppe : premier et dernier échantillons à zéro (pas de clic).
+    assert values[0] == 0
+    assert values[-1] == 0
+
+
 def test_disabled_sound_manager_is_safe():
     sound = SoundManager(enabled=False)
     assert sound.enabled is False

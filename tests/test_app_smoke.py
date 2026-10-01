@@ -18,8 +18,12 @@ def test_full_scene_flow():
     app = App(sound_enabled=False)
     assert isinstance(app.scene, MenuScene)
 
-    # Menu → « 1 joueur — Moyen » (descendre d'une ligne puis valider).
-    app.scene.handle_event(_key(pygame.K_DOWN))
+    # Menu → « 1 joueur — Moyen », sélectionné par son libellé (indépendant de l'ordre).
+    target = settings.AI_LEVELS["moyen"]["label"]
+    for _ in range(len(app.scene.options) + 1):
+        if app.scene.options[app.scene.index][0] == target:
+            break
+        app.scene.handle_event(_key(pygame.K_DOWN))
     app.scene.handle_event(_key(pygame.K_RETURN))
     assert isinstance(app.scene, GameScene)
     assert app.scene.mode == "1p"
@@ -65,4 +69,12 @@ def test_two_player_mode_has_no_ai():
     assert app.scene.ai is None
     app.scene.update(0.016)
     app.scene.draw(app.screen)
+    pygame.quit()
+
+
+def test_menu_labels_come_from_settings():
+    app = App(sound_enabled=False)
+    labels = [label for label, _, _ in app.scene.options]
+    for config in settings.AI_LEVELS.values():
+        assert config["label"] in labels
     pygame.quit()

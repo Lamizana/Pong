@@ -11,10 +11,12 @@ class MenuScene(Scene):
 
     def __init__(self, app):
         super().__init__(app)
+        # Les libellés de difficulté viennent de settings.AI_LEVELS (source unique).
         self.options = [
-            ("1 joueur — Facile", "game", {"mode": "1p", "level": "facile"}),
-            ("1 joueur — Moyen", "game", {"mode": "1p", "level": "moyen"}),
-            ("1 joueur — Difficile", "game", {"mode": "1p", "level": "difficile"}),
+            (config["label"], "game", {"mode": "1p", "level": key})
+            for key, config in settings.AI_LEVELS.items()
+        ]
+        self.options += [
             ("2 joueurs", "game", {"mode": "2p"}),
             ("Quitter", None, None),
         ]

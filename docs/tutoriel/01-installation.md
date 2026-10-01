@@ -59,8 +59,8 @@ naviguer et **Entrée** pour valider.
 pytest
 ```
 
-Tu dois voir une ligne du type `45 passed`. Ces tests vérifient la physique, l'IA,
-le score et le parcours des scènes, **sans ouvrir de fenêtre**.
+Tu dois voir tous les tests au vert (`... passed`). Ces tests vérifient la physique,
+l'IA, le score et le parcours des scènes, **sans ouvrir de fenêtre**.
 
 ## 5. (Optionnel) Vérifier le packaging
 

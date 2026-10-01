@@ -133,3 +133,20 @@ def test_off_screen_left_and_right():
     assert ball.off_screen() == "right"
     ball.x = settings.WINDOW_WIDTH / 2
     assert ball.off_screen() is None
+
+
+# --- Cas limites sur les murs ---
+
+def test_no_bounce_when_vy_is_zero():
+    ball = Ball()
+    ball.y = settings.BALL_RADIUS - 1
+    ball.vy = 0.0
+    assert ball.handle_walls() is False
+
+
+def test_no_bounce_when_already_moving_away_from_top():
+    ball = Ball()
+    ball.y = settings.BALL_RADIUS - 1
+    ball.vy = 100.0  # déjà orientée vers le bas
+    assert ball.handle_walls() is False
+

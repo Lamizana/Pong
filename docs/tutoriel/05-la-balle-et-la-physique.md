@@ -42,16 +42,20 @@ et de replacer la balle juste à l'intérieur (pour éviter qu'elle ne colle au 
 
 ```python
 def handle_walls(self):
-    if self.y - self.radius <= 0:
+    if self.vy < 0 and self.y - self.radius <= 0:      # va vers le haut
         self.y = self.radius
-        self.vy = abs(self.vy)          # repart vers le bas
+        self.vy = -self.vy                             # repart vers le bas
         return True
-    if self.y + self.radius >= settings.WINDOW_HEIGHT:
+    if self.vy > 0 and self.y + self.radius >= settings.WINDOW_HEIGHT:
         self.y = settings.WINDOW_HEIGHT - self.radius
-        self.vy = -abs(self.vy)         # repart vers le haut
+        self.vy = -self.vy                             # repart vers le haut
         return True
     return False
 ```
+
+On ne corrige que si la balle se dirige **vers** le mur. Sans ce garde-fou, une balle
+immobile (`vy == 0`) placée contre un bord « collerait » au mur en rebondissant sans
+fin.
 
 La méthode renvoie `True` quand un rebond a eu lieu : la scène de jeu s'en sert pour
 jouer le son correspondant.
@@ -130,6 +134,33 @@ def rect(self):
     size = self.radius * 2
     return pygame.Rect(int(self.x - self.radius), int(self.y - self.radius), size, size)
 ```
+
+### Éviter la traversée (« tunneling »)
+
+Une détection image par image a une limite : si la balle se déplace de plus que
+l'épaisseur de la raquette en une seule image, elle peut « sauter » par-dessus sans
+jamais être détectée. Avec une vitesse maximale de 820 px/s et une image lente de
+50 ms, cela représente jusqu'à **41 pixels** — bien plus que la largeur d'une raquette
+(15 px).
+
+La scène de jeu découpe donc chaque image en **sous-pas** : on avance la balle par
+petits bonds ne dépassant jamais son rayon, et l'on teste la collision à chaque
+sous-pas.
+
+```python
+distance = max(abs(self.ball.vx), abs(self.ball.vy)) * dt
+steps = max(1, int(distance / self.ball.radius) + 1)
+sub_dt = dt / steps
+for _ in range(steps):
+    self.ball.update(sub_dt)
+    if self.ball.handle_walls():
+        self.app.sound.wall_bounce()
+    if self._handle_paddles():
+        break
+```
+
+Quelques lignes qui éliminent une classe entière de bugs frustrants (« j'avais bien
+placé ma raquette, mais le point a été compté ! »).
 
 ## Tester la physique
 

@@ -48,18 +48,22 @@ Voici la boucle de `pong/app.py`, simplifiée :
 
 ```python
 def run(self):
-    while self.running:
-        dt = min(self.clock.tick(settings.FPS) / 1000.0, 0.05)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.quit()
-                break
-            self.scene.handle_event(event)
-        else:
-            self.scene.update(dt)
-            self.scene.draw(self.screen)
-            pygame.display.flip()
-    pygame.quit()
+    try:
+        while self.running:
+            dt = min(self.clock.tick(settings.FPS) / 1000.0, 0.05)
+            # On fige la scène du début d'image.
+            scene = self.scene
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.quit()
+                    break
+                scene.handle_event(event)
+            else:
+                scene.update(dt)
+                scene.draw(self.screen)
+                pygame.display.flip()
+    finally:
+        pygame.quit()
 ```
 
 Décortiquons-la.
@@ -100,6 +104,11 @@ on **saute** la mise à jour et le dessin de cette image.
 
 `pygame.display.flip()` est indispensable : c'est lui qui rend visible ce qu'on vient
 de dessiner. Sans appel à `flip()`, l'écran reste figé.
+
+Le `try ... finally: pygame.quit()` garantit que pygame est fermé proprement, même si
+une erreur survient. Et la variable locale `scene` « fige » la scène du début d'image :
+si un événement déclenche un changement de scène, les événements restants de la même
+image ne sont pas envoyés par erreur à la nouvelle scène.
 
 ## Les scènes
 

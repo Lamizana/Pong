@@ -47,7 +47,7 @@ P2_DOWN = (pygame.K_DOWN,)
 # Navigation / actions.
 KEY_PAUSE = (pygame.K_p, pygame.K_ESCAPE)
 KEY_VALIDATE = (pygame.K_RETURN, pygame.K_KP_ENTER, pygame.K_SPACE)
-KEY_BACK = (pygame.K_ESCAPE,)
+KEY_MENU = (pygame.K_q, pygame.K_m)
 
 # --- IA : réglages ---
 AI_DEAD_ZONE = 6            # tolérance (px) autour de la cible, évite le tremblement

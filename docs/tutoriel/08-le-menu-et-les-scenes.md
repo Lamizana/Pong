@@ -11,10 +11,12 @@ communiquer proprement, en commençant par le menu principal.
 class MenuScene(Scene):
     def __init__(self, app):
         super().__init__(app)
+        # Les libellés de difficulté viennent de settings.AI_LEVELS (source unique).
         self.options = [
-            ("1 joueur — Facile", "game", {"mode": "1p", "level": "facile"}),
-            ("1 joueur — Moyen", "game", {"mode": "1p", "level": "moyen"}),
-            ("1 joueur — Difficile", "game", {"mode": "1p", "level": "difficile"}),
+            (config["label"], "game", {"mode": "1p", "level": key})
+            for key, config in settings.AI_LEVELS.items()
+        ]
+        self.options += [
             ("2 joueurs", "game", {"mode": "2p"}),
             ("Quitter", None, None),
         ]
@@ -98,8 +100,9 @@ Le cycle complet d'une session :
          └──────────┘
 ```
 
-- `switch_scene` crée un **nouvel** écran (menu → partie, partie → fin).
-- `set_scene` réactive un écran **existant** (pause → reprise de la *même* partie).
+- `switch_scene` crée un **nouvel** écran (menu → partie, fin → rejouer).
+- `set_scene` réactive un écran **existant** (pause → reprise de la *même* partie,
+  partie → écran de fin, construite explicitement).
 
 Cette distinction est ce qui permet à la pause de reprendre la partie exactement où
 elle s'était arrêtée (chapitre 10).

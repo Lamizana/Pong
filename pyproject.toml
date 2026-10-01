@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "pong"
 version = "1.0.0"
 description = "Jeu Pong en Python (pygame) — 1 ou 2 joueurs, avec tutoriel complet"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = ["pygame>=2.5,<3"]
 
 [tool.setuptools]

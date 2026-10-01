@@ -17,11 +17,18 @@ import math
 def generate_tone(frequency, duration_ms, sample_rate=44100, volume=0.4):
     sample_count = int(sample_rate * duration_ms / 1000)
     amplitude = int(32767 * volume)
-    samples = array.array("h")          # entiers signés 16 bits
+    fade = max(1, sample_count // 10)       # fondu sur 10 % au début et à la fin
+    samples = array.array("h")              # entiers signés 16 bits
     for i in range(sample_count):
-        value = int(amplitude * math.sin(2 * math.pi * frequency * i / sample_rate))
-        samples.append(value)           # canal gauche
-        samples.append(value)           # canal droit
+        if i < fade:
+            envelope = i / fade
+        elif i >= sample_count - fade:
+            envelope = (sample_count - 1 - i) / fade
+        else:
+            envelope = 1.0
+        value = int(amplitude * envelope * math.sin(2 * math.pi * frequency * i / sample_rate))
+        samples.append(value)               # canal gauche
+        samples.append(value)               # canal droit
     return samples.tobytes()
 ```
 
@@ -34,6 +41,8 @@ Quelques points clés :
 - On écrit **deux fois** chaque valeur, une pour le canal gauche, une pour le droit :
   le son est **stéréo**.
 - `frequency` est la hauteur du son (440 Hz = le « la ») ; `volume` règle l'amplitude.
+- L'**enveloppe** (`fade`) fait démarrer et terminer le son à zéro en douceur. Sans
+  elle, la coupure nette en fin de buffer produit un « clic » audible.
 
 ## Transformer ces octets en son pygame
 

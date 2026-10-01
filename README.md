@@ -15,7 +15,7 @@ jeu a été construit, étape par étape.
 - 🎯 **Physique de rebond avancée** : l'angle dépend du point d'impact sur la raquette.
 - 🔊 **Sons générés en code** (aucun fichier audio requis).
 - ⏸️ **Pause** (reprise exactement où l'on s'était arrêté).
-- ✅ **45 tests automatisés** sur la logique du jeu.
+- ✅ **Suite de tests automatisés** (physique, IA, score, parcours des scènes).
 
 ## Installation
 

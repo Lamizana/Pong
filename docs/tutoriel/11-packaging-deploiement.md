@@ -143,8 +143,13 @@ C'est ainsi que l'on obtient un `.exe` Windows sans jamais lancer Windows soi-m�
 SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy timeout 3 ./dist/Pong
 ```
 
-Si le jeu s'exécute trois secondes sans erreur (arrêté par `timeout`), le binaire est
-sain. C'est exactement la vérification qui a été faite sur ce projet.
+Si le jeu démarre puis tourne trois secondes sans quitter prématurément (arrêté par
+`timeout`, code retour 124), c'est qu'il n'a pas planté **au démarrage**. Attention :
+ce test ne détecte qu'un crash immédiat — il ne remplace pas une vraie partie. Sous
+`set -e`, pense à tolérer le code 124 : `timeout 3 ./dist/Pong || true`.
+
+C'est la vérification qui a été faite sur ce projet (binaire Linux de 16 Mo démarrant
+correctement en mode sans écran).
 
 ## En résumé
 

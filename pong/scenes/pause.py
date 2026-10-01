@@ -18,7 +18,7 @@ class PauseScene(Scene):
             return
         if event.key in settings.KEY_PAUSE or event.key in settings.KEY_VALIDATE:
             self.app.set_scene(self.game)
-        elif event.key == pygame.K_q:
+        elif event.key in settings.KEY_MENU:
             self.app.switch_scene("menu")
 
     def draw(self, surface):

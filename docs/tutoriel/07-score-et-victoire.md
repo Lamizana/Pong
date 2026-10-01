@@ -85,6 +85,7 @@ winner = self.score.add_point(scorer)
 self.app.sound.point_scored()
 
 if winner is not None:
+    self.app.sound.win()
     self.app.set_scene(GameOverScene(self.app, winner, self.mode, self.level))
     return
 
@@ -106,15 +107,22 @@ Après chaque point :
 
 1. La balle revient au centre (`ball.reset`), avec une petite direction aléatoire.
 2. Un **délai d'une seconde** (`serve_timer`) laisse le temps aux joueurs de se
-   préparer. Pendant ce temps, `update` sort tôt et n'avance pas la balle.
+   préparer. Pendant ce temps, la balle ne bouge pas — mais **les raquettes restent
+   contrôlables**, pour se repositionner avant le service.
 3. Les raquettes sont recentrées.
 
 ```python
 def update(self, dt):
+    keys = pygame.key.get_pressed()
+    self._move_players(keys, dt)
+    if self.ai is not None:
+        self.ai.update(self.ball.y, self.right_paddle, dt)
+
     if self.serve_timer > 0:
         self.serve_timer -= dt
-        return
-    ...
+        return          # la balle n'avance pas, mais les raquettes restent mobiles
+
+    self._advance_ball(dt)
 ```
 
 La balle est relancée vers le camp qui a encaissé le point — une convention

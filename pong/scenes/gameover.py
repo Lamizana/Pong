@@ -18,7 +18,7 @@ class GameOverScene(Scene):
             return
         if event.key in settings.KEY_VALIDATE:
             self.app.switch_scene("game", mode=self.mode, level=self.level)
-        elif event.key in (pygame.K_q, pygame.K_m):
+        elif event.key in settings.KEY_MENU:
             self.app.switch_scene("menu")
 
     def draw(self, surface):

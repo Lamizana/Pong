@@ -46,19 +46,24 @@ class App:
 
     def run(self):
         """Boucle principale, jusqu'à la fermeture de la fenêtre."""
-        while self.running:
-            # dt plafonné : évite un saut énorme après une pause système.
-            dt = min(self.clock.tick(settings.FPS) / 1000.0, 0.05)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.quit()
-                    break
-                self.scene.handle_event(event)
-            else:
-                self.scene.update(dt)
-                self.scene.draw(self.screen)
-                pygame.display.flip()
-        pygame.quit()
+        try:
+            while self.running:
+                # dt plafonné : évite un saut énorme après une pause système.
+                dt = min(self.clock.tick(settings.FPS) / 1000.0, 0.05)
+                # On fige la scène du début d'image : un changement de scène en
+                # cours d'événement ne doit pas rediriger le reste de l'image.
+                scene = self.scene
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        self.quit()
+                        break
+                    scene.handle_event(event)
+                else:
+                    scene.update(dt)
+                    scene.draw(self.screen)
+                    pygame.display.flip()
+        finally:
+            pygame.quit()
 
     def draw_text(self, surface, text, font, color, center=None, topleft=None):
         """Petit utilitaire de rendu de texte, renvoie le rectangle occupé."""

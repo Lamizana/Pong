@@ -41,20 +41,36 @@ class GameScene(Scene):
     # --- Mise à jour ---
 
     def update(self, dt):
-        # Petit délai avant chaque remise en jeu.
-        if self.serve_timer > 0:
-            self.serve_timer -= dt
-            return
-
+        # Les raquettes restent contrôlables pendant le décompte de remise en jeu :
+        # les joueurs peuvent se repositionner avant le service.
         keys = pygame.key.get_pressed()
         self._move_players(keys, dt)
         if self.ai is not None:
             self.ai.update(self.ball.y, self.right_paddle, dt)
 
-        self.ball.update(dt)
-        if self.ball.handle_walls():
-            self.app.sound.wall_bounce()
-        self._handle_paddles()
+        if self.serve_timer > 0:
+            self.serve_timer -= dt
+            return
+
+        self._advance_ball(dt)
+
+    def _advance_ball(self, dt):
+        # On découpe le pas de temps : la balle ne doit jamais avancer de plus que
+        # son rayon en une sous-étape, sinon elle pourrait traverser une raquette
+        # sans collision (« tunneling ») lors d'une image lente ou d'une balle rapide.
+        distance = max(abs(self.ball.vx), abs(self.ball.vy)) * dt
+        steps = max(1, int(distance / self.ball.radius) + 1)
+        sub_dt = dt / steps
+
+        for _ in range(steps):
+            self.ball.update(sub_dt)
+            if self.ball.handle_walls():
+                self.app.sound.wall_bounce()
+            if self._handle_paddles():
+                break
+            if self.ball.off_screen() is not None:
+                break
+
         self._handle_score()
 
     def _move_players(self, keys, dt):
@@ -69,15 +85,19 @@ class GameScene(Scene):
                 self.right_paddle.move_down(dt)
 
     def _handle_paddles(self):
+        """Gère l'éventuelle collision balle/raquette. Renvoie True si une a eu lieu."""
         ball = self.ball
         if ball.vx < 0 and ball.rect.colliderect(self.left_paddle.rect):
             ball.x = self.left_paddle.rect.right + ball.radius
             ball.bounce_off_paddle(self.left_paddle.center_y, direction=1)
             self._after_paddle_hit()
-        elif ball.vx > 0 and ball.rect.colliderect(self.right_paddle.rect):
+            return True
+        if ball.vx > 0 and ball.rect.colliderect(self.right_paddle.rect):
             ball.x = self.right_paddle.rect.left - ball.radius
             ball.bounce_off_paddle(self.right_paddle.center_y, direction=-1)
             self._after_paddle_hit()
+            return True
+        return False
 
     def _after_paddle_hit(self):
         self.app.sound.paddle_hit()
@@ -95,6 +115,7 @@ class GameScene(Scene):
         self.app.sound.point_scored()
 
         if winner is not None:
+            self.app.sound.win()
             self.app.set_scene(GameOverScene(self.app, winner, self.mode, self.level))
             return
 
@@ -119,7 +140,8 @@ class GameScene(Scene):
                            (int(self.ball.x), int(self.ball.y)), self.ball.radius)
         if self.serve_timer > 0:
             self.app.draw_text(surface, "Prêt !", self.app.font_medium, settings.GRAY,
-                               center=(settings.WINDOW_WIDTH // 2, settings.WINDOW_HEIGHT // 2))
+                               center=(settings.WINDOW_WIDTH // 2,
+                                       settings.WINDOW_HEIGHT // 2 + 80))
         self._draw_mode_label(surface)
 
     def _draw_scores(self, surface):
@@ -137,7 +159,7 @@ class GameScene(Scene):
 
     def _draw_mode_label(self, surface):
         if self.mode == "1p":
-            label = f"1 joueur — {self.level}"
+            label = settings.AI_LEVELS[self.level]["label"]
         else:
             label = "2 joueurs"
         self.app.draw_text(surface, label, self.app.font_small, settings.GRAY,

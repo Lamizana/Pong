@@ -22,9 +22,17 @@ def generate_tone(frequency, duration_ms, sample_rate=settings.SOUND_SAMPLE_RATE
     """
     sample_count = int(sample_rate * duration_ms / 1000)
     amplitude = int(32767 * volume)
+    # Fondu (fade) au début et à la fin : évite le « clic » d'une coupure nette.
+    fade = max(1, sample_count // 10)
     samples = array.array("h")
     for i in range(sample_count):
-        value = int(amplitude * math.sin(2 * math.pi * frequency * i / sample_rate))
+        if i < fade:
+            envelope = i / fade
+        elif i >= sample_count - fade:
+            envelope = (sample_count - 1 - i) / fade
+        else:
+            envelope = 1.0
+        value = int(amplitude * envelope * math.sin(2 * math.pi * frequency * i / sample_rate))
         samples.append(value)  # canal gauche
         samples.append(value)  # canal droit
     return samples.tobytes()
@@ -50,8 +58,9 @@ class SoundManager:
                 "win": self._make(settings.SOUND_WIN_FREQ, duration_ms=320),
             }
             self.enabled = True
-        except pygame.error:
-            # Pas de matériel audio : on continue en silence.
+        except Exception:
+            # Le son est optionnel : quelle que soit la cause (pas de carte son,
+            # format indisponible...), on continue en silence plutôt que planter.
             self.enabled = False
 
     @staticmethod
