@@ -87,6 +87,17 @@ def fit_max(image, size):
                         Image.LANCZOS)
 
 
+def clean_alpha(image, threshold=16):
+    """Met à zéro les valeurs d'alpha quasi nulles.
+
+    Le redimensionnement LANCZOS laisse des pixels à très faible opacité
+    (alpha 1-2) sur les bords ; on les force à 0 pour des coins nets.
+    """
+    r, g, b, a = image.split()
+    a = a.point(lambda v: 0 if v < threshold else v)
+    return Image.merge("RGBA", (r, g, b, a))
+
+
 def _load(name):
     path = SRC / name
     if not path.exists():
@@ -108,6 +119,7 @@ def build_sprite(source, dest, *, height=None, max_size=None):
         image = fit_height(image, height)
     elif max_size is not None:
         image = fit_max(image, max_size)
+    image = clean_alpha(image)
     image.save(dest)
 
 

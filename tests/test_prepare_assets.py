@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from PIL import Image  # noqa: E402
 
 from scripts.prepare_assets import (  # noqa: E402
+    clean_alpha,
     crop_to_content,
     is_green_background,
     remove_green_background,
@@ -52,3 +53,14 @@ def test_crop_to_content_ignores_border_noise():
     out = crop_to_content(image, margin=2)
 
     assert out.size == (4, 4)
+
+
+def test_clean_alpha_zeroes_faint_pixels():
+    image = Image.new("RGBA", (2, 1))
+    image.putpixel((0, 0), (255, 0, 0, 1))     # quasi transparent → 0
+    image.putpixel((1, 0), (255, 0, 0, 200))   # opaque → conservé
+
+    out = clean_alpha(image, threshold=16)
+
+    assert out.getpixel((0, 0))[3] == 0
+    assert out.getpixel((1, 0))[3] == 200

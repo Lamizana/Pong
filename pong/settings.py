@@ -96,3 +96,10 @@ NEON_PURPLE = (150, 70, 255)
 NEON_YELLOW = (255, 214, 102)
 TEXT_COLOR = (236, 226, 255)
 TEXT_DIM = (188, 172, 224)
+
+# --- Assets (images du thème, générées par scripts/prepare_assets.py) ---
+ASSET_BACKGROUND = "background.png"
+ASSET_MENU = "menu.png"
+ASSET_PADDLE_LEFT = "paddle_left.png"
+ASSET_PADDLE_RIGHT = "paddle_right.png"
+ASSET_BALL = "ball.png"
