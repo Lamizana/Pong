@@ -94,6 +94,21 @@ def test_game_draw_blits_background_image():
     pygame.quit()
 
 
+def test_ball_spins_while_moving():
+    """La balle tourne sur elle-même quand elle se déplace."""
+    app = App(sound_enabled=False)
+    game = GameScene(app, mode="2p")
+    game.serve_timer = 0.0
+    game.ball.vx = 300.0
+    before = game.ball_angle
+
+    game.update(0.1)
+
+    assert game.ball_angle != before
+    game.draw(app.screen)  # le sprite pivoté se dessine sans erreur
+    pygame.quit()
+
+
 def test_ball_bounces_when_touching_paddle_corner():
     """Régression : le carré englobant de la balle rate le coin supérieur
     (bord tangent), alors que son cercle touche la raquette. La balle doit

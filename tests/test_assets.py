@@ -15,7 +15,7 @@ def test_asset_store_loads_expected_sizes():
     # Le sprite de raquette épouse la hauteur de la zone de frappe.
     assert store.paddle_left.get_height() == settings.PADDLE_HEIGHT
     assert store.paddle_right.get_height() == settings.PADDLE_HEIGHT
-    assert max(store.ball.get_size()) <= 64
+    assert max(store.ball.get_size()) <= 24
 
 
 def test_sprites_have_transparent_corners():

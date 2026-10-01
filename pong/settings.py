@@ -42,6 +42,7 @@ BALL_START_SPEED = 360      # pixels par seconde
 BALL_SPEEDUP = 22           # gain de vitesse à chaque échange
 BALL_MAX_SPEED = 820
 MAX_BOUNCE_ANGLE = 60       # angle maximal de rebond, en degrés
+BALL_SPIN_FACTOR = 0.2      # vitesse de rotation visuelle de la balle (réglable)
 
 # --- Score ---
 POINTS_TO_WIN = 7

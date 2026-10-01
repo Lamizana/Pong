@@ -1,5 +1,6 @@
 """Scène de jeu : déroule une partie (1 joueur contre l'IA, ou 2 joueurs)."""
 
+import math
 import random
 
 import pygame
@@ -37,6 +38,7 @@ class GameScene(Scene):
         self.serve_timer = 1.0
         self.serve_direction = random.choice((-1, 1))
         self.ball.reset(direction=self.serve_direction)
+        self.ball_angle = 0.0   # rotation visuelle de la balle (degrés)
 
     # --- Événements ---
 
@@ -59,6 +61,12 @@ class GameScene(Scene):
             return
 
         self._advance_ball(dt)
+        self._spin_ball(dt)
+
+    def _spin_ball(self, dt):
+        """Fait rouler la balle sur elle-même, proportionnellement à sa vitesse."""
+        spin = math.degrees(self.ball.vx / max(1.0, self.ball.radius))
+        self.ball_angle = (self.ball_angle + spin * dt * settings.BALL_SPIN_FACTOR) % 360
 
     def _advance_ball(self, dt):
         # On découpe le pas de temps : la balle ne doit jamais avancer de plus que
@@ -183,9 +191,11 @@ class GameScene(Scene):
                              self.right_paddle.center_y - right.get_height() // 2))
 
     def _draw_ball(self, surface):
-        ball = self.app.assets.ball
-        surface.blit(ball, (self.ball.x - ball.get_width() / 2,
-                            self.ball.y - ball.get_height() / 2))
+        sprite = self.app.assets.ball
+        if self.ball_angle:
+            sprite = pygame.transform.rotate(sprite, self.ball_angle)
+        surface.blit(sprite, (self.ball.x - sprite.get_width() / 2,
+                              self.ball.y - sprite.get_height() / 2))
 
     def _draw_scores(self, surface):
         center_x = settings.WINDOW_WIDTH // 2

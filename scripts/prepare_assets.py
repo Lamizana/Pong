@@ -130,7 +130,7 @@ def main():
     build_background("fond_accueil.jpeg", OUT / "menu.png")
     build_sprite("raquette_gauche.jpeg", OUT / "paddle_left.png", height=80)
     build_sprite("raquette_droite.jpeg", OUT / "paddle_right.png", height=80)
-    build_sprite("balle.jpeg", OUT / "ball.png", max_size=64)
+    build_sprite("balle.jpeg", OUT / "ball.png", max_size=20)
 
     for name in ("background", "menu", "paddle_left", "paddle_right", "ball"):
         path = OUT / f"{name}.png"
