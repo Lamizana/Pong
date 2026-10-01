@@ -1,0 +1,48 @@
+name: Build executables
+
+# Génère les exécutables Linux et Windows.
+# Windows ne peut pas être compilé depuis Linux : la CI s'en charge.
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            artifact: Pong-linux
+            binary: dist/Pong
+          - os: windows-latest
+            artifact: Pong-windows
+            binary: dist/Pong.exe
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Installer les dépendances
+        run: pip install -r requirements-dev.txt
+
+      - name: Lancer les tests
+        run: python -m pytest
+
+      - name: Construire l'exécutable
+        shell: bash
+        run: |
+          python -m PyInstaller --noconfirm --clean --onefile --windowed \
+            --name Pong main.py
+
+      - name: Publier l'exécutable
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.binary }}
