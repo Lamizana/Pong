@@ -73,3 +73,23 @@ def test_ai_moves_during_serve_countdown():
 
     assert game.right_paddle.y < start
     pygame.quit()
+
+
+def test_app_exposes_asset_store():
+    from pong.resources import AssetStore
+
+    app = App(sound_enabled=False)
+    assert isinstance(app.assets, AssetStore)
+    pygame.quit()
+
+
+def test_game_draw_blits_background_image():
+    app = App(sound_enabled=False)
+    app.switch_scene("game", mode="2p")
+    app.scene.serve_timer = 0.0
+    app.scene.draw(app.screen)
+
+    # Coin bas-gauche : seulement le fond, hors raquettes/balle/HUD.
+    assert app.screen.get_at((10, 590))[:3] == app.assets.background.get_at((10, 590))[:3]
+    pygame.quit()
+

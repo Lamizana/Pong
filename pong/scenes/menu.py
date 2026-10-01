@@ -40,7 +40,7 @@ class MenuScene(Scene):
             self.app.switch_scene(scene_name, **kwargs)
 
     def draw(self, surface):
-        self.app.background.draw(surface, pygame.time.get_ticks() / 1000.0)
+        surface.blit(self.app.assets.menu_background, (0, 0))
         center_x = settings.WINDOW_WIDTH // 2
 
         # Panneau translucide : améliore la lisibilité des options sur le décor.

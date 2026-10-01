@@ -22,7 +22,7 @@ class GameOverScene(Scene):
             self.app.switch_scene("menu")
 
     def draw(self, surface):
-        self.app.background.draw(surface, pygame.time.get_ticks() / 1000.0)
+        surface.blit(self.app.assets.background, (0, 0))
         center_x = settings.WINDOW_WIDTH // 2
 
         # Panneau translucide derrière le texte.

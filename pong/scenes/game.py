@@ -131,25 +131,10 @@ class GameScene(Scene):
     # --- Affichage ---
 
     def draw(self, surface):
-        self.app.background.draw(surface, pygame.time.get_ticks() / 1000.0)
-        self._draw_net(surface)
+        surface.blit(self.app.assets.background, (0, 0))
+        self._draw_paddles(surface)
+        self._draw_ball(surface)
         self._draw_scores(surface)
-
-        # Raquettes néon avec halo.
-        for paddle in (self.left_paddle, self.right_paddle):
-            synthwave.glow_rect(surface, paddle.rect, settings.NEON_PINK)
-            pygame.draw.rect(surface, settings.NEON_PINK, paddle.rect, border_radius=5)
-            pygame.draw.rect(surface, settings.TEXT_COLOR, paddle.rect.inflate(-6, -6),
-                             width=2, border_radius=4)
-
-        # Balle néon avec halo.
-        synthwave.glow_circle(surface, (self.ball.x, self.ball.y), self.ball.radius,
-                              settings.NEON_CYAN, spread=14)
-        pygame.draw.circle(surface, settings.NEON_CYAN,
-                           (int(self.ball.x), int(self.ball.y)), self.ball.radius)
-        pygame.draw.circle(surface, settings.TEXT_COLOR,
-                           (int(self.ball.x), int(self.ball.y)),
-                           max(2, self.ball.radius // 3))
 
         if self.serve_timer > 0:
             synthwave.glow_text(surface, self.app.font_medium, "Prêt !",
@@ -158,18 +143,26 @@ class GameScene(Scene):
                                         settings.WINDOW_HEIGHT // 2 + 80))
         self._draw_mode_label(surface)
 
+    def _draw_paddles(self, surface):
+        """Blitte les sprites, zone de frappe alignée sur le bord intérieur."""
+        left = self.app.assets.paddle_left
+        right = self.app.assets.paddle_right
+        surface.blit(left, (self.left_paddle.rect.right - left.get_width(),
+                            self.left_paddle.center_y - left.get_height() // 2))
+        surface.blit(right, (self.right_paddle.rect.left,
+                             self.right_paddle.center_y - right.get_height() // 2))
+
+    def _draw_ball(self, surface):
+        ball = self.app.assets.ball
+        surface.blit(ball, (self.ball.x - ball.get_width() / 2,
+                            self.ball.y - ball.get_height() / 2))
+
     def _draw_scores(self, surface):
         center_x = settings.WINDOW_WIDTH // 2
         synthwave.glow_text(surface, self.app.font_large, str(self.score.left),
                             settings.NEON_CYAN, center=(center_x - 80, 60))
         synthwave.glow_text(surface, self.app.font_large, str(self.score.right),
                             settings.NEON_PINK, center=(center_x + 80, 60))
-
-    @staticmethod
-    def _draw_net(surface):
-        for y in range(0, settings.WINDOW_HEIGHT, 30):
-            pygame.draw.rect(surface, settings.NEON_PURPLE,
-                             (settings.WINDOW_WIDTH // 2 - 2, y, 4, 16))
 
     def _draw_mode_label(self, surface):
         if self.mode == "1p":
