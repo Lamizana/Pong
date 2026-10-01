@@ -1,68 +1,169 @@
-# Pong 🏓
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/pygame-2.6-1B75BB?style=for-the-badge" alt="pygame">
+  <img src="https://img.shields.io/badge/Th%C3%A8me-R%C3%A9tro_Synthwave-FF2E95?style=for-the-badge" alt="Thème rétro synthwave">
+  <img src="https://img.shields.io/badge/Licence-MIT-green?style=for-the-badge" alt="Licence MIT">
+</p>
+
+<p align="center">
+  <a href="https://github.com/Lamizana/Pong/actions/workflows/build.yml">
+    <img src="https://github.com/Lamizana/Pong/actions/workflows/build.yml/badge.svg?branch=main" alt="CI — Build & tests">
+  </a>
+</p>
+
+<h1 align="center">Pong</h1>
+
+<p align="center">
+  <strong>Jeu Pong en Python (pygame) — 1 ou 2 joueurs</strong>
+</p>
+
+<p align="center">
+  <em>Déployable en exécutable Linux &amp; Windows, avec un tutoriel complet en français</em>
+</p>
 
 ---
 
-Pong jeu Python (pygame), 1 ou 2 joueurs
+## A propos
+
+**Pong** est un jeu d'arcade complet écrit en **Python** avec **pygame**. Il propose un
+mode **un joueur** face à une IA à trois niveaux de difficulté, ou un mode **deux
+joueurs** en local sur le même clavier.
+
+Le projet est pensé comme un **exemple pédagogique** : la logique du jeu (physique, IA,
+score) est **séparée de l'affichage**, entièrement **testée**, et accompagnée d'un
+**tutoriel pas à pas en français**. Il se déploie en **exécutable autonome** (Linux et
+Windows) via PyInstaller et GitHub Actions.
+
+Le tout habillé d'un thème **rétro synthwave** : soleil couchant, grille en perspective,
+néons et étoiles scintillantes.
 
 ---
 
-Un jeu **Pong** complet en **Python** (pygame), jouable à **1 joueur** (contre une IA
-à 3 niveaux de difficulté) ou à **2 joueurs**, et déployable en **exécutable Linux et
-Windows**.
+## Apercu
 
-Ce dépôt contient aussi un **tutoriel détaillé en français** qui explique comment le
-jeu a été construit, étape par étape.
+<p align="center">
+  <img src="docs/screenshots/game.png" alt="Aperçu du jeu Pong (thème synthwave)" width="760">
+</p>
 
-![Aperçu du jeu](docs/screenshots/game.png)
+---
 
-## Fonctionnalités
+## Table des matieres
 
-- 🎮 **2 modes** : 1 joueur (IA facile / moyen / difficile) ou 2 joueurs.
-- 📋 **Menu principal** de sélection du mode.
-- 🏆 **Score et condition de victoire** (premier à 7 points).
-- 🎯 **Physique de rebond avancée** : l'angle dépend du point d'impact sur la raquette.
-- 🔊 **Sons générés en code** (aucun fichier audio requis).
-- ⏸️ **Pause** (reprise exactement où l'on s'était arrêté).
-- 🌆 **Thème rétro synthwave** : soleil couchant, grille en perspective, halos néon,
-  scanlines et étoiles scintillantes.
-- ✅ **Suite de tests automatisés** (physique, IA, score, parcours des scènes).
+- [A propos](#a-propos)
+- [Apercu](#apercu)
+- [Fonctionnalites](#fonctionnalites)
+- [Stack technique](#stack-technique)
+- [Structure du projet](#structure-du-projet)
+- [Installation et lancement](#installation-et-lancement)
+  - [Prerequis](#prerequis)
+  - [Lancement](#lancement)
+  - [Controles](#controles)
+  - [Tests](#tests)
+- [Packaging et deploiement](#packaging-et-deploiement)
+- [Tutoriel](#tutoriel)
+- [Licence](#licence)
 
-## Installation
+---
+
+## Fonctionnalites
+
+| Fonctionnalite | Description |
+| --- | --- |
+| **2 modes de jeu** | 1 joueur contre l'IA, ou 2 joueurs en local |
+| **IA a 3 niveaux** | Facile, Moyen, Difficile (vitesse et précision réglables) |
+| **Menu principal** | Sélection du mode, navigation clavier, relance de partie |
+| **Score et victoire** | Premier à 7 points, écran de fin avec rejeu |
+| **Physique de rebond avancée** | L'angle de la balle dépend du point d'impact sur la raquette |
+| **Sons générés en code** | Bruitages synthétisés, aucun fichier audio requis |
+| **Pause** | Reprise exactement où la partie s'était arrêtée |
+| **Theme retro synthwave** | Soleil couchant, grille en perspective, halos néon, scanlines, animations |
+| **Tests automatises** | Physique, IA, score et parcours des scènes, sans ouvrir de fenêtre |
+| **Packaging multiplateforme** | Exécutables Linux et Windows via PyInstaller + GitHub Actions |
+
+---
+
+## Stack technique
+
+| Categorie | Technologie | Badge |
+| --- | --- | --- |
+| **Langage** | Python 3.10+ | ![](https://img.shields.io/badge/Python-3.10-3776AB?logo=python&logoColor=white) |
+| **Moteur de jeu** | pygame 2.6 | ![](https://img.shields.io/badge/pygame-2.6-1B75BB) |
+| **Tests** | pytest | ![](https://img.shields.io/badge/pytest-9-0A9EDC?logo=pytest&logoColor=white) |
+| **Packaging** | PyInstaller | ![](https://img.shields.io/badge/PyInstaller-6-FFD43B) |
+| **CI/CD** | GitHub Actions | ![](https://img.shields.io/badge/GitHub_Actions-build-2088FF?logo=githubactions&logoColor=white) |
+| **Licence** | MIT | ![](https://img.shields.io/badge/Licence-MIT-green) |
+
+---
+
+## Structure du projet
+
+```console
+Pong/
+├── main.py                      # Point d'entrée : « python main.py »
+├── pong/
+│   ├── settings.py              # Toutes les constantes (écran, couleurs, vitesses...)
+│   ├── ball.py                  # Balle : déplacement, rebonds, physique
+│   ├── paddle.py                # Raquettes : déplacement borné
+│   ├── ai.py                    # Adversaire automatique (3 niveaux)
+│   ├── score.py                 # Score et condition de victoire
+│   ├── sound.py                 # Génération et lecture des sons
+│   ├── synthwave.py             # Décor et effets néon du thème
+│   ├── app.py                   # Fenêtre, boucle de jeu, gestion des scènes
+│   └── scenes/                  # Menu, partie, pause, fin de partie
+├── scripts/
+│   └── render_preview.py        # Génère les aperçus PNG
+├── tests/                       # Tests pytest
+├── docs/
+│   ├── tutoriel/                # Tutoriel complet (12 chapitres)
+│   └── screenshots/             # Captures d'écran
+├── build.sh / build.ps1         # Création des exécutables
+└── .github/workflows/build.yml  # CI : tests + builds Linux & Windows
+```
+
+---
+
+## Installation et lancement
+
+### Prerequis
+
+- **Python 3.10 ou plus récent**
+- `pip` (ou [`uv`](https://github.com/astral-sh/uv) pour aller plus vite)
+
+### Lancement
 
 ```bash
-# Environnement virtuel + dépendances
+# 1. Environnement virtuel + dépendances
 uv venv && uv pip install -r requirements-dev.txt
 # ou :
 # python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements-dev.txt
-```
 
-## Lancer le jeu
-
-```bash
+# 2. Lancer le jeu
 python main.py
 ```
 
-## Contrôles
+### Controles
 
-| Action | Joueur 1 | Joueur 2 | Général |
-|--------|----------|----------|---------|
+| Action | Joueur 1 | Joueur 2 | General |
+| --- | --- | --- | --- |
 | Monter | `Z` ou `W` | `↑` | |
 | Descendre | `S` | `↓` | |
 | Naviguer dans les menus | `↑` / `↓`, `Z` / `S` | | |
-| Valider | | | `Entrée` (ou `Espace`) |
-| Pause / reprendre | | | `P` ou `Échap` |
-| Retour au menu (pause) | | | `Q` |
+| Valider | | | `Entree` (ou `Espace`) |
+| Pause / reprendre | | | `P` ou `Echap` |
+| Retour au menu | | | `Q` ou `M` |
 
-## Tests
+### Tests
 
 ```bash
 pytest
 ```
 
-Les tests couvrent la physique de la balle, la raquette, l'IA, le score, la
-génération des sons et le parcours complet des scènes — sans ouvrir de fenêtre.
+Les tests couvrent la physique de la balle, les raquettes, l'IA, le score, la génération
+des sons, la géométrie du décor et le parcours complet des scènes — **sans fenêtre**.
 
-## Créer un exécutable
+---
+
+## Packaging et deploiement
 
 ```bash
 ./build.sh        # Linux  -> dist/Pong
@@ -72,40 +173,26 @@ génération des sons et le parcours complet des scènes — sans ouvrir de fen�
 .\build.ps1       # Windows -> dist\Pong.exe
 ```
 
-> ⚠️ PyInstaller ne compile pas pour un autre système : le `.exe` Windows doit être
-> produit **sous Windows** (ou par la CI). Le workflow GitHub Actions
-> (`.github/workflows/build.yml`) génère automatiquement les exécutables Linux et
-> Windows, et lance les tests à chaque version.
+> **Important** : PyInstaller ne compile pas pour un autre système. Le `.exe` Windows
+> doit être produit **sous Windows** — c'est la **CI GitHub Actions** qui s'en charge à
+> chaque `push` sur `main`, à chaque tag `v*`, ou manuellement. Les exécutables sont
+> ensuite téléchargeables dans l'onglet **Actions** (artefacts `Pong-linux` et
+> `Pong-windows`).
 
-## Structure du projet
-
-```
-Pong/
-├── main.py                  # point d'entrée
-├── pong/
-│   ├── settings.py          # constantes du jeu
-│   ├── ball.py              # balle et physique
-│   ├── paddle.py            # raquettes
-│   ├── ai.py                # adversaire automatique
-│   ├── score.py             # score et victoire
-│   ├── sound.py             # sons générés
-│   ├── synthwave.py         # décor et effets néon
-│   ├── app.py               # fenêtre, boucle, scènes
-│   └── scenes/              # menu, partie, pause, fin de partie
-├── scripts/render_preview.py   # génère des aperçus PNG
-├── tests/                   # tests pytest
-└── docs/                    # tutoriel (FR) + captures d'écran
-```
+---
 
 ## Tutoriel
 
-Le tutoriel complet se trouve dans **[`docs/tutoriel/`](docs/tutoriel/README.md)** :
+Un tutoriel complet en français, un chapitre par étape, se trouve dans
+**[`docs/tutoriel/`](docs/tutoriel/README.md)** :
 
 00. Introduction · 01. Installation · 02. Structure · 03. Boucle de jeu ·
 04. Raquettes · 05. Balle et physique · 06. IA · 07. Score et victoire ·
 08. Menu et scènes · 09. Sons · 10. Pause · 11. Packaging et déploiement ·
 12. Style rétro synthwave
 
+---
+
 ## Licence
 
-MIT — libre d'utilisation, de modification et de partage.
+Distribué sous licence **MIT** — libre d'utilisation, de modification et de partage.
