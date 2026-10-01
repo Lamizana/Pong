@@ -17,7 +17,7 @@ class Paddle:
         self.height = height
         self.speed = float(speed)
         self.x = float(x)
-        self.y = (settings.WINDOW_HEIGHT - height) / 2
+        self.y = settings.FIELD_TOP + (settings.FIELD_HEIGHT - height) / 2
 
     @property
     def rect(self):
@@ -28,8 +28,8 @@ class Paddle:
         return self.y + self.height / 2
 
     def reset(self):
-        """Replace la raquette au centre vertical."""
-        self.y = (settings.WINDOW_HEIGHT - self.height) / 2
+        """Replace la raquette au centre vertical du terrain."""
+        self.y = settings.FIELD_TOP + (settings.FIELD_HEIGHT - self.height) / 2
 
     def move(self, direction, dt):
         """Déplace la raquette de `direction` (-1 haut, +1 bas) sur `dt` secondes."""
@@ -38,8 +38,9 @@ class Paddle:
     def move_by(self, delta):
         """Déplace la raquette de `delta` pixels, en la gardant à l'écran."""
         self.y += delta
-        # Bornes : on empêche la raquette de sortir de l'écran.
-        self.y = max(0.0, min(self.y, settings.WINDOW_HEIGHT - self.height))
+        # Bornes : la raquette reste dans le terrain (cadre bleu néon).
+        self.y = max(float(settings.FIELD_TOP),
+                     min(self.y, settings.FIELD_BOTTOM - self.height))
 
     def move_up(self, dt):
         self.move(-1, dt)

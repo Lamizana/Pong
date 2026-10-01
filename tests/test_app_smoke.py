@@ -44,14 +44,14 @@ def test_full_scene_flow():
     # Forcer un point : balle sortie à gauche => le camp droit marque.
     game = app.scene
     game.serve_timer = 0.0
-    game.ball.x = -game.ball.radius - 10
+    game.ball.x = settings.FIELD_LEFT - game.ball.radius - 10
     game.update(0.016)
     assert game.score.right == 1
 
     # Forcer la victoire du camp gauche.
     game.score.left = settings.POINTS_TO_WIN - 1
     game.serve_timer = 0.0
-    game.ball.x = settings.WINDOW_WIDTH + game.ball.radius + 10
+    game.ball.x = settings.FIELD_RIGHT + game.ball.radius + 10
     game.update(0.016)
     assert isinstance(app.scene, GameOverScene)
     app.scene.draw(app.screen)

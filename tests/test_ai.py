@@ -52,9 +52,9 @@ def test_does_not_move_inside_dead_zone():
 def test_step_is_limited_by_ai_speed():
     ai = AI(level="facile")
     paddle = Paddle(x=30)
-    paddle.y = 0.0
+    paddle.y = settings.FIELD_TOP
     ai.update(ball_y=100000, paddle=paddle, dt=0.1)
-    assert paddle.y <= ai.speed * 0.1 + 1e-6
+    assert paddle.y - settings.FIELD_TOP <= ai.speed * 0.1 + 1e-6
 
 
 def test_offset_shifts_the_aim():

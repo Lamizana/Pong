@@ -8,7 +8,7 @@ from pong.paddle import Paddle
 
 def test_initial_position_is_centered_vertically():
     paddle = Paddle(x=30)
-    assert paddle.center_y == pytest.approx(settings.WINDOW_HEIGHT / 2)
+    assert paddle.center_y == pytest.approx((settings.FIELD_TOP + settings.FIELD_BOTTOM) / 2)
 
 
 def test_move_up_decreases_y_then_down_restores_it():
@@ -20,16 +20,16 @@ def test_move_up_decreases_y_then_down_restores_it():
     assert paddle.y == pytest.approx(start)
 
 
-def test_cannot_leave_top_of_screen():
+def test_cannot_leave_top_of_field():
     paddle = Paddle(x=30)
     paddle.move_up(100)
-    assert paddle.y == pytest.approx(0.0)
+    assert paddle.y == pytest.approx(settings.FIELD_TOP)
 
 
-def test_cannot_leave_bottom_of_screen():
+def test_cannot_leave_bottom_of_field():
     paddle = Paddle(x=30)
     paddle.move_down(100)
-    assert paddle.y == pytest.approx(settings.WINDOW_HEIGHT - paddle.height)
+    assert paddle.y == pytest.approx(settings.FIELD_BOTTOM - paddle.height)
 
 
 def test_center_y_is_middle_of_paddle():
@@ -59,9 +59,9 @@ def test_move_by_applies_delta_within_bounds():
     assert paddle.y == pytest.approx(start + 10)
 
 
-def test_move_by_clamps_to_screen_bounds():
+def test_move_by_clamps_to_field_bounds():
     paddle = Paddle(x=30)
     paddle.move_by(-1000)
-    assert paddle.y == pytest.approx(0.0)
+    assert paddle.y == pytest.approx(settings.FIELD_TOP)
     paddle.move_by(100000)
-    assert paddle.y == pytest.approx(settings.WINDOW_HEIGHT - paddle.height)
+    assert paddle.y == pytest.approx(settings.FIELD_BOTTOM - paddle.height)

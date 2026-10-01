@@ -53,7 +53,7 @@ def test_win_sound_is_played_on_victory():
     app.sound = RecordingSound()
     game.serve_timer = 0.0
     game.score.left = settings.POINTS_TO_WIN - 1
-    game.ball.x = settings.WINDOW_WIDTH + game.ball.radius + 10
+    game.ball.x = settings.FIELD_RIGHT + game.ball.radius + 10
 
     game.update(0.016)
 

@@ -13,8 +13,8 @@ from pong.ball import Ball
 def test_reset_centers_ball_and_restores_start_speed():
     ball = Ball()
     ball.reset(direction=1)
-    assert ball.x == pytest.approx(settings.WINDOW_WIDTH / 2)
-    assert ball.y == pytest.approx(settings.WINDOW_HEIGHT / 2)
+    assert ball.x == pytest.approx((settings.FIELD_LEFT + settings.FIELD_RIGHT) / 2)
+    assert ball.y == pytest.approx((settings.FIELD_TOP + settings.FIELD_BOTTOM) / 2)
     assert ball.speed == pytest.approx(settings.BALL_START_SPEED)
     assert ball.vx > 0
 
@@ -40,17 +40,17 @@ def test_update_moves_according_to_velocity():
 
 def test_bounce_off_top_wall():
     ball = Ball()
-    ball.y = settings.BALL_RADIUS - 1
+    ball.y = settings.FIELD_TOP + settings.BALL_RADIUS - 1
     ball.vy = -200.0
     bounced = ball.handle_walls()
     assert bounced is True
     assert ball.vy > 0
-    assert ball.y == pytest.approx(settings.BALL_RADIUS)
+    assert ball.y == pytest.approx(settings.FIELD_TOP + settings.BALL_RADIUS)
 
 
 def test_bounce_off_bottom_wall():
     ball = Ball()
-    ball.y = settings.WINDOW_HEIGHT - settings.BALL_RADIUS + 1
+    ball.y = settings.FIELD_BOTTOM - settings.BALL_RADIUS + 1
     ball.vy = 200.0
     bounced = ball.handle_walls()
     assert bounced is True
@@ -127,11 +127,11 @@ def test_speed_is_capped_at_maximum():
 
 def test_off_screen_left_and_right():
     ball = Ball()
-    ball.x = -ball.radius - 1
+    ball.x = settings.FIELD_LEFT - ball.radius - 1
     assert ball.off_screen() == "left"
-    ball.x = settings.WINDOW_WIDTH + ball.radius + 1
+    ball.x = settings.FIELD_RIGHT + ball.radius + 1
     assert ball.off_screen() == "right"
-    ball.x = settings.WINDOW_WIDTH / 2
+    ball.x = (settings.FIELD_LEFT + settings.FIELD_RIGHT) / 2
     assert ball.off_screen() is None
 
 
@@ -139,14 +139,14 @@ def test_off_screen_left_and_right():
 
 def test_no_bounce_when_vy_is_zero():
     ball = Ball()
-    ball.y = settings.BALL_RADIUS - 1
+    ball.y = settings.FIELD_TOP + settings.BALL_RADIUS - 1
     ball.vy = 0.0
     assert ball.handle_walls() is False
 
 
 def test_no_bounce_when_already_moving_away_from_top():
     ball = Ball()
-    ball.y = settings.BALL_RADIUS - 1
+    ball.y = settings.FIELD_TOP + settings.BALL_RADIUS - 1
     ball.vy = 100.0  # déjà orientée vers le bas
     assert ball.handle_walls() is False
 

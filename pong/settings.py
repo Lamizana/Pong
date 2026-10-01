@@ -21,10 +21,19 @@ ACCENT = (0, 200, 255)
 GREEN = (80, 220, 120)
 RED = (230, 90, 90)
 
+# --- Terrain de jeu (cadre bleu néon du décor) ---
+# Le rectangle lumineux du fond délimite la zone de jeu réelle.
+FIELD_LEFT = 80
+FIELD_RIGHT = 820
+FIELD_TOP = 92
+FIELD_BOTTOM = 512
+FIELD_WIDTH = FIELD_RIGHT - FIELD_LEFT
+FIELD_HEIGHT = FIELD_BOTTOM - FIELD_TOP
+
 # --- Raquette ---
 PADDLE_WIDTH = 15
 PADDLE_HEIGHT = 100
-PADDLE_MARGIN = 30          # distance entre la raquette et le bord
+PADDLE_INSET = 4            # écart entre le bord du terrain et le sprite
 PADDLE_SPEED = 520          # pixels par seconde
 
 # --- Balle ---

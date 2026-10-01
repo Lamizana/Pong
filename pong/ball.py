@@ -16,8 +16,8 @@ class Ball:
     """Une balle de Pong."""
 
     def __init__(self, x=None, y=None, speed=settings.BALL_START_SPEED):
-        self.x = settings.WINDOW_WIDTH / 2 if x is None else float(x)
-        self.y = settings.WINDOW_HEIGHT / 2 if y is None else float(y)
+        self.x = (settings.FIELD_LEFT + settings.FIELD_RIGHT) / 2 if x is None else float(x)
+        self.y = (settings.FIELD_TOP + settings.FIELD_BOTTOM) / 2 if y is None else float(y)
         self.radius = settings.BALL_RADIUS
         self.speed = float(speed)
         self.vx = 0.0
@@ -34,8 +34,8 @@ class Ball:
 
         `direction` : +1 vers la droite, -1 vers la gauche (aléatoire si None).
         """
-        self.x = settings.WINDOW_WIDTH / 2
-        self.y = settings.WINDOW_HEIGHT / 2
+        self.x = (settings.FIELD_LEFT + settings.FIELD_RIGHT) / 2
+        self.y = (settings.FIELD_TOP + settings.FIELD_BOTTOM) / 2
         self.speed = settings.BALL_START_SPEED
         if direction is None:
             direction = random.choice((-1, 1))
@@ -54,12 +54,12 @@ class Ball:
         On ne corrige que si la balle se dirige *vers* le mur : évite de « coller »
         une balle immobile (vy == 0) et les doubles rebonds.
         """
-        if self.vy < 0 and self.y - self.radius <= 0:
-            self.y = self.radius
+        if self.vy < 0 and self.y - self.radius <= settings.FIELD_TOP:
+            self.y = settings.FIELD_TOP + self.radius
             self.vy = -self.vy
             return True
-        if self.vy > 0 and self.y + self.radius >= settings.WINDOW_HEIGHT:
-            self.y = settings.WINDOW_HEIGHT - self.radius
+        if self.vy > 0 and self.y + self.radius >= settings.FIELD_BOTTOM:
+            self.y = settings.FIELD_BOTTOM - self.radius
             self.vy = -self.vy
             return True
         return False
@@ -87,8 +87,8 @@ class Ball:
 
     def off_screen(self):
         """Renvoie "left" ou "right" si la balle est sortie, sinon None."""
-        if self.x + self.radius < 0:
+        if self.x + self.radius < settings.FIELD_LEFT:
             return "left"
-        if self.x - self.radius > settings.WINDOW_WIDTH:
+        if self.x - self.radius > settings.FIELD_RIGHT:
             return "right"
         return None

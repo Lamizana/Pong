@@ -20,8 +20,13 @@ class GameScene(Scene):
         self.mode = mode
         self.level = level
 
-        left_x = settings.PADDLE_MARGIN
-        right_x = settings.WINDOW_WIDTH - settings.PADDLE_MARGIN - settings.PADDLE_WIDTH
+        # Raquettes placées à l'intérieur du cadre bleu néon : le sprite s'étend
+        # vers le bord du terrain, sa zone de frappe restant sur le bord intérieur.
+        left_sprite = app.assets.paddle_left.get_width()
+        right_sprite = app.assets.paddle_right.get_width()
+        left_x = (settings.FIELD_LEFT + settings.PADDLE_INSET
+                  + left_sprite - settings.PADDLE_WIDTH)
+        right_x = settings.FIELD_RIGHT - settings.PADDLE_INSET - right_sprite
         self.left_paddle = Paddle(x=left_x)
         self.right_paddle = Paddle(x=right_x)
         self.ball = Ball()
