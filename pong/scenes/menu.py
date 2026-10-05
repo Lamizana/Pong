@@ -21,6 +21,15 @@ class MenuScene(Scene):
             ("Quitter", None, None),
         ]
         self.index = 0
+        # Cadre redimensionné une fois pour tenir dans le rectangle bleu néon.
+        self.frame = self._fit_frame(app.assets.menu_frame)
+
+    @staticmethod
+    def _fit_frame(frame):
+        """Réduit le cadre pour qu'il tienne dans le rectangle bleu néon."""
+        width = settings.FIELD_WIDTH - 40
+        height = max(1, round(frame.get_height() * width / frame.get_width()))
+        return pygame.transform.smoothscale(frame, (width, height))
 
     def handle_event(self, event):
         if event.type != pygame.KEYDOWN:
@@ -43,31 +52,30 @@ class MenuScene(Scene):
         surface.blit(self.app.assets.menu_background, (0, 0))
         center_x = settings.WINDOW_WIDTH // 2
 
-        # Cadre décoratif, centré sur l'écran.
-        frame = self.app.assets.menu_frame
-        frame_rect = frame.get_rect(center=(center_x, settings.WINDOW_HEIGHT // 2))
+        # Cadre centré sur le terrain (rectangle bleu néon du fond).
+        frame = self.frame
+        frame_rect = frame.get_rect(center=(
+            (settings.FIELD_LEFT + settings.FIELD_RIGHT) // 2,
+            (settings.FIELD_TOP + settings.FIELD_BOTTOM) // 2))
         surface.blit(frame, frame_rect)
 
-        # Titre, dans la zone haute du cadre.
+        # Titre, dans la bande haute du cadre.
         synthwave.glow_text(surface, self.app.font_large, settings.CAPTION.upper(),
                             settings.NEON_CYAN,
-                            center=(center_x, frame_rect.top + 56), spread=4)
+                            center=(center_x, frame_rect.top + 40), spread=4)
 
-        # Options, centrées verticalement dans le cadre.
-        spacing = 60
-        first_y = frame_rect.centery - (len(self.options) - 1) * spacing // 2
+        # Options, dans la zone centrale (cyan) du cadre ; texte sombre lisible.
+        zone_top = frame_rect.top + int(0.24 * frame_rect.height)
+        zone_bottom = frame_rect.top + int(0.74 * frame_rect.height)
+        spacing = max(1, (zone_bottom - zone_top) // len(self.options))
+        first_y = zone_top + spacing // 2
         for i, (label, _, _) in enumerate(self.options):
             selected = i == self.index
-            color = settings.NEON_PINK if selected else settings.TEXT_DIM
+            color = (0, 0, 0) if selected else (18, 48, 66)
             prefix = "> " if selected else "  "
-            center = (center_x, first_y + i * spacing)
-            if selected:
-                synthwave.glow_text(surface, self.app.font_medium, prefix + label,
-                                    color, center=center, spread=2)
-            else:
-                self.app.draw_text(surface, prefix + label, self.app.font_medium, color,
-                                   center=center)
+            self.app.draw_text(surface, prefix + label, self.app.font_small, color,
+                               center=(center_x, first_y + i * spacing))
 
         self.app.draw_text(surface, "Flèches ou Z/S : naviguer     Entrée : valider",
                            self.app.font_small, settings.TEXT_DIM,
-                           center=(center_x, settings.WINDOW_HEIGHT - 40))
+                           center=(center_x, settings.WINDOW_HEIGHT - 30))
