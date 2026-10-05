@@ -62,6 +62,10 @@ C'est le rôle de `--add-data`. **Le séparateur dépend du système** :
 
 C'est la principale différence entre `build.sh` et `build.ps1` ci-dessous.
 
+Si un fichier manque malgré tout, le jeu ne se ferme plus en silence : il écrit
+`pong-error.log` à côté du lancement (et affiche une boîte de dialogue sous Windows),
+en indiquant le chemin de l'asset introuvable.
+
 ## Les scripts fournis
 
 ### Linux — `build.sh`
