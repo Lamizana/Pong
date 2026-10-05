@@ -2,9 +2,13 @@
 
 import pygame
 
-from .. import neon, settings
+from .. import neon, settings, ui
 from .base import Scene
-from .menu import fit_menu_frame
+
+# Le titre occupe la bande haute ; les choix se placent en dessous.
+_TITLE_Y = 0.37
+_CHOICES_TOP = 0.50
+_CHOICES_BOTTOM = 0.72
 
 
 class GameOverScene(Scene):
@@ -16,15 +20,17 @@ class GameOverScene(Scene):
         self.mode = mode
         self.options = [("Rejouer", "replay"), ("Menu", "menu")]
         self.index = 0
+        # Cadre réduit une seule fois (et non à chaque image).
+        self.frame = ui.fit_menu_frame(app.assets.menu_frame)
 
     def handle_event(self, event):
+        new_index = ui.navigation_index(event, self.index, len(self.options))
+        if new_index is not None:
+            self.index = new_index
+            return
         if event.type != pygame.KEYDOWN:
             return
-        if event.key in settings.P1_UP or event.key in settings.P2_UP:
-            self.index = (self.index - 1) % len(self.options)
-        elif event.key in settings.P1_DOWN or event.key in settings.P2_DOWN:
-            self.index = (self.index + 1) % len(self.options)
-        elif event.key in settings.KEY_VALIDATE:
+        if event.key in settings.KEY_VALIDATE:
             self._select()
         elif event.key in settings.KEY_MENU:
             self.app.switch_scene("menu")
@@ -36,43 +42,27 @@ class GameOverScene(Scene):
         else:
             self.app.switch_scene("menu")
 
+    def _title(self):
+        """Texte et couleur du titre, selon le vainqueur et le mode."""
+        if self.winner == "left":
+            return "Victoire du joueur 1 !", settings.NEON_CYAN
+        if self.mode == "1p":
+            return "Victoire de l'IA !", settings.NEON_PINK
+        return "Victoire du joueur 2 !", settings.NEON_PINK
+
     def draw(self, surface):
         surface.blit(self.app.assets.background, (0, 0))
-        center_x = settings.WINDOW_WIDTH // 2
+        frame_rect = ui.panel_rect(self.frame)
+        surface.blit(self.frame, frame_rect)
 
-        # Panneau (rectangle) centré, comme le menu.
-        frame = fit_menu_frame(self.app.assets.menu_frame)
-        frame_rect = frame.get_rect(center=(center_x, settings.WINDOW_HEIGHT // 2))
-        surface.blit(frame, frame_rect)
-
-        if self.winner == "left":
-            title = "Victoire du joueur 1 !"
-            color = settings.NEON_CYAN
-        elif self.mode == "1p":
-            title = "Victoire de l'IA !"
-            color = settings.NEON_PINK
-        else:
-            title = "Victoire du joueur 2 !"
-            color = settings.NEON_PINK
-
-        # Titre du vainqueur, dans la bande haute de la zone sombre du panneau.
+        title, color = self._title()
         neon.glow_text(surface, self.app.font_medium, title, color,
-                            center=(center_x, frame_rect.top + int(0.37 * frame_rect.height)),
-                            spread=3)
+                       center=(settings.WINDOW_WIDTH // 2,
+                               frame_rect.top + int(_TITLE_Y * frame_rect.height)),
+                       spread=3)
 
-        # Choix, sous le titre ; texte clair sur fond sombre.
-        for i, (label, _) in enumerate(self.options):
-            selected = i == self.index
-            text = ("> " if selected else "  ") + label
-            color = settings.NEON_PINK if selected else settings.TEXT_DIM
-            center = (center_x, frame_rect.top + int((0.55 + 0.12 * i) * frame_rect.height))
-            if selected:
-                neon.glow_text(surface, self.app.font_small, text, color,
-                                    center=center, spread=1)
-            else:
-                self.app.draw_text(surface, text, self.app.font_small, color,
-                                   center=center)
-
-        self.app.draw_text(surface, "Flèches ou Z/S : choisir     Entrée : valider",
-                           self.app.font_small, settings.TEXT_DIM,
-                           center=(center_x, settings.WINDOW_HEIGHT - 30))
+        ui.draw_choices(surface, self.app, frame_rect,
+                        [label for label, _ in self.options], self.index,
+                        zone_top=_CHOICES_TOP, zone_bottom=_CHOICES_BOTTOM)
+        ui.draw_hint(surface, self.app,
+                     "Flèches ou Z/S : choisir     Entrée : valider")

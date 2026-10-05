@@ -2,15 +2,8 @@
 
 import pygame
 
-from .. import neon, settings
+from .. import settings, ui
 from .base import Scene
-
-
-def fit_menu_frame(frame):
-    """Réduit le cadre du menu pour qu'il tienne dans le rectangle bleu néon."""
-    width = settings.FIELD_WIDTH - 40
-    height = max(1, round(frame.get_height() * width / frame.get_width()))
-    return pygame.transform.smoothscale(frame, (width, height))
 
 
 class MenuScene(Scene):
@@ -26,17 +19,14 @@ class MenuScene(Scene):
             ("Quitter", None, None),
         ]
         self.index = 0
-        # Cadre redimensionné une fois pour tenir dans le rectangle bleu néon.
-        self.frame = fit_menu_frame(app.assets.menu_frame)
+        # Cadre réduit une fois pour tenir dans le rectangle bleu néon.
+        self.frame = ui.fit_menu_frame(app.assets.menu_frame)
 
     def handle_event(self, event):
-        if event.type != pygame.KEYDOWN:
-            return
-        if event.key in settings.P1_UP or event.key in settings.P2_UP:
-            self.index = (self.index - 1) % len(self.options)
-        elif event.key in settings.P1_DOWN or event.key in settings.P2_DOWN:
-            self.index = (self.index + 1) % len(self.options)
-        elif event.key in settings.KEY_VALIDATE:
+        new_index = ui.navigation_index(event, self.index, len(self.options))
+        if new_index is not None:
+            self.index = new_index
+        elif event.type == pygame.KEYDOWN and event.key in settings.KEY_VALIDATE:
             self._select()
 
     def _select(self):
@@ -48,37 +38,15 @@ class MenuScene(Scene):
 
     def draw(self, surface):
         surface.blit(self.app.assets.menu_background, (0, 0))
-        center_x = settings.WINDOW_WIDTH // 2
-
-        # Cadre centré sur le terrain (rectangle bleu néon du fond).
-        frame = self.frame
-        frame_rect = frame.get_rect(center=(
-            (settings.FIELD_LEFT + settings.FIELD_RIGHT) // 2,
-            (settings.FIELD_TOP + settings.FIELD_BOTTOM) // 2))
-        surface.blit(frame, frame_rect)
+        frame_rect = ui.panel_rect(self.frame)
+        surface.blit(self.frame, frame_rect)
 
         # Titre (image), dans la bande haute du cadre.
         title = self.app.assets.title
         surface.blit(title, title.get_rect(center=(
-            center_x, frame_rect.top + 8 + title.get_height() // 2)))
+            settings.WINDOW_WIDTH // 2, frame_rect.top + 8 + title.get_height() // 2)))
 
-        # Options, dans la zone centrale du cadre ; texte clair (fond sombre).
-        zone_top = frame_rect.top + int(0.26 * frame_rect.height)
-        zone_bottom = frame_rect.top + int(0.74 * frame_rect.height)
-        spacing = max(1, (zone_bottom - zone_top) // len(self.options))
-        first_y = zone_top + spacing // 2
-        for i, (label, _, _) in enumerate(self.options):
-            selected = i == self.index
-            color = settings.NEON_PINK if selected else settings.TEXT_DIM
-            prefix = "> " if selected else "  "
-            if selected:
-                neon.glow_text(surface, self.app.font_small, prefix + label,
-                                    color, center=(center_x, first_y + i * spacing),
-                                    spread=1)
-            else:
-                self.app.draw_text(surface, prefix + label, self.app.font_small,
-                                   color, center=(center_x, first_y + i * spacing))
-
-        self.app.draw_text(surface, "Flèches ou Z/S : naviguer     Entrée : valider",
-                           self.app.font_small, settings.TEXT_DIM,
-                           center=(center_x, settings.WINDOW_HEIGHT - 30))
+        ui.draw_choices(surface, self.app, frame_rect,
+                        [label for label, _, _ in self.options], self.index)
+        ui.draw_hint(surface, self.app,
+                     "Flèches ou Z/S : naviguer     Entrée : valider")

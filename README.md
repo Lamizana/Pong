@@ -110,6 +110,7 @@ Pong/
 │   ├── sound.py                 # Génération et lecture des sons
 │   ├── collision.py             # Contact cercle/rectangle (balle vs raquette)
 │   ├── neon.py                  # Texte néon (halo diffus + texte net)
+│   ├── ui.py                    # Helpers d'interface (panneau, choix, navigation)
 │   ├── resources.py             # Chargement des assets (images, police)
 │   ├── assets/                  # Images PNG + police Orbitron (et sa licence)
 │   ├── app.py                   # Fenêtre, boucle de jeu, gestion des scènes
