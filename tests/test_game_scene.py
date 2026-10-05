@@ -148,3 +148,37 @@ def test_game_uses_configured_points_to_win():
     pygame.quit()
 
 
+def test_paddle_sprites_stay_inside_the_field():
+    """Les sprites de raquettes tiennent dans le terrain délimité par FIELD_*."""
+    app = App(sound_enabled=False)
+    game = GameScene(app, mode="2p")
+    left_sprite = app.assets.paddle_left.get_width()
+    right_sprite = app.assets.paddle_right.get_width()
+
+    assert game.left_paddle.rect.right - left_sprite >= settings.FIELD_LEFT
+    assert game.left_paddle.rect.right <= settings.FIELD_RIGHT
+    assert game.right_paddle.rect.left >= settings.FIELD_LEFT
+    assert game.right_paddle.rect.left + right_sprite <= settings.FIELD_RIGHT
+    pygame.quit()
+
+
+def test_left_paddle_sprite_face_touches_collision_rect():
+    """Le bord intérieur du sprite gauche coïncide avec le Rect de collision."""
+    app = App(sound_enabled=False)
+    game = GameScene(app, mode="2p")
+    # Fond uni : seuls les pixels de la raquette seront peints.
+    background = pygame.Surface((settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT))
+    background.fill((0, 0, 0))
+    app.assets.background = background
+
+    game.draw(app.screen)
+
+    rect = game.left_paddle.rect
+    painted = [x for x in range(rect.right - 60, rect.right + 8)
+               if app.screen.get_at((x, rect.centery))[:3] != (0, 0, 0)]
+    assert painted, "aucun pixel de raquette dessiné"
+    assert max(painted) <= rect.right - 1
+    assert max(painted) >= rect.right - 4
+    pygame.quit()
+
+

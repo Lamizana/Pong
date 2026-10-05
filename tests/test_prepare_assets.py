@@ -94,3 +94,33 @@ def test_remove_dark_green_background_keys_dark_green():
 
     assert out.getpixel((0, 0))[3] == 0
     assert out.getpixel((1, 0))[3] == 255
+
+
+def test_build_background_keeps_aspect_ratio(tmp_path, monkeypatch):
+    """Le fond est recadré (scale-cover), jamais étiré."""
+    import scripts.prepare_assets as prepare
+
+    monkeypatch.setattr(prepare, "SRC", tmp_path)
+    source = Image.new("RGB", (300, 100), (0, 0, 0))
+    for x in range(100, 110):
+        for y in range(45, 55):
+            source.putpixel((x, y), (255, 0, 0))
+    source.save(tmp_path / "source.png")
+
+    prepare.build_background("source.png", tmp_path / "out.png")
+
+    out = Image.open(tmp_path / "out.png").convert("RGB")
+    assert out.size == (900, 600)
+    px = out.load()
+    xs, ys = [], []
+    for y in range(out.height):
+        for x in range(out.width):
+            r, g, _ = px[x, y]
+            if r > 200 and g < 60:
+                xs.append(x)
+                ys.append(y)
+    assert xs, "le motif de référence est introuvable"
+    largeur = max(xs) - min(xs) + 1
+    hauteur = max(ys) - min(ys) + 1
+    # Un carré source doit rester carré ; un étirement donnerait ~30×60.
+    assert abs(largeur - hauteur) <= 4

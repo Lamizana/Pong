@@ -1,9 +1,10 @@
 """Tests du chargeur d'assets (chargement, tailles, transparence)."""
 
+import pytest
 import pygame
 
 from pong import settings
-from pong.resources import AssetStore
+from pong.resources import AssetStore, asset_path
 
 
 def test_asset_store_loads_expected_sizes():
@@ -35,6 +36,15 @@ def test_bundled_font_asset_exists():
     from pong.resources import asset_path
 
     assert asset_path(settings.ASSET_FONT).exists()
+
+
+def test_missing_asset_raises_error_with_path():
+    """Un asset absent doit lever une erreur explicite contenant son chemin."""
+    with pytest.raises(FileNotFoundError) as excinfo:
+        asset_path("absent.png")
+
+    assert "introuvable" in str(excinfo.value)
+    assert "absent.png" in str(excinfo.value)
 
 
 def test_app_uses_bundled_font():
