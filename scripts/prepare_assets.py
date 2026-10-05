@@ -24,6 +24,10 @@ GREEN_THRESHOLD = 40
 # Taille finale des fonds (fenêtre du jeu).
 BACKGROUND_SIZE = (900, 600)
 
+# Écran de score : région (relative) de l'image de menu 01, et hauteur cible.
+SCORE_SCREEN_BOX = (0.154, 0.307, 0.846, 0.713)
+SCORE_SCREEN_HEIGHT = 70
+
 
 def is_green_background(r, g, b):
     """Vrai si le pixel (r, g, b) appartient au fond vert à détourer."""
@@ -70,6 +74,13 @@ def crop_to_content(image, margin=8):
 
     bbox = alpha.getbbox()
     return image.crop(bbox) if bbox else image
+
+
+def crop_region(image, box):
+    """Découpe une région de l'image ; `box` en coordonnées relatives (0..1)."""
+    width, height = image.size
+    return image.crop((int(box[0] * width), int(box[1] * height),
+                       int(box[2] * width), int(box[3] * height)))
 
 
 def fit_height(image, height):
@@ -132,6 +143,16 @@ def build_sprite(source, dest, *, height=None, width=None, max_size=None):
     image.save(dest)
 
 
+def build_region(source, dest, box, *, height=None, width=None):
+    """Extrait une région d'une image puis la redimensionne (PNG)."""
+    image = crop_region(_load(source).convert("RGBA"), box)
+    if height is not None:
+        image = fit_height(image, height)
+    elif width is not None:
+        image = fit_width(image, width)
+    image.save(dest)
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
 
@@ -141,8 +162,11 @@ def main():
     build_sprite("raquette_droite.jpeg", OUT / "paddle_right.png", height=80)
     build_sprite("balle.jpeg", OUT / "ball.png", max_size=20)
     build_sprite("rectangle_menu_01.jpeg", OUT / "menu_frame.png", width=880)
+    build_region("rectangle_menu_01.jpeg", OUT / "score_screen.png",
+                 SCORE_SCREEN_BOX, height=SCORE_SCREEN_HEIGHT)
 
-    for name in ("background", "menu", "paddle_left", "paddle_right", "ball", "menu_frame"):
+    for name in ("background", "menu", "paddle_left", "paddle_right", "ball",
+                 "menu_frame", "score_screen"):
         path = OUT / f"{name}.png"
         with Image.open(path) as im:
             print(f"  {path.relative_to(ROOT)}  {im.size}  {im.mode}")

@@ -17,6 +17,7 @@ def test_asset_store_loads_expected_sizes():
     assert store.paddle_right.get_height() == settings.PADDLE_HEIGHT
     assert max(store.ball.get_size()) <= 24
     assert store.menu_frame.get_width() <= 900
+    assert store.score_screen.get_height() == 70
 
 
 def test_sprites_have_transparent_corners():

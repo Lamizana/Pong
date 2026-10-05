@@ -9,6 +9,7 @@ from PIL import Image  # noqa: E402
 
 from scripts.prepare_assets import (  # noqa: E402
     clean_alpha,
+    crop_region,
     crop_to_content,
     fit_width,
     is_green_background,
@@ -73,3 +74,11 @@ def test_fit_width_preserves_ratio():
     out = fit_width(image, 400)
 
     assert out.size == (400, 200)
+
+
+def test_crop_region_uses_relative_box():
+    image = Image.new("RGBA", (100, 50), (255, 0, 0, 255))
+
+    out = crop_region(image, (0.2, 0.4, 0.8, 0.6))
+
+    assert out.size == (60, 10)

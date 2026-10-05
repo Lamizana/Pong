@@ -198,12 +198,19 @@ class GameScene(Scene):
                               self.ball.y - sprite.get_height() / 2))
 
     def _draw_scores(self, surface):
+        # Écran de score, posé au-dessus du terrain (dans le ciel).
         center_x = settings.WINDOW_WIDTH // 2
-        y = settings.FIELD_TOP + 32
-        synthwave.glow_text(surface, self.app.font_large, str(self.score.left),
-                            settings.NEON_CYAN, center=(center_x - 70, y))
-        synthwave.glow_text(surface, self.app.font_large, str(self.score.right),
-                            settings.NEON_PINK, center=(center_x + 70, y))
+        screen = self.app.assets.score_screen
+        rect = screen.get_rect(midbottom=(center_x, settings.FIELD_TOP - 14))
+        surface.blit(screen, rect)
+
+        # Le score, à l'intérieur de l'écran (texte sombre, lisible sur cyan).
+        y = rect.centery
+        color = (4, 32, 46)
+        self.app.draw_text(surface, str(self.score.left), self.app.font_medium,
+                           color, center=(center_x - 60, y))
+        self.app.draw_text(surface, str(self.score.right), self.app.font_medium,
+                           color, center=(center_x + 60, y))
 
     def _draw_mode_label(self, surface):
         if self.mode == "1p":

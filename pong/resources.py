@@ -22,6 +22,7 @@ class AssetStore:
         self.background = self._load_opaque(settings.ASSET_BACKGROUND)
         self.menu_background = self._load_opaque(settings.ASSET_MENU)
         self.menu_frame = self._load_sprite(settings.ASSET_MENU_FRAME)
+        self.score_screen = self._load_sprite(settings.ASSET_SCORE_SCREEN)
         self.paddle_left = self._load_sprite(settings.ASSET_PADDLE_LEFT)
         self.paddle_right = self._load_sprite(settings.ASSET_PADDLE_RIGHT)
         self.ball = self._load_sprite(settings.ASSET_BALL)
