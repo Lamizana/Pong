@@ -11,6 +11,7 @@ from scripts.prepare_assets import (  # noqa: E402
     clean_alpha,
     crop_region,
     crop_to_content,
+    despill_green,
     fit_width,
     is_green_background,
     remove_dark_green_background,
@@ -83,6 +84,17 @@ def test_crop_region_uses_relative_box():
     out = crop_region(image, (0.2, 0.4, 0.8, 0.6))
 
     assert out.size == (60, 10)
+
+
+def test_despill_green_clears_fringe_only():
+    image = Image.new("RGBA", (2, 1))
+    image.putpixel((0, 0), (100, 200, 120, 128))   # bord verdâtre → vert ramené
+    image.putpixel((1, 0), (100, 200, 120, 255))   # intérieur opaque → intact
+
+    out = despill_green(image)
+
+    assert out.getpixel((0, 0))[:3] == (100, 120, 120)
+    assert out.getpixel((1, 0))[:3] == (100, 200, 120)
 
 
 def test_remove_dark_green_background_keys_dark_green():

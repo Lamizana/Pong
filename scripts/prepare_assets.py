@@ -35,6 +35,10 @@ SCORE_SCREEN_HEIGHT = 72
 DARK_GREEN_DOM = 8
 DARK_GREEN_LUM = 170
 TITLE_WIDTH = 240
+# Le titre traîne une faible opacité sur ses coins : on relève le seuil.
+TITLE_ALPHA_THRESHOLD = 170
+# La balle : sprite au diamètre exact du cercle de collision (2 × BALL_RADIUS).
+BALL_SPRITE_SIZE = 16
 
 
 def is_green_background(r, g, b):
@@ -142,6 +146,21 @@ def clean_alpha(image, threshold=16):
     return Image.merge("RGBA", (r, g, b, a))
 
 
+def despill_green(image):
+    """Retire la dominante verte des pixels de bord (résidu du chroma-key).
+
+    Seuls les pixels semi-transparents sont touchés : l'intérieur opaque des
+    sprites garde ses couleurs, et les bords ne gardent pas de liseré vert.
+    """
+    px = image.load()
+    for y in range(image.height):
+        for x in range(image.width):
+            r, g, b, a = px[x, y]
+            if 0 < a < 255 and g > max(r, b):
+                px[x, y] = (r, max(r, b), b, a)
+    return image
+
+
 def _load(name):
     path = SRC / name
     if not path.exists():
@@ -157,11 +176,11 @@ def build_background(source, dest):
 
 
 def build_sprite(source, dest, *, height=None, width=None, max_size=None,
-                 keyer=remove_green_background):
+                 keyer=remove_green_background, alpha_threshold=16):
     """Sprite transparent : détourage + recadrage + redimensionnement.
 
     `keyer` : fonction de détourage (fond vert vif par défaut, vert sombre
-    pour les images de titre).
+    pour les images de titre). `alpha_threshold` : seuil de `clean_alpha`.
     """
     image = crop_to_content(keyer(_load(source)))
     if height is not None:
@@ -170,7 +189,8 @@ def build_sprite(source, dest, *, height=None, width=None, max_size=None,
         image = fit_width(image, width)
     elif max_size is not None:
         image = fit_max(image, max_size)
-    image = clean_alpha(image)
+    image = clean_alpha(image, alpha_threshold)
+    image = despill_green(image)
     image.save(dest)
 
 
@@ -191,10 +211,11 @@ def main():
     build_background("fond_accueil.jpeg", OUT / "menu.png")
     build_sprite("raquette_gauche.jpeg", OUT / "paddle_left.png", height=80)
     build_sprite("raquette_droite.jpeg", OUT / "paddle_right.png", height=80)
-    build_sprite("balle.jpeg", OUT / "ball.png", max_size=20)
+    build_sprite("balle.jpeg", OUT / "ball.png", max_size=BALL_SPRITE_SIZE)
     build_sprite("rectangle_menu_03.jpeg", OUT / "menu_frame.png", width=880)
     build_sprite("tittre_02.jpeg", OUT / "title.png", width=TITLE_WIDTH,
-                 keyer=remove_dark_green_background)
+                 keyer=remove_dark_green_background,
+                 alpha_threshold=TITLE_ALPHA_THRESHOLD)
     build_region("rectangle_menu_01.jpeg", OUT / "score_screen.png",
                  SCORE_SCREEN_BOX, height=SCORE_SCREEN_HEIGHT)
 

@@ -26,10 +26,35 @@ def test_sprites_have_transparent_corners():
     pygame.display.set_mode((1, 1))
     store = AssetStore()
 
-    for sprite in (store.paddle_left, store.paddle_right, store.ball, store.menu_frame):
+    sprites = (store.paddle_left, store.paddle_right, store.ball,
+               store.menu_frame, store.title)
+    for sprite in sprites:
         width, height = sprite.get_size()
-        assert sprite.get_at((0, 0)).a == 0
-        assert sprite.get_at((width - 1, height - 1)).a == 0
+        for corner in ((0, 0), (width - 1, 0), (0, height - 1), (width - 1, height - 1)):
+            assert sprite.get_at(corner).a == 0, f"coin opaque : {corner}"
+
+
+def test_ball_sprite_matches_collision_diameter():
+    """Le sprite de balle coïncide avec le cercle de collision."""
+    pygame.display.set_mode((1, 1))
+
+    assert AssetStore().ball.get_width() == 2 * settings.BALL_RADIUS
+
+
+def test_sprites_have_no_green_fringe():
+    """Le chroma-key ne doit pas laisser de liseré vert sur les bords."""
+    pygame.display.set_mode((1, 1))
+    store = AssetStore()
+
+    for sprite in (store.paddle_left, store.paddle_right, store.ball, store.title):
+        width, height = sprite.get_size()
+        offending = []
+        for y in range(height):
+            for x in range(width):
+                pixel = sprite.get_at((x, y))
+                if 0 < pixel.a < 255 and pixel.g > max(pixel.r, pixel.b) + 20:
+                    offending.append((x, y))
+        assert not offending, f"{len(offending)} pixels de bord à dominante verte"
 
 
 def test_bundled_font_asset_exists():
