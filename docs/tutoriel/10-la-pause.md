@@ -63,16 +63,16 @@ def draw(self, surface):
 
     overlay = pygame.Surface((settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT))
     overlay.set_alpha(170)               # 0 = invisible, 255 = opaque
-    overlay.fill(settings.BLACK)
+    overlay.fill(settings.OVERLAY_COLOR)
     surface.blit(overlay, (0, 0))
 
     center_x = settings.WINDOW_WIDTH // 2
-    self.app.draw_text(surface, "PAUSE", self.app.font_large, settings.WHITE,
+    self.app.draw_text(surface, "PAUSE", self.app.font_large, settings.TEXT_COLOR,
                        center=(center_x, 240))
     self.app.draw_text(surface, "P ou Entrée : reprendre", self.app.font_small,
-                       settings.GRAY, center=(center_x, 320))
+                       settings.TEXT_DIM, center=(center_x, 320))
     self.app.draw_text(surface, "Q : retour au menu", self.app.font_small,
-                       settings.GRAY, center=(center_x, 350))
+                       settings.TEXT_DIM, center=(center_x, 350))
 ```
 
 Pourquoi une surface séparée plutôt que dessiner directement en transparence ? Parce
@@ -86,15 +86,15 @@ on lui donne une opacité, puis on la colle sur l'écran.
 
 ## Rejouer
 
-Le même principe sert à l'écran de fin de partie. `GameOverScene` retient le mode et
-la difficulté pour relancer une partie identique :
+Le même principe sert à l'écran de fin de partie. `GameOverScene` retient le **mode**
+(1 ou 2 joueurs) pour relancer une partie identique :
 
 ```python
 def handle_event(self, event):
     if event.type != pygame.KEYDOWN:
         return
     if event.key in settings.KEY_VALIDATE:
-        self.app.switch_scene("game", mode=self.mode, level=self.level)
+        self.app.switch_scene("game", mode=self.mode)
     elif event.key in (pygame.K_q, pygame.K_m):
         self.app.switch_scene("menu")
 ```

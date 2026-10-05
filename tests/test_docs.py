@@ -36,3 +36,39 @@ def test_readme_shows_every_screenshot():
     for name in ("menu.png", "game.png", "gameover.png"):
         assert name in readme, f"{name} n'est pas montré dans le README"
         assert (ROOT / "docs" / "screenshots" / name).exists()
+
+
+def test_tutorial_uses_current_values():
+    for path in (ROOT / "docs" / "tutoriel").glob("*.md"):
+        text = path.read_text(encoding="utf-8")
+        assert "PADDLE_HEIGHT = 100" not in text, path.name
+        assert "POINTS_TO_WIN = 7" not in text, path.name
+        assert "1 joueur — Difficile" not in text, path.name
+
+
+def test_physics_chapter_mentions_circle_collision():
+    assert "circle_rect_contact" in _read("docs/tutoriel/05-la-balle-et-la-physique.md")
+
+
+def test_score_chapter_uses_current_gameover_signature():
+    chapter = _read("docs/tutoriel/07-score-et-victoire.md")
+
+    assert "self.level)" not in chapter
+    assert "GameOverScene(self.app, winner, self.mode)" in chapter
+
+
+def test_tutorial_does_not_use_removed_constants():
+    dead = ("settings.BLACK", "settings.WHITE", "settings.GRAY",
+            "settings.ACCENT", "settings.RED", "settings.GREEN",
+            "NEON_PURPLE", "SKY_TOP")
+    for path in (ROOT / "docs" / "tutoriel").glob("*.md"):
+        text = path.read_text(encoding="utf-8")
+        for name in dead:
+            assert name not in text, f"{path.name} utilise {name}"
+
+
+def test_theme_chapter_documents_assets_pipeline():
+    chapter = _read("docs/tutoriel/12-theme-et-assets.md")
+
+    assert "SynthwaveBackground" not in chapter
+    assert "prepare_assets" in chapter

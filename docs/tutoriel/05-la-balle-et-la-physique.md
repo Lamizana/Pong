@@ -125,8 +125,20 @@ def off_screen(self):
 
 ## La détection de collision
 
-Au chapitre 08 (scène de jeu), on utilisera `pygame.Rect.colliderect` pour savoir si
-la balle touche une raquette. On expose pour cela un rectangle de collision :
+Au chapitre 08 (scène de jeu), il faut savoir si la balle touche une raquette. Une
+simple comparaison de rectangles (`pygame.Rect.colliderect`) ne suffit pas : elle
+rate le contact quand seule la **balle ronde** touche un **coin** de la raquette —
+la balle traverse alors la raquette. On expose donc un cercle, et un module dédié
+calcule le contact exact avec le rectangle de la raquette :
+
+```python
+# pong/collision.py
+def circle_rect_contact(cx, cy, radius, rect):
+    """Contact cercle / rectangle : (normale, pénétration) ou None."""
+```
+
+La scène de jeu s'en sert pour distinguer une **face latérale** (le rebond reste
+horizontal) d'un **coin** (la balle est d'abord repoussée le long de la normale) :
 
 ```python
 @property

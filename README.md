@@ -203,7 +203,7 @@ Un tutoriel complet en français, un chapitre par étape, se trouve dans
 00. Introduction · 01. Installation · 02. Structure · 03. Boucle de jeu ·
 04. Raquettes · 05. Balle et physique · 06. IA · 07. Score et victoire ·
 08. Menu et scènes · 09. Sons · 10. Pause · 11. Packaging et déploiement ·
-12. Style rétro synthwave
+12. Thème et assets
 
 ---
 

@@ -81,7 +81,7 @@ WINDOW_WIDTH = 900
 WINDOW_HEIGHT = 600
 FPS = 60
 
-PADDLE_HEIGHT = 100
+PADDLE_HEIGHT = 80
 PADDLE_SPEED = 520          # pixels par seconde
 
 BALL_START_SPEED = 360
@@ -89,7 +89,7 @@ BALL_SPEEDUP = 22
 BALL_MAX_SPEED = 820
 MAX_BOUNCE_ANGLE = 60       # degrés
 
-POINTS_TO_WIN = 7
+POINTS_TO_WIN = 5           # réglable (3, 5 ou 10) depuis les options
 ```
 
 Tu veux une balle plus rapide ou un écran plus grand ? Un seul endroit à modifier.

@@ -86,7 +86,7 @@ self.app.sound.point_scored()
 
 if winner is not None:
     self.app.sound.win()
-    self.app.set_scene(GameOverScene(self.app, winner, self.mode, self.level))
+    self.app.set_scene(GameOverScene(self.app, winner, self.mode))
     return
 
 # Remise en jeu vers le camp qui vient d'encaisser le point.
@@ -136,9 +136,9 @@ Dans `scenes/game.py` :
 def _draw_scores(self, surface):
     center_x = settings.WINDOW_WIDTH // 2
     self.app.draw_text(surface, str(self.score.left), self.app.font_large,
-                       settings.WHITE, center=(center_x - 80, 60))
+                       settings.TEXT_COLOR, center=(center_x - 80, 60))
     self.app.draw_text(surface, str(self.score.right), self.app.font_large,
-                       settings.WHITE, center=(center_x + 80, 60))
+                       settings.TEXT_COLOR, center=(center_x + 80, 60))
 ```
 
 Le score de gauche est affiché à gauche du centre, celui de droite à droite. Le

@@ -11,16 +11,15 @@ communiquer proprement, en commençant par le menu principal.
 class MenuScene(Scene):
     def __init__(self, app):
         super().__init__(app)
-        # Les libellés de difficulté viennent de settings.AI_LEVELS (source unique).
+        # La difficulté et les points se règlent dans le sous-menu Options.
         self.options = [
-            (config["label"], "game", {"mode": "1p", "level": key})
-            for key, config in settings.AI_LEVELS.items()
-        ]
-        self.options += [
+            ("1 joueur", "game", {"mode": "1p"}),
             ("2 joueurs", "game", {"mode": "2p"}),
+            ("Options", "options", {}),
             ("Quitter", None, None),
         ]
         self.index = 0
+        self.frame = ui.fit_menu_frame(app.assets.menu_frame)
 ```
 
 Chaque option est un triplet :
@@ -33,17 +32,29 @@ Ainsi, ajouter un mode de jeu ne demande qu'une ligne dans cette liste.
 
 ## Naviguer
 
-On réagit aux flèches **et** à Z/S, et l'on boucle aux extrémités grâce au modulo :
+On réagit aux flèches **et** à Z/S, et l'on boucle aux extrémités grâce au modulo.
+Cette navigation est partagée par les trois écrans à panneau (menu, options, fin) via
+`pong/ui.py` :
+
+```python
+def navigation_index(event, index, count):
+    if event.type != pygame.KEYDOWN:
+        return None
+    if event.key in settings.P1_UP or event.key in settings.P2_UP:
+        return (index - 1) % count
+    if event.key in settings.P1_DOWN or event.key in settings.P2_DOWN:
+        return (index + 1) % count
+    return None
+```
+
+La scène s'en sert simplement :
 
 ```python
 def handle_event(self, event):
-    if event.type != pygame.KEYDOWN:
-        return
-    if event.key in settings.P1_UP or event.key in settings.P2_UP:
-        self.index = (self.index - 1) % len(self.options)
-    elif event.key in settings.P1_DOWN or event.key in settings.P2_DOWN:
-        self.index = (self.index + 1) % len(self.options)
-    elif event.key in settings.KEY_VALIDATE:
+    new_index = ui.navigation_index(event, self.index, len(self.options))
+    if new_index is not None:
+        self.index = new_index
+    elif event.type == pygame.KEYDOWN and event.key in settings.KEY_VALIDATE:
         self._select()
 ```
 
@@ -61,7 +72,7 @@ def _select(self):
         self.app.switch_scene(scene_name, **kwargs)
 ```
 
-`**kwargs` « déballe » le dictionnaire : `switch_scene("game", mode="1p", level="moyen")`.
+`**kwargs` « déballe » le dictionnaire : `switch_scene("game", mode="1p")`.
 Ces arguments arrivent directement au constructeur de `GameScene`.
 
 ## Le gestionnaire de scènes
@@ -69,7 +80,7 @@ Ces arguments arrivent directement au constructeur de `GameScene`.
 Rappel de `app.py` :
 
 ```python
-self._scenes = {"menu": MenuScene, "game": GameScene}
+self._scenes = {"menu": MenuScene, "game": GameScene, "options": OptionsScene}
 
 def switch_scene(self, name, **kwargs):
     self.scene = self._scenes[name](self, **kwargs)
@@ -111,30 +122,31 @@ elle s'était arrêtée (chapitre 10).
 
 ```python
 def draw(self, surface):
-    surface.fill(settings.BLACK)
-    center_x = settings.WINDOW_WIDTH // 2
-    self.app.draw_text(surface, settings.CAPTION.upper(), self.app.font_large,
-                       settings.ACCENT, center=(center_x, 120))
-    for i, (label, _, _) in enumerate(self.options):
-        selected = i == self.index
-        color = settings.WHITE if selected else settings.GRAY
-        prefix = "> " if selected else "  "
-        self.app.draw_text(surface, prefix + label, self.app.font_medium, color,
-                           center=(center_x, 240 + i * 60))
+    surface.blit(self.app.assets.menu_background, (0, 0))
+    frame_rect = ui.panel_rect(self.frame)
+    surface.blit(self.frame, frame_rect)
+
+    title = self.app.assets.title
+    surface.blit(title, title.get_rect(center=(
+        settings.WINDOW_WIDTH // 2, frame_rect.top + 8 + title.get_height() // 2)))
+
+    ui.draw_choices(surface, self.app, frame_rect,
+                    [label for label, _, _ in self.options], self.index)
+    ui.draw_hint(surface, self.app,
+                 "Flèches ou Z/S : naviguer     Entrée : valider")
 ```
 
-L'option sélectionnée est en blanc et précédée d'un `>`, les autres sont grisées.
-Le `240 + i * 60` espace les lignes de 60 pixels, une technique simple pour aligner
-une liste verticalement.
+L'option sélectionnée est en **rose néon** et précédée d'un `>`, les autres en gris
+clair. `ui.draw_choices` répartit les lignes dans la zone centrale du panneau, et
+`ui.draw_hint` affiche l'invite en bas de la fenêtre.
 
-> **Note** : pour l'instant le fond est **noir uni** (`settings.BLACK`) et les couleurs
-> sont sobres — c'est volontaire, pour se concentrer sur la mécanique. Le
-> [chapitre 12](12-style-synthwave.md) remplacera ce rendu par le décor rétro
-> synthwave, sans toucher à la logique.
+> **Note** : les chapitres précédents restent volontairement sur un fond **noir uni**,
+> pour se concentrer sur la mécanique. C'est le [chapitre 12](12-theme-et-assets.md)
+> qui habille le jeu (images, police), sans toucher à la logique.
 
 ## Étape suivante
 
 → [09 — Les sons](09-les-sons.md)
 
-> Pour le style visuel final (thème rétro synthwave), voir le
-> [chapitre 12](12-style-synthwave.md).
+> Pour le style visuel final (thème cyberpunk à base d'images), voir le
+> [chapitre 12](12-theme-et-assets.md).

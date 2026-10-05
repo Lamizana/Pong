@@ -17,9 +17,9 @@ créer des niveaux, on règle deux paramètres :
 
 ```python
 AI_LEVELS = {
-    "facile":    {"speed": 300, "error": 70, "label": "1 joueur — Facile"},
-    "moyen":     {"speed": 440, "error": 35, "label": "1 joueur — Moyen"},
-    "difficile": {"speed": 640, "error": 8,  "label": "1 joueur — Difficile"},
+    "facile":    {"speed": 300, "error": 70, "label": "Facile"},
+    "moyen":     {"speed": 440, "error": 35, "label": "Moyen"},
+    "difficile": {"speed": 640, "error": 8,  "label": "Difficile"},
 }
 ```
 

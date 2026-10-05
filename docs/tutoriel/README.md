@@ -18,7 +18,8 @@ tout fonctionne grâce aux **tests**.
 - Des **sons** générés en code (aucun fichier audio).
 - Une **pause**.
 - Des **exécutables** Linux et Windows (via PyInstaller et GitHub Actions).
-- Un **thème rétro synthwave** : soleil couchant, grille en perspective, néons, étoiles.
+- Un **thème cyberpunk** à base d'images générées par IA : décor néon, raquettes
+  mécaniques, panneau de menu, et une **police** dédiée.
 
 ## Prérequis
 
@@ -43,7 +44,7 @@ Lis les chapitres dans l'ordre. Chacun s'appuie sur le précédent.
 | 09 | [Les sons](09-les-sons.md) | Générer du son sans fichier |
 | 10 | [La pause](10-la-pause.md) | Figer et reprendre une partie |
 | 11 | [Packaging et déploiement](11-packaging-deploiement.md) | Créer les exécutables |
-| 12 | [Le style rétro synthwave](12-style-synthwave.md) | Habiller le jeu (décor néon, animations) |
+| 12 | [Le thème : images et police](12-theme-et-assets.md) | Habiller le jeu (assets, police, halos néon) |
 
 ## Philosophie du projet
 
