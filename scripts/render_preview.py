@@ -39,7 +39,7 @@ def main(out_dir="docs/screenshots"):
     pygame.image.save(app.screen, os.path.join(out_dir, "game.png"))
 
     # Écran de fin de partie.
-    app.set_scene(GameOverScene(app, "left", "1p", "difficile"))
+    app.set_scene(GameOverScene(app, "left", "1p"))
     app.scene.draw(app.screen)
     pygame.image.save(app.screen, os.path.join(out_dir, "gameover.png"))
 
