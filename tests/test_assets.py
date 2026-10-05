@@ -16,13 +16,14 @@ def test_asset_store_loads_expected_sizes():
     assert store.paddle_left.get_height() == settings.PADDLE_HEIGHT
     assert store.paddle_right.get_height() == settings.PADDLE_HEIGHT
     assert max(store.ball.get_size()) <= 24
+    assert store.menu_frame.get_width() <= 900
 
 
 def test_sprites_have_transparent_corners():
     pygame.display.set_mode((1, 1))
     store = AssetStore()
 
-    for sprite in (store.paddle_left, store.paddle_right, store.ball):
+    for sprite in (store.paddle_left, store.paddle_right, store.ball, store.menu_frame):
         width, height = sprite.get_size()
         assert sprite.get_at((0, 0)).a == 0
         assert sprite.get_at((width - 1, height - 1)).a == 0

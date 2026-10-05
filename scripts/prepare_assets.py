@@ -79,6 +79,13 @@ def fit_height(image, height):
     return image.resize((new_width, height), Image.LANCZOS)
 
 
+def fit_width(image, width):
+    """Redimensionne en conservant le ratio pour obtenir `width` de large."""
+    current, height = image.size
+    new_height = max(1, round(height * width / current))
+    return image.resize((width, new_height), Image.LANCZOS)
+
+
 def fit_max(image, size):
     """Redimensionne pour que la plus grande dimension fasse `size`."""
     width, height = image.size
@@ -112,11 +119,13 @@ def build_background(source, dest):
     image.save(dest)
 
 
-def build_sprite(source, dest, *, height=None, max_size=None):
+def build_sprite(source, dest, *, height=None, width=None, max_size=None):
     """Sprite transparent : détourage + recadrage + redimensionnement."""
     image = crop_to_content(remove_green_background(_load(source)))
     if height is not None:
         image = fit_height(image, height)
+    elif width is not None:
+        image = fit_width(image, width)
     elif max_size is not None:
         image = fit_max(image, max_size)
     image = clean_alpha(image)
@@ -131,8 +140,9 @@ def main():
     build_sprite("raquette_gauche.jpeg", OUT / "paddle_left.png", height=80)
     build_sprite("raquette_droite.jpeg", OUT / "paddle_right.png", height=80)
     build_sprite("balle.jpeg", OUT / "ball.png", max_size=20)
+    build_sprite("rectangle_menu_01.jpeg", OUT / "menu_frame.png", width=880)
 
-    for name in ("background", "menu", "paddle_left", "paddle_right", "ball"):
+    for name in ("background", "menu", "paddle_left", "paddle_right", "ball", "menu_frame"):
         path = OUT / f"{name}.png"
         with Image.open(path) as im:
             print(f"  {path.relative_to(ROOT)}  {im.size}  {im.mode}")

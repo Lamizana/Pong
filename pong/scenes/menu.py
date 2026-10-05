@@ -43,23 +43,31 @@ class MenuScene(Scene):
         surface.blit(self.app.assets.menu_background, (0, 0))
         center_x = settings.WINDOW_WIDTH // 2
 
-        # Panneau translucide : améliore la lisibilité des options sur le décor.
-        panel = pygame.Surface((settings.WINDOW_WIDTH, 360), pygame.SRCALPHA)
-        panel.fill((*settings.SKY_TOP, 165))
-        surface.blit(panel, (0, 170))
+        # Cadre décoratif, centré sur l'écran.
+        frame = self.app.assets.menu_frame
+        frame_rect = frame.get_rect(center=(center_x, settings.WINDOW_HEIGHT // 2))
+        surface.blit(frame, frame_rect)
 
+        # Titre, dans la zone haute du cadre.
         synthwave.glow_text(surface, self.app.font_large, settings.CAPTION.upper(),
-                            settings.NEON_CYAN, center=(center_x, 120), spread=4)
+                            settings.NEON_CYAN,
+                            center=(center_x, frame_rect.top + 56), spread=4)
+
+        # Options, centrées verticalement dans le cadre.
+        spacing = 60
+        first_y = frame_rect.centery - (len(self.options) - 1) * spacing // 2
         for i, (label, _, _) in enumerate(self.options):
             selected = i == self.index
             color = settings.NEON_PINK if selected else settings.TEXT_DIM
             prefix = "> " if selected else "  "
+            center = (center_x, first_y + i * spacing)
             if selected:
                 synthwave.glow_text(surface, self.app.font_medium, prefix + label,
-                                    color, center=(center_x, 240 + i * 60), spread=2)
+                                    color, center=center, spread=2)
             else:
                 self.app.draw_text(surface, prefix + label, self.app.font_medium, color,
-                                   center=(center_x, 240 + i * 60))
+                                   center=center)
+
         self.app.draw_text(surface, "Flèches ou Z/S : naviguer     Entrée : valider",
                            self.app.font_small, settings.TEXT_DIM,
                            center=(center_x, settings.WINDOW_HEIGHT - 40))

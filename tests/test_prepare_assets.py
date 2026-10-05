@@ -10,6 +10,7 @@ from PIL import Image  # noqa: E402
 from scripts.prepare_assets import (  # noqa: E402
     clean_alpha,
     crop_to_content,
+    fit_width,
     is_green_background,
     remove_green_background,
 )
@@ -64,3 +65,11 @@ def test_clean_alpha_zeroes_faint_pixels():
 
     assert out.getpixel((0, 0))[3] == 0
     assert out.getpixel((1, 0))[3] == 200
+
+
+def test_fit_width_preserves_ratio():
+    image = Image.new("RGBA", (200, 100), (255, 0, 0, 255))
+
+    out = fit_width(image, 400)
+
+    assert out.size == (400, 200)

@@ -110,6 +110,7 @@ TEXT_DIM = (188, 172, 224)
 # --- Assets (images du thème, générées par scripts/prepare_assets.py) ---
 ASSET_BACKGROUND = "background.png"
 ASSET_MENU = "menu.png"
+ASSET_MENU_FRAME = "menu_frame.png"
 ASSET_PADDLE_LEFT = "paddle_left.png"
 ASSET_PADDLE_RIGHT = "paddle_right.png"
 ASSET_BALL = "ball.png"
