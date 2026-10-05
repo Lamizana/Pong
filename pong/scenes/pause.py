@@ -2,7 +2,7 @@
 
 import pygame
 
-from .. import neon, settings
+from .. import neon, settings, ui
 from .base import Scene
 
 
@@ -30,9 +30,16 @@ class PauseScene(Scene):
         surface.blit(overlay, (0, 0))
 
         center_x = settings.WINDOW_WIDTH // 2
+        font_small = self.app.font_small
+        title_y, resume_y, menu_y = ui.stacked_centers(
+            settings.WINDOW_HEIGHT // 2,
+            [self.app.font_large.get_height(),
+             font_small.get_height(),
+             font_small.get_height()],
+            gap=20)
         neon.glow_text(surface, self.app.font_large, "PAUSE",
-                            settings.NEON_CYAN, center=(center_x, 240), spread=4)
-        self.app.draw_text(surface, "P ou Entrée : reprendre", self.app.font_small,
-                           settings.TEXT_COLOR, center=(center_x, 320))
-        self.app.draw_text(surface, "Q : retour au menu", self.app.font_small,
-                           settings.TEXT_DIM, center=(center_x, 350))
+                       settings.NEON_CYAN, center=(center_x, title_y), spread=4)
+        self.app.draw_text(surface, "P ou Entrée : reprendre", font_small,
+                           settings.TEXT_COLOR, center=(center_x, resume_y))
+        self.app.draw_text(surface, "Q : retour au menu", font_small,
+                           settings.TEXT_DIM, center=(center_x, menu_y))

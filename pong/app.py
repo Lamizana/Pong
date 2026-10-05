@@ -35,9 +35,9 @@ class App:
 
         # Police du thème (Orbitron), embarquée dans les assets.
         font_path = str(asset_path(settings.ASSET_FONT))
-        self.font_small = pygame.font.Font(font_path, 28)
-        self.font_medium = pygame.font.Font(font_path, 44)
-        self.font_large = pygame.font.Font(font_path, 72)
+        self.font_small = pygame.font.Font(font_path, settings.FONT_SMALL_SIZE)
+        self.font_medium = pygame.font.Font(font_path, settings.FONT_MEDIUM_SIZE)
+        self.font_large = pygame.font.Font(font_path, settings.FONT_LARGE_SIZE)
 
         self._scenes = {"menu": MenuScene, "game": GameScene, "options": OptionsScene}
         self.scene = None

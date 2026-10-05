@@ -77,7 +77,8 @@ def test_app_uses_bundled_font():
     from pong.resources import asset_path
 
     app = App(sound_enabled=False)
-    expected = pygame.font.Font(str(asset_path(settings.ASSET_FONT)), 28)
+    expected = pygame.font.Font(str(asset_path(settings.ASSET_FONT)),
+                                settings.FONT_SMALL_SIZE)
 
     # Même police et même taille → mêmes métriques que font_small.
     assert app.font_small.size("PONG") == expected.size("PONG")

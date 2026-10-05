@@ -207,12 +207,14 @@ class GameScene(Scene):
         surface.blit(screen, rect)
 
         # Le score, à l'intérieur du panneau (texte sombre, lisible sur cyan).
+        # Écart des deux scores dérivé de la largeur du panneau.
+        offset = max(1, rect.width // 6)
         y = rect.centery
         color = (4, 32, 46)
         self.app.draw_text(surface, str(self.score.left), self.app.font_small,
-                           color, center=(center_x - 27, y))
+                           color, center=(center_x - offset, y))
         self.app.draw_text(surface, str(self.score.right), self.app.font_small,
-                           color, center=(center_x + 27, y))
+                           color, center=(center_x + offset, y))
 
     def _draw_mode_label(self, surface):
         if self.mode == "1p":

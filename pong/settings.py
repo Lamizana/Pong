@@ -51,6 +51,11 @@ KEY_PAUSE = (pygame.K_p, pygame.K_ESCAPE)
 KEY_VALIDATE = (pygame.K_RETURN, pygame.K_KP_ENTER, pygame.K_SPACE)
 KEY_MENU = (pygame.K_q, pygame.K_m)
 
+# --- Polices (Orbitron, embarquée dans pong/assets/) ---
+FONT_SMALL_SIZE = 28
+FONT_MEDIUM_SIZE = 44
+FONT_LARGE_SIZE = 72
+
 # --- IA : réglages ---
 AI_DEAD_ZONE = 6            # tolérance (px) autour de la cible, évite le tremblement
 

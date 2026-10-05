@@ -58,7 +58,23 @@ def draw_choices(surface, app, frame_rect, labels, index, spread=1,
             app.draw_text(surface, text, app.font_small, color, center=center)
 
 
+def hint_y(app):
+    """Ordonnée du centre de l'invite, calée sur la hauteur de la police."""
+    return settings.WINDOW_HEIGHT - app.font_small.get_height()
+
+
+def stacked_centers(center_y, heights, gap=16):
+    """Centres verticaux d'un bloc de textes empilés, centré sur `center_y`."""
+    total = sum(heights) + gap * (len(heights) - 1)
+    y = center_y - total // 2
+    centers = []
+    for height in heights:
+        centers.append(y + height // 2)
+        y += height + gap
+    return centers
+
+
 def draw_hint(surface, app, text):
     """Invite affichée en bas de la fenêtre."""
     app.draw_text(surface, text, app.font_small, settings.TEXT_DIM,
-                  center=(settings.WINDOW_WIDTH // 2, settings.WINDOW_HEIGHT - 30))
+                  center=(settings.WINDOW_WIDTH // 2, hint_y(app)))

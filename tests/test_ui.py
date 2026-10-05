@@ -28,3 +28,19 @@ def test_fit_menu_frame_reduces_to_field_width():
 
     assert fitted.get_width() == settings.FIELD_WIDTH - 40
     assert fitted.get_height() == round(405 * (settings.FIELD_WIDTH - 40) / 880)
+
+
+def test_stacked_centers_centers_the_block():
+    assert ui.stacked_centers(300, [72, 28, 28], gap=16) == [256, 322, 366]
+
+
+def test_hint_y_keeps_the_text_inside_the_window():
+    from pong.app import App
+
+    app = App(sound_enabled=False)
+
+    y = ui.hint_y(app)
+
+    assert y > 0
+    assert y + app.font_small.get_height() <= settings.WINDOW_HEIGHT
+    pygame.quit()
