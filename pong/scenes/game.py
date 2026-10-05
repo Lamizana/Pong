@@ -199,10 +199,11 @@ class GameScene(Scene):
 
     def _draw_scores(self, surface):
         center_x = settings.WINDOW_WIDTH // 2
+        y = settings.FIELD_TOP + 32
         synthwave.glow_text(surface, self.app.font_large, str(self.score.left),
-                            settings.NEON_CYAN, center=(center_x - 80, 60))
+                            settings.NEON_CYAN, center=(center_x - 70, y))
         synthwave.glow_text(surface, self.app.font_large, str(self.score.right),
-                            settings.NEON_PINK, center=(center_x + 80, 60))
+                            settings.NEON_PINK, center=(center_x + 70, y))
 
     def _draw_mode_label(self, surface):
         if self.mode == "1p":
