@@ -27,3 +27,12 @@ def test_packaging_chapter_embeds_assets():
     chapter = _read("docs/tutoriel/11-packaging-deploiement.md")
 
     assert "--add-data" in chapter
+
+
+def test_readme_shows_every_screenshot():
+    """Chaque capture du dépôt est montrée : pas de fichier orphelin."""
+    readme = _read("README.md")
+
+    for name in ("menu.png", "game.png", "gameover.png"):
+        assert name in readme, f"{name} n'est pas montré dans le README"
+        assert (ROOT / "docs" / "screenshots" / name).exists()
