@@ -29,3 +29,21 @@ def test_sprites_have_transparent_corners():
         width, height = sprite.get_size()
         assert sprite.get_at((0, 0)).a == 0
         assert sprite.get_at((width - 1, height - 1)).a == 0
+
+
+def test_bundled_font_asset_exists():
+    from pong.resources import asset_path
+
+    assert asset_path(settings.ASSET_FONT).exists()
+
+
+def test_app_uses_bundled_font():
+    from pong.app import App
+    from pong.resources import asset_path
+
+    app = App(sound_enabled=False)
+    expected = pygame.font.Font(str(asset_path(settings.ASSET_FONT)), 28)
+
+    # Même police et même taille → mêmes métriques que font_small.
+    assert app.font_small.size("PONG") == expected.size("PONG")
+    pygame.quit()

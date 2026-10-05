@@ -3,7 +3,7 @@
 import pygame
 
 from . import settings
-from .resources import AssetStore
+from .resources import AssetStore, asset_path
 from .scenes.game import GameScene
 from .scenes.menu import MenuScene
 from .scenes.options import OptionsScene
@@ -33,9 +33,11 @@ class App:
         # Réglages modifiables depuis les options (valables pour la session).
         self.config = {"level": "moyen", "points_to_win": settings.POINTS_TO_WIN}
 
-        self.font_small = pygame.font.SysFont(None, 28)
-        self.font_medium = pygame.font.SysFont(None, 44)
-        self.font_large = pygame.font.SysFont(None, 72)
+        # Police du thème (Orbitron), embarquée dans les assets.
+        font_path = str(asset_path(settings.ASSET_FONT))
+        self.font_small = pygame.font.Font(font_path, 28)
+        self.font_medium = pygame.font.Font(font_path, 44)
+        self.font_large = pygame.font.Font(font_path, 72)
 
         self._scenes = {"menu": MenuScene, "game": GameScene, "options": OptionsScene}
         self.scene = None

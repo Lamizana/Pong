@@ -117,3 +117,5 @@ ASSET_SCORE_SCREEN = "score_screen.png"
 ASSET_PADDLE_LEFT = "paddle_left.png"
 ASSET_PADDLE_RIGHT = "paddle_right.png"
 ASSET_BALL = "ball.png"
+# Police du thème, embarquée (licence OFL dans assets/OFL-Orbitron.txt).
+ASSET_FONT = "Orbitron.ttf"
