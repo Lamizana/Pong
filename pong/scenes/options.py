@@ -2,7 +2,7 @@
 
 import pygame
 
-from .. import settings, synthwave
+from .. import neon, settings
 from .base import Scene
 from .menu import fit_menu_frame
 
@@ -69,7 +69,7 @@ class OptionsScene(Scene):
             (settings.FIELD_TOP + settings.FIELD_BOTTOM) // 2))
         surface.blit(self.frame, frame_rect)
 
-        synthwave.glow_text(surface, self.app.font_large, "OPTIONS",
+        neon.glow_text(surface, self.app.font_large, "OPTIONS",
                             settings.NEON_YELLOW,
                             center=(center_x, frame_rect.top + 40), spread=4)
 
@@ -86,7 +86,7 @@ class OptionsScene(Scene):
             text = f"{prefix}{label}" + (f" : {value}" if value else "")
             center = (center_x, first_y + i * spacing)
             if selected:
-                synthwave.glow_text(surface, self.app.font_small, text, color,
+                neon.glow_text(surface, self.app.font_small, text, color,
                                     center=center, spread=1)
             else:
                 self.app.draw_text(surface, text, self.app.font_small, color,

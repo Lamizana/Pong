@@ -5,7 +5,7 @@ import random
 
 import pygame
 
-from .. import settings, synthwave
+from .. import neon, settings
 from ..ai import AI
 from ..ball import Ball
 from ..collision import circle_rect_contact
@@ -177,7 +177,7 @@ class GameScene(Scene):
         self._draw_scores(surface)
 
         if self.serve_timer > 0:
-            synthwave.glow_text(surface, self.app.font_medium, "Prêt !",
+            neon.glow_text(surface, self.app.font_medium, "Prêt !",
                                 settings.NEON_YELLOW,
                                 center=(settings.WINDOW_WIDTH // 2,
                                         settings.WINDOW_HEIGHT // 2 + 80))

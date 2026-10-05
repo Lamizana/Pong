@@ -2,7 +2,7 @@
 
 import pygame
 
-from .. import settings, synthwave
+from .. import neon, settings
 from .base import Scene
 
 
@@ -26,11 +26,11 @@ class PauseScene(Scene):
 
         overlay = pygame.Surface((settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT))
         overlay.set_alpha(190)
-        overlay.fill(settings.SKY_TOP)
+        overlay.fill(settings.OVERLAY_COLOR)
         surface.blit(overlay, (0, 0))
 
         center_x = settings.WINDOW_WIDTH // 2
-        synthwave.glow_text(surface, self.app.font_large, "PAUSE",
+        neon.glow_text(surface, self.app.font_large, "PAUSE",
                             settings.NEON_CYAN, center=(center_x, 240), spread=4)
         self.app.draw_text(surface, "P ou Entrée : reprendre", self.app.font_small,
                            settings.TEXT_COLOR, center=(center_x, 320))

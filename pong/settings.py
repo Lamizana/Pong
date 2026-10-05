@@ -12,15 +12,6 @@ WINDOW_HEIGHT = 600
 FPS = 60
 CAPTION = "Pong"
 
-# --- Couleurs (RVB) ---
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-GRAY = (120, 120, 120)
-DARK_GRAY = (40, 40, 40)
-ACCENT = (0, 200, 255)
-GREEN = (80, 220, 120)
-RED = (230, 90, 90)
-
 # --- Terrain de jeu (cadre bleu néon du décor) ---
 # Le rectangle lumineux du fond délimite la zone de jeu réelle.
 FIELD_LEFT = 80
@@ -81,29 +72,12 @@ SOUND_SCORE_FREQ = 200
 SOUND_WIN_FREQ = 660
 SOUND_DURATION_MS = 90
 
-# --- Thème rétro synthwave ---
-HORIZON_Y = 360                 # hauteur de l'horizon (sur WINDOW_HEIGHT)
-SKY_TOP = (18, 6, 46)           # ciel en haut de l'écran
-SKY_HORIZON = (122, 26, 108)    # ciel près de l'horizon
-GROUND_FAR = (44, 10, 72)       # sol juste sous l'horizon
-GROUND_NEAR = (16, 4, 34)       # sol en bas de l'écran
+# --- Interface ---
+OVERLAY_COLOR = (18, 6, 46)     # voile sombre par-dessus le jeu (pause)
 
-SUN_RADIUS = 110
-SUN_TOP = (255, 214, 102)       # haut du soleil (jaune)
-SUN_BOTTOM = (255, 45, 149)     # bas du soleil (rose)
-
-GRID_COLOR = (255, 45, 149)     # grille néon
-GRID_H_LINES = 12               # nombre de lignes horizontales
-GRID_SPACING = 90               # écart des lignes convergentes
-
-STAR_COUNT = 70                 # étoiles scintillantes
-SCANLINE_COLOR = (10, 0, 20)
-SCANLINE_ALPHA = 55             # opacité des lignes de balayage
-
-# Couleurs néon de l'interface
+# Couleurs néon
 NEON_PINK = (255, 45, 149)
 NEON_CYAN = (0, 229, 255)
-NEON_PURPLE = (150, 70, 255)
 NEON_YELLOW = (255, 214, 102)
 TEXT_COLOR = (236, 226, 255)
 TEXT_DIM = (188, 172, 224)

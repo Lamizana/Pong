@@ -2,7 +2,7 @@
 
 import pygame
 
-from .. import settings, synthwave
+from .. import neon, settings
 from .base import Scene
 
 
@@ -72,7 +72,7 @@ class MenuScene(Scene):
             color = settings.NEON_PINK if selected else settings.TEXT_DIM
             prefix = "> " if selected else "  "
             if selected:
-                synthwave.glow_text(surface, self.app.font_small, prefix + label,
+                neon.glow_text(surface, self.app.font_small, prefix + label,
                                     color, center=(center_x, first_y + i * spacing),
                                     spread=1)
             else:

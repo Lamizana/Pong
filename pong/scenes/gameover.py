@@ -2,7 +2,7 @@
 
 import pygame
 
-from .. import settings, synthwave
+from .. import neon, settings
 from .base import Scene
 from .menu import fit_menu_frame
 
@@ -56,7 +56,7 @@ class GameOverScene(Scene):
             color = settings.NEON_PINK
 
         # Titre du vainqueur, dans la bande haute de la zone sombre du panneau.
-        synthwave.glow_text(surface, self.app.font_medium, title, color,
+        neon.glow_text(surface, self.app.font_medium, title, color,
                             center=(center_x, frame_rect.top + int(0.37 * frame_rect.height)),
                             spread=3)
 
@@ -67,7 +67,7 @@ class GameOverScene(Scene):
             color = settings.NEON_PINK if selected else settings.TEXT_DIM
             center = (center_x, frame_rect.top + int((0.55 + 0.12 * i) * frame_rect.height))
             if selected:
-                synthwave.glow_text(surface, self.app.font_small, text, color,
+                neon.glow_text(surface, self.app.font_small, text, color,
                                     center=center, spread=1)
             else:
                 self.app.draw_text(surface, text, self.app.font_small, color,

@@ -109,7 +109,7 @@ Pong/
 │   ├── score.py                 # Score et condition de victoire
 │   ├── sound.py                 # Génération et lecture des sons
 │   ├── collision.py             # Contact cercle/rectangle (balle vs raquette)
-│   ├── synthwave.py             # Texte néon (halo diffus + texte net)
+│   ├── neon.py                  # Texte néon (halo diffus + texte net)
 │   ├── resources.py             # Chargement des assets (images, police)
 │   ├── assets/                  # Images PNG + police Orbitron (et sa licence)
 │   ├── app.py                   # Fenêtre, boucle de jeu, gestion des scènes
