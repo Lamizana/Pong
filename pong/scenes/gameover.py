@@ -4,6 +4,7 @@ import pygame
 
 from .. import settings, synthwave
 from .base import Scene
+from .menu import fit_menu_frame
 
 
 class GameOverScene(Scene):
@@ -24,10 +25,10 @@ class GameOverScene(Scene):
         surface.blit(self.app.assets.background, (0, 0))
         center_x = settings.WINDOW_WIDTH // 2
 
-        # Panneau translucide derrière le texte.
-        panel = pygame.Surface((settings.WINDOW_WIDTH, 260), pygame.SRCALPHA)
-        panel.fill((*settings.SKY_TOP, 165))
-        surface.blit(panel, (0, 130))
+        # Panneau (rectangle) centré, comme le menu.
+        frame = fit_menu_frame(self.app.assets.menu_frame)
+        frame_rect = frame.get_rect(center=(center_x, settings.WINDOW_HEIGHT // 2))
+        surface.blit(frame, frame_rect)
 
         if self.winner == "left":
             title = "Victoire du joueur 1 !"
@@ -38,9 +39,14 @@ class GameOverScene(Scene):
         else:
             title = "Victoire du joueur 2 !"
             color = settings.NEON_PINK
-        synthwave.glow_text(surface, self.app.font_large, title, color,
-                            center=(center_x, 220), spread=5)
+
+        # Textes dans la zone centrale du panneau (fond sombre).
+        synthwave.glow_text(surface, self.app.font_medium, title, color,
+                            center=(center_x, frame_rect.top + int(0.40 * frame_rect.height)),
+                            spread=3)
         self.app.draw_text(surface, "Entrée : rejouer", self.app.font_small,
-                           settings.TEXT_COLOR, center=(center_x, 320))
+                           settings.TEXT_COLOR,
+                           center=(center_x, frame_rect.top + int(0.62 * frame_rect.height)))
         self.app.draw_text(surface, "M ou Q : menu", self.app.font_small,
-                           settings.TEXT_DIM, center=(center_x, 350))
+                           settings.TEXT_DIM,
+                           center=(center_x, frame_rect.top + int(0.74 * frame_rect.height)))

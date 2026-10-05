@@ -74,7 +74,7 @@ class MenuScene(Scene):
             if selected:
                 synthwave.glow_text(surface, self.app.font_small, prefix + label,
                                     color, center=(center_x, first_y + i * spacing),
-                                    spread=2)
+                                    spread=1)
             else:
                 self.app.draw_text(surface, prefix + label, self.app.font_small,
                                    color, center=(center_x, first_y + i * spacing))

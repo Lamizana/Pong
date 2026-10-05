@@ -87,7 +87,7 @@ class OptionsScene(Scene):
             center = (center_x, first_y + i * spacing)
             if selected:
                 synthwave.glow_text(surface, self.app.font_small, text, color,
-                                    center=center, spread=2)
+                                    center=center, spread=1)
             else:
                 self.app.draw_text(surface, text, self.app.font_small, color,
                                    center=center)
