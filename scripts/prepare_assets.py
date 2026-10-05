@@ -24,9 +24,10 @@ GREEN_THRESHOLD = 40
 # Taille finale des fonds (fenêtre du jeu).
 BACKGROUND_SIZE = (900, 600)
 
-# Écran de score : région (relative) de l'image de menu 01, et hauteur cible.
-SCORE_SCREEN_BOX = (0.154, 0.307, 0.846, 0.713)
-SCORE_SCREEN_HEIGHT = 70
+# Panneau de score : région (relative) de l'image de menu 01, et hauteur cible.
+# La région couvre le panneau entier, sans le bord néon qui l'entoure.
+SCORE_SCREEN_BOX = (0.063, 0.130, 0.936, 0.870)
+SCORE_SCREEN_HEIGHT = 72
 
 
 def is_green_background(r, g, b):
