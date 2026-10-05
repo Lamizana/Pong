@@ -9,10 +9,8 @@ from pong.scenes.gameover import GameOverScene
 from pong.scenes.menu import MenuScene
 from pong.scenes.pause import PauseScene
 
-
 def _key(code):
     return pygame.event.Event(pygame.KEYDOWN, key=code)
-
 
 def test_full_scene_flow():
     app = App(sound_enabled=False)
@@ -60,20 +58,14 @@ def test_full_scene_flow():
     app.scene.handle_event(_key(pygame.K_m))
     assert isinstance(app.scene, MenuScene)
 
-    pygame.quit()
-
-
 def test_two_player_mode_has_no_ai():
     app = App(sound_enabled=False)
     app.switch_scene("game", mode="2p")
     assert app.scene.ai is None
     app.scene.update(0.016)
     app.scene.draw(app.screen)
-    pygame.quit()
-
 
 def test_menu_has_expected_entries():
     app = App(sound_enabled=False)
     labels = [label for label, _, _ in app.scene.options]
     assert labels == ["1 joueur", "2 joueurs", "Options", "Quitter"]
-    pygame.quit()

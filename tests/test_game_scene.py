@@ -7,7 +7,6 @@ from pong.app import App
 from pong.scenes.game import GameScene
 from pong.scenes.gameover import GameOverScene
 
-
 class RecordingSound:
     """Double de test : enregistre les sons joués au lieu de les jouer."""
 
@@ -25,7 +24,6 @@ class RecordingSound:
 
     def win(self):
         self.played.append("win")
-
 
 def test_fast_ball_does_not_tunnel_through_left_paddle():
     app = App(sound_enabled=False)
@@ -45,8 +43,6 @@ def test_fast_ball_does_not_tunnel_through_left_paddle():
     assert game.score.left == 0
     assert game.score.right == 0
     assert ball.vx > 0  # la balle est bien repartie vers la droite
-    pygame.quit()
-
 
 def test_win_sound_is_played_on_victory():
     app = App(sound_enabled=False)
@@ -59,8 +55,6 @@ def test_win_sound_is_played_on_victory():
     game.update(0.016)
 
     assert "win" in app.sound.played
-    pygame.quit()
-
 
 def test_ai_moves_during_serve_countdown():
     app = App(sound_enabled=False)
@@ -74,16 +68,12 @@ def test_ai_moves_during_serve_countdown():
     game.update(0.1)
 
     assert game.right_paddle.y < start
-    pygame.quit()
-
 
 def test_app_exposes_asset_store():
     from pong.resources import AssetStore
 
     app = App(sound_enabled=False)
     assert isinstance(app.assets, AssetStore)
-    pygame.quit()
-
 
 def test_game_draw_blits_background_image():
     app = App(sound_enabled=False)
@@ -93,8 +83,6 @@ def test_game_draw_blits_background_image():
 
     # Coin bas-gauche : seulement le fond, hors raquettes/balle/HUD.
     assert app.screen.get_at((10, 590))[:3] == app.assets.background.get_at((10, 590))[:3]
-    pygame.quit()
-
 
 def test_ball_spins_while_moving():
     """La balle tourne sur elle-même quand elle se déplace."""
@@ -108,8 +96,6 @@ def test_ball_spins_while_moving():
 
     assert game.ball_angle != before
     game.draw(app.screen)  # le sprite pivoté se dessine sans erreur
-    pygame.quit()
-
 
 def test_ball_bounces_when_touching_paddle_corner():
     """Régression : le carré englobant de la balle rate le coin supérieur
@@ -129,8 +115,6 @@ def test_ball_bounces_when_touching_paddle_corner():
     game.update(0.001)
 
     assert ball.vx > 0, "la balle a traversé la raquette sur un coin"
-    pygame.quit()
-
 
 def test_game_uses_configured_points_to_win():
     """La partie se gagne aux points réglés dans les options."""
@@ -145,8 +129,6 @@ def test_game_uses_configured_points_to_win():
     game.update(0.016)
 
     assert isinstance(app.scene, GameOverScene)
-    pygame.quit()
-
 
 def test_paddle_sprites_stay_inside_the_field():
     """Les sprites de raquettes tiennent dans le terrain délimité par FIELD_*."""
@@ -159,8 +141,6 @@ def test_paddle_sprites_stay_inside_the_field():
     assert game.left_paddle.rect.right <= settings.FIELD_RIGHT
     assert game.right_paddle.rect.left >= settings.FIELD_LEFT
     assert game.right_paddle.rect.left + right_sprite <= settings.FIELD_RIGHT
-    pygame.quit()
-
 
 def test_left_paddle_sprite_face_touches_collision_rect():
     """Le bord intérieur du sprite gauche coïncide avec le Rect de collision."""
@@ -179,6 +159,4 @@ def test_left_paddle_sprite_face_touches_collision_rect():
     assert painted, "aucun pixel de raquette dessiné"
     assert max(painted) <= rect.right - 1
     assert max(painted) >= rect.right - 4
-    pygame.quit()
-
 

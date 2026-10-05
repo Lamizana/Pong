@@ -4,10 +4,7 @@ import pygame
 
 from pong.neon import glow_text
 
-
 def test_glow_text_centers_text_and_draws_pixels():
-    pygame.display.set_mode((1, 1))
-    pygame.font.init()
     surface = pygame.Surface((200, 60), pygame.SRCALPHA)
     surface.fill((0, 0, 0, 0))
     font = pygame.font.Font(None, 24)

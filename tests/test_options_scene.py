@@ -7,10 +7,8 @@ from pong.app import App
 from pong.scenes.menu import MenuScene
 from pong.scenes.options import OptionsScene
 
-
 def _key(code):
     return pygame.event.Event(pygame.KEYDOWN, key=code)
-
 
 def _select(app, label):
     """Amène la sélection du menu sur `label` puis valide."""
@@ -20,15 +18,12 @@ def _select(app, label):
         app.scene.handle_event(_key(pygame.K_DOWN))
     app.scene.handle_event(_key(pygame.K_RETURN))
 
-
 def test_options_scene_is_reachable_from_menu():
     app = App(sound_enabled=False)
 
     _select(app, "Options")
 
     assert isinstance(app.scene, OptionsScene)
-    pygame.quit()
-
 
 def test_options_changes_difficulty_in_config():
     app = App(sound_enabled=False)
@@ -41,8 +36,6 @@ def test_options_changes_difficulty_in_config():
 
     assert app.config["level"] != before
     assert app.config["level"] in settings.AI_LEVELS
-    pygame.quit()
-
 
 def test_options_changes_points_in_config():
     app = App(sound_enabled=False)
@@ -55,8 +48,6 @@ def test_options_changes_points_in_config():
 
     assert app.config["points_to_win"] != before
     assert app.config["points_to_win"] in settings.POINT_CHOICES
-    pygame.quit()
-
 
 def test_options_return_row_goes_back_to_menu():
     app = App(sound_enabled=False)
@@ -67,17 +58,12 @@ def test_options_return_row_goes_back_to_menu():
     scene.handle_event(_key(pygame.K_RETURN))
 
     assert isinstance(app.scene, MenuScene)
-    pygame.quit()
-
 
 def test_options_draws_without_error():
     app = App(sound_enabled=False)
     app.switch_scene("options")
 
     app.scene.draw(app.screen)
-
-    pygame.quit()
-
 
 def test_options_shows_configured_level_label():
     app = App(sound_enabled=False)
@@ -87,4 +73,3 @@ def test_options_shows_configured_level_label():
     label = app.scene._rows()[0][1]
 
     assert label == settings.AI_LEVELS["difficile"]["label"]
-    pygame.quit()

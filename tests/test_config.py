@@ -4,10 +4,8 @@ import pygame
 
 from pong import config
 
-
 def _key(code):
     return pygame.event.Event(pygame.KEYDOWN, key=code)
-
 
 def test_save_then_load_round_trip(tmp_path):
     path = tmp_path / "config.json"
@@ -16,10 +14,8 @@ def test_save_then_load_round_trip(tmp_path):
 
     assert config.load(path) == {"level": "difficile", "points_to_win": 10}
 
-
 def test_load_returns_defaults_when_file_missing(tmp_path):
     assert config.load(tmp_path / "absent.json") == config.DEFAULTS
-
 
 def test_load_returns_defaults_on_corrupt_file(tmp_path):
     path = tmp_path / "config.json"
@@ -27,13 +23,11 @@ def test_load_returns_defaults_on_corrupt_file(tmp_path):
 
     assert config.load(path) == config.DEFAULTS
 
-
 def test_load_ignores_invalid_values(tmp_path):
     path = tmp_path / "config.json"
     path.write_text('{"level": "impossible", "points_to_win": 42}', encoding="utf-8")
 
     assert config.load(path) == config.DEFAULTS
-
 
 def test_save_failure_is_silent(tmp_path):
     """Un dossier de configuration non inscriptible ne doit pas planter le jeu."""
@@ -41,7 +35,6 @@ def test_save_failure_is_silent(tmp_path):
     blocker.write_text("x", encoding="utf-8")
 
     assert config.save(config.DEFAULTS, blocker / "config.json") is False
-
 
 def test_options_change_is_persisted(monkeypatch):
     from pong.app import App
@@ -56,4 +49,3 @@ def test_options_change_is_persisted(monkeypatch):
 
     assert saved, "le changement de réglage n'a pas été enregistré"
     assert saved[-1]["level"] == app.config["level"]
-    pygame.quit()
