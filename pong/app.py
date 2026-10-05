@@ -2,7 +2,7 @@
 
 import pygame
 
-from . import settings
+from . import config, settings
 from .resources import AssetStore, asset_path
 from .scenes.game import GameScene
 from .scenes.menu import MenuScene
@@ -30,8 +30,8 @@ class App:
         # Images partagées par toutes les scènes (thème cyberpunk).
         self.assets = AssetStore()
 
-        # Réglages modifiables depuis les options (valables pour la session).
-        self.config = {"level": "moyen", "points_to_win": settings.POINTS_TO_WIN}
+        # Réglages modifiables depuis les options, conservés entre deux sessions.
+        self.config = config.load()
 
         # Police du thème (Orbitron), embarquée dans les assets.
         font_path = str(asset_path(settings.ASSET_FONT))

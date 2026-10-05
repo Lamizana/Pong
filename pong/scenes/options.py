@@ -2,7 +2,7 @@
 
 import pygame
 
-from .. import neon, settings, ui
+from .. import config, neon, settings, ui
 from .base import Scene
 
 _ROW_LEVEL = 0
@@ -37,14 +37,17 @@ class OptionsScene(Scene):
 
     def _change(self, delta):
         """Fait défiler la valeur de la ligne sélectionnée (boucle circulaire)."""
-        config = self.app.config
+        config_now = self.app.config
         if self.index == _ROW_LEVEL:
             keys = list(settings.AI_LEVELS)
-            config["level"] = keys[(keys.index(config["level"]) + delta) % len(keys)]
+            config_now["level"] = keys[(keys.index(config_now["level"]) + delta) % len(keys)]
         elif self.index == _ROW_POINTS:
             choices = settings.POINT_CHOICES
-            current = choices.index(config["points_to_win"])
-            config["points_to_win"] = choices[(current + delta) % len(choices)]
+            current = choices.index(config_now["points_to_win"])
+            config_now["points_to_win"] = choices[(current + delta) % len(choices)]
+        else:
+            return
+        config.save(config_now)
 
     # --- Affichage ---
 
