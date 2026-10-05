@@ -28,7 +28,8 @@ obtenir les deux, on dispose de deux solutions :
 ## La commande de base
 
 ```bash
-python -m PyInstaller --noconfirm --clean --onefile --windowed --name Pong main.py
+python -m PyInstaller --noconfirm --clean --onefile --windowed \
+  --name Pong --add-data "pong/assets:pong/assets" main.py
 ```
 
 | Option | Effet |
@@ -36,11 +37,30 @@ python -m PyInstaller --noconfirm --clean --onefile --windowed --name Pong main.
 | `--onefile` | Regroupe tout en **un seul** fichier exécutable. |
 | `--windowed` | Pas de console en arrière-plan (mode graphique). Essentiel sous Windows. |
 | `--name Pong` | Nomme l'exécutable `Pong` (ou `Pong.exe`). |
+| `--add-data SRC:DEST` | Embarque un dossier de données dans l'exécutable (voir ci-dessous). |
 | `--noconfirm` | Écrase les sorties précédentes sans demander. |
 | `--clean` | Repart d'un dossier de travail propre. |
 
 Le résultat apparaît dans `dist/`. Les fichiers intermédiaires vont dans `build/`
 (tous deux ignorés par git).
+
+## Embarquer les assets (indispensable)
+
+Depuis la refonte du thème, le jeu lit des **images** et une **police** au démarrage.
+`pong/resources.py` résout leur chemin à côté du module (`__file__`), ce qui fonctionne
+aussi dans l'exécutable **à condition de les embarquer**. Sans cela, le jeu s'arrête
+aussitôt lancé avec un message du type :
+
+```
+Asset introuvable : …/pong/assets/background.png
+```
+
+C'est le rôle de `--add-data`. **Le séparateur dépend du système** :
+
+- `:` sous Linux et macOS → `--add-data "pong/assets:pong/assets"`
+- `;` sous Windows → `--add-data "pong/assets;pong/assets"`
+
+C'est la principale différence entre `build.sh` et `build.ps1` ci-dessous.
 
 ## Les scripts fournis
 
@@ -57,7 +77,7 @@ if [ -x ".venv/bin/python" ]; then
 fi
 
 "$PYTHON" -m PyInstaller --noconfirm --clean --onefile --windowed \
-  --name Pong main.py
+  --name Pong --add-data "pong/assets:pong/assets" main.py
 
 echo "Terminé : dist/Pong"
 ```
@@ -73,7 +93,8 @@ Set-Location $PSScriptRoot
 
 $python = if (Test-Path ".venv\Scripts\python.exe") { ".venv\Scripts\python.exe" } else { "python" }
 
-& $python -m PyInstaller --noconfirm --clean --onefile --windowed --name Pong main.py
+& $python -m PyInstaller --noconfirm --clean --onefile --windowed `
+  --name Pong --add-data "pong/assets;pong/assets" main.py
 
 Write-Host "Terminé : dist\Pong.exe"
 ```
@@ -105,8 +126,10 @@ jobs:
       - run: python -m pytest
       - shell: bash
         run: |
+          # Séparateur de --add-data : ';' sous Windows, ':' ailleurs.
+          if [ "$RUNNER_OS" = "Windows" ]; then SEP=";"; else SEP=":"; fi
           python -m PyInstaller --noconfirm --clean --onefile --windowed \
-            --name Pong main.py
+            --name Pong --add-data "pong/assets${SEP}pong/assets" main.py
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact }}

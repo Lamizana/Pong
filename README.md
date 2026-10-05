@@ -43,7 +43,7 @@ images générées par IA chargées comme assets.
 ## Apercu
 
 <p align="center">
-  <img src="docs/screenshots/game.png" alt="Aperçu du jeu Pong (thème synthwave)" width="760">
+  <img src="docs/screenshots/game.png" alt="Aperçu du jeu Pong (thème cyberpunk)" width="760">
 </p>
 
 ---
@@ -73,7 +73,7 @@ images générées par IA chargées comme assets.
 | **2 modes de jeu** | 1 joueur contre l'IA, ou 2 joueurs en local |
 | **IA a 3 niveaux** | Facile, Moyen, Difficile (vitesse et précision réglables) |
 | **Menu principal** | Sélection du mode, navigation clavier, relance de partie |
-| **Score et victoire** | Premier à 7 points, écran de fin avec rejeu |
+| **Score et victoire** | Premier à 5 points (réglable : 3, 5 ou 10), écran de fin avec rejeu |
 | **Physique de rebond avancée** | L'angle de la balle dépend du point d'impact sur la raquette |
 | **Sons générés en code** | Bruitages synthétisés, aucun fichier audio requis |
 | **Pause** | Reprise exactement où la partie s'était arrêtée |
@@ -108,11 +108,12 @@ Pong/
 │   ├── ai.py                    # Adversaire automatique (3 niveaux)
 │   ├── score.py                 # Score et condition de victoire
 │   ├── sound.py                 # Génération et lecture des sons
-│   ├── synthwave.py             # Effets néon (halos, textes lumineux)
-│   ├── resources.py             # Chargement des images du thème
-│   ├── assets/                  # Images : fond, menu, raquettes, balle (PNG)
+│   ├── collision.py             # Contact cercle/rectangle (balle vs raquette)
+│   ├── synthwave.py             # Texte néon (halo diffus + texte net)
+│   ├── resources.py             # Chargement des assets (images, police)
+│   ├── assets/                  # Images PNG + police Orbitron (et sa licence)
 │   ├── app.py                   # Fenêtre, boucle de jeu, gestion des scènes
-│   └── scenes/                  # Menu, partie, pause, fin de partie
+│   └── scenes/                  # Menu, options, partie, pause, fin de partie
 ├── scripts/
 │   ├── render_preview.py        # Génère les aperçus PNG
 │   └── prepare_assets.py        # Détoure/redimensionne les images sources
@@ -164,7 +165,8 @@ pytest
 ```
 
 Les tests couvrent la physique de la balle, les raquettes, l'IA, le score, la génération
-des sons, la géométrie du décor et le parcours complet des scènes — **sans fenêtre**.
+des sons, les collisions, le prétraitement des images, la cohérence de la documentation
+et le parcours complet des scènes — **sans fenêtre**.
 
 ---
 
