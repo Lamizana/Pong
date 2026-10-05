@@ -59,7 +59,7 @@ class MenuScene(Scene):
 
         # Titre, dans la bande haute du cadre.
         synthwave.glow_text(surface, self.app.font_large, settings.CAPTION.upper(),
-                            settings.NEON_PURPLE,
+                            settings.NEON_YELLOW,
                             center=(center_x, frame_rect.top + 40), spread=4)
 
         # Options, dans la zone centrale (cyan) du cadre ; texte sombre lisible.

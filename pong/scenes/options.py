@@ -70,7 +70,7 @@ class OptionsScene(Scene):
         surface.blit(self.frame, frame_rect)
 
         synthwave.glow_text(surface, self.app.font_large, "OPTIONS",
-                            settings.NEON_PURPLE,
+                            settings.NEON_YELLOW,
                             center=(center_x, frame_rect.top + 40), spread=4)
 
         # Lignes dans la zone centrale (cyan) du cadre ; texte sombre lisible.
