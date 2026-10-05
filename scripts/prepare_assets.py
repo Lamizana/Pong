@@ -74,13 +74,15 @@ def remove_dark_green_background(image):
     détecte par sa dominante verte ET sa faible luminance, ce qui retire aussi
     le halo vert autour des lettres.
     """
+    rgb = image.convert("RGB")
+    r, g, b = rgb.split()
+    dominante = ImageChops.subtract(g, ImageChops.lighter(r, b)).point(
+        lambda v: 255 if v >= DARK_GREEN_DOM else 0)
+    sombre = rgb.convert("L").point(lambda v: 255 if v < DARK_GREEN_LUM else 0)
+    fond = ImageChops.multiply(dominante, sombre)
+
     out = image.convert("RGBA")
-    px = out.load()
-    for y in range(out.height):
-        for x in range(out.width):
-            r, g, b, _ = px[x, y]
-            if g - max(r, b) >= DARK_GREEN_DOM and (r + g + b) / 3 < DARK_GREEN_LUM:
-                px[x, y] = (r, g, b, 0)
+    out.putalpha(ImageChops.invert(fond))
     return out
 
 
@@ -152,13 +154,10 @@ def despill_green(image):
     Seuls les pixels semi-transparents sont touchés : l'intérieur opaque des
     sprites garde ses couleurs, et les bords ne gardent pas de liseré vert.
     """
-    px = image.load()
-    for y in range(image.height):
-        for x in range(image.width):
-            r, g, b, a = px[x, y]
-            if 0 < a < 255 and g > max(r, b):
-                px[x, y] = (r, max(r, b), b, a)
-    return image
+    r, g, b, a = image.split()
+    semi = a.point(lambda v: 255 if 0 < v < 255 else 0)
+    vert_limite = ImageChops.darker(g, ImageChops.lighter(r, b))
+    return Image.merge("RGBA", (r, Image.composite(vert_limite, g, semi), b, a))
 
 
 def _load(name):
