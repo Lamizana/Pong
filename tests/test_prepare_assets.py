@@ -13,6 +13,7 @@ from scripts.prepare_assets import (  # noqa: E402
     crop_to_content,
     fit_width,
     is_green_background,
+    remove_dark_green_background,
     remove_green_background,
 )
 
@@ -82,3 +83,14 @@ def test_crop_region_uses_relative_box():
     out = crop_region(image, (0.2, 0.4, 0.8, 0.6))
 
     assert out.size == (60, 10)
+
+
+def test_remove_dark_green_background_keys_dark_green():
+    image = Image.new("RGBA", (2, 1))
+    image.putpixel((0, 0), (2, 60, 45, 255))      # vert sombre → transparent
+    image.putpixel((1, 0), (150, 255, 238, 255))  # lettre claire → conservée
+
+    out = remove_dark_green_background(image)
+
+    assert out.getpixel((0, 0))[3] == 0
+    assert out.getpixel((1, 0))[3] == 255

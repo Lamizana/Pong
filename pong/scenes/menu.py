@@ -57,22 +57,27 @@ class MenuScene(Scene):
             (settings.FIELD_TOP + settings.FIELD_BOTTOM) // 2))
         surface.blit(frame, frame_rect)
 
-        # Titre, dans la bande haute du cadre.
-        synthwave.glow_text(surface, self.app.font_large, settings.CAPTION.upper(),
-                            settings.NEON_YELLOW,
-                            center=(center_x, frame_rect.top + 40), spread=4)
+        # Titre (image), dans la bande haute du cadre.
+        title = self.app.assets.title
+        surface.blit(title, title.get_rect(center=(
+            center_x, frame_rect.top + 8 + title.get_height() // 2)))
 
-        # Options, dans la zone centrale (cyan) du cadre ; texte sombre lisible.
-        zone_top = frame_rect.top + int(0.24 * frame_rect.height)
+        # Options, dans la zone centrale du cadre ; texte clair (fond sombre).
+        zone_top = frame_rect.top + int(0.26 * frame_rect.height)
         zone_bottom = frame_rect.top + int(0.74 * frame_rect.height)
         spacing = max(1, (zone_bottom - zone_top) // len(self.options))
         first_y = zone_top + spacing // 2
         for i, (label, _, _) in enumerate(self.options):
             selected = i == self.index
-            color = (0, 0, 0) if selected else (18, 48, 66)
+            color = settings.NEON_PINK if selected else settings.TEXT_DIM
             prefix = "> " if selected else "  "
-            self.app.draw_text(surface, prefix + label, self.app.font_small, color,
-                               center=(center_x, first_y + i * spacing))
+            if selected:
+                synthwave.glow_text(surface, self.app.font_small, prefix + label,
+                                    color, center=(center_x, first_y + i * spacing),
+                                    spread=2)
+            else:
+                self.app.draw_text(surface, prefix + label, self.app.font_small,
+                                   color, center=(center_x, first_y + i * spacing))
 
         self.app.draw_text(surface, "Flèches ou Z/S : naviguer     Entrée : valider",
                            self.app.font_small, settings.TEXT_DIM,

@@ -73,19 +73,24 @@ class OptionsScene(Scene):
                             settings.NEON_YELLOW,
                             center=(center_x, frame_rect.top + 40), spread=4)
 
-        # Lignes dans la zone centrale (cyan) du cadre ; texte sombre lisible.
+        # Lignes dans la zone centrale du cadre ; texte clair (fond sombre).
         rows = self._rows()
-        zone_top = frame_rect.top + int(0.24 * frame_rect.height)
+        zone_top = frame_rect.top + int(0.26 * frame_rect.height)
         zone_bottom = frame_rect.top + int(0.74 * frame_rect.height)
         spacing = max(1, (zone_bottom - zone_top) // len(rows))
         first_y = zone_top + spacing // 2
         for i, (label, value) in enumerate(rows):
             selected = i == self.index
-            color = (0, 0, 0) if selected else (18, 48, 66)
+            color = settings.NEON_PINK if selected else settings.TEXT_DIM
             prefix = "> " if selected else "  "
             text = f"{prefix}{label}" + (f" : {value}" if value else "")
-            self.app.draw_text(surface, text, self.app.font_small, color,
-                               center=(center_x, first_y + i * spacing))
+            center = (center_x, first_y + i * spacing)
+            if selected:
+                synthwave.glow_text(surface, self.app.font_small, text, color,
+                                    center=center, spread=2)
+            else:
+                self.app.draw_text(surface, text, self.app.font_small, color,
+                                   center=center)
 
         self.app.draw_text(surface,
                            "Flèches ←/→ : changer     Entrée/Échap : retour",

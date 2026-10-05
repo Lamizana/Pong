@@ -29,6 +29,13 @@ BACKGROUND_SIZE = (900, 600)
 SCORE_SCREEN_BOX = (0.063, 0.130, 0.936, 0.870)
 SCORE_SCREEN_HEIGHT = 72
 
+# Titre du menu : le fond est un vert sombre (≈ (2, 60, 45)) que le chroma-key
+# habituel ne détecte pas (bleu trop proche du vert). On le repère par sa
+# dominante verte et sa faible luminance.
+DARK_GREEN_DOM = 8
+DARK_GREEN_LUM = 170
+TITLE_WIDTH = 240
+
 
 def is_green_background(r, g, b):
     """Vrai si le pixel (r, g, b) appartient au fond vert à détourer."""
@@ -52,6 +59,24 @@ def remove_green_background(image, erode=3):
 
     out = image.convert("RGBA")
     out.putalpha(keep)
+    return out
+
+
+def remove_dark_green_background(image):
+    """Rend transparent un fond vert sombre (image de titre).
+
+    Le fond est un vert foncé (≈ (2, 60, 45)) : le vert domine, mais le bleu
+    reste proche, donc `remove_green_background` le laisse passer. On le
+    détecte par sa dominante verte ET sa faible luminance, ce qui retire aussi
+    le halo vert autour des lettres.
+    """
+    out = image.convert("RGBA")
+    px = out.load()
+    for y in range(out.height):
+        for x in range(out.width):
+            r, g, b, _ = px[x, y]
+            if g - max(r, b) >= DARK_GREEN_DOM and (r + g + b) / 3 < DARK_GREEN_LUM:
+                px[x, y] = (r, g, b, 0)
     return out
 
 
@@ -131,9 +156,14 @@ def build_background(source, dest):
     image.save(dest)
 
 
-def build_sprite(source, dest, *, height=None, width=None, max_size=None):
-    """Sprite transparent : détourage + recadrage + redimensionnement."""
-    image = crop_to_content(remove_green_background(_load(source)))
+def build_sprite(source, dest, *, height=None, width=None, max_size=None,
+                 keyer=remove_green_background):
+    """Sprite transparent : détourage + recadrage + redimensionnement.
+
+    `keyer` : fonction de détourage (fond vert vif par défaut, vert sombre
+    pour les images de titre).
+    """
+    image = crop_to_content(keyer(_load(source)))
     if height is not None:
         image = fit_height(image, height)
     elif width is not None:
@@ -162,12 +192,14 @@ def main():
     build_sprite("raquette_gauche.jpeg", OUT / "paddle_left.png", height=80)
     build_sprite("raquette_droite.jpeg", OUT / "paddle_right.png", height=80)
     build_sprite("balle.jpeg", OUT / "ball.png", max_size=20)
-    build_sprite("rectangle_menu_01.jpeg", OUT / "menu_frame.png", width=880)
+    build_sprite("rectangle_menu_03.jpeg", OUT / "menu_frame.png", width=880)
+    build_sprite("tittre_02.jpeg", OUT / "title.png", width=TITLE_WIDTH,
+                 keyer=remove_dark_green_background)
     build_region("rectangle_menu_01.jpeg", OUT / "score_screen.png",
                  SCORE_SCREEN_BOX, height=SCORE_SCREEN_HEIGHT)
 
     for name in ("background", "menu", "paddle_left", "paddle_right", "ball",
-                 "menu_frame", "score_screen"):
+                 "menu_frame", "title", "score_screen"):
         path = OUT / f"{name}.png"
         with Image.open(path) as im:
             print(f"  {path.relative_to(ROOT)}  {im.size}  {im.mode}")

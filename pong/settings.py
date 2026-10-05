@@ -112,6 +112,7 @@ TEXT_DIM = (188, 172, 224)
 ASSET_BACKGROUND = "background.png"
 ASSET_MENU = "menu.png"
 ASSET_MENU_FRAME = "menu_frame.png"
+ASSET_TITLE = "title.png"
 ASSET_SCORE_SCREEN = "score_screen.png"
 ASSET_PADDLE_LEFT = "paddle_left.png"
 ASSET_PADDLE_RIGHT = "paddle_right.png"
