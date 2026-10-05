@@ -21,3 +21,12 @@ def test_build_scripts_use_os_specific_separator():
     assert 'pong/assets;pong/assets' in ps1
     assert 'SEP=":"' in ci
     assert 'SEP=";"' in ci
+
+
+def test_pyproject_ships_assets_and_font_licence():
+    """Un `pip install .` doit embarquer les images, la police et sa licence."""
+    content = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+
+    assert "[tool.setuptools.package-data]" in content
+    assert "assets/*" in content
+    assert "OFL-Orbitron" in content

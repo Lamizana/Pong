@@ -11,6 +11,12 @@ dependencies = ["pygame>=2.5,<3"]
 
 [tool.setuptools]
 packages = ["pong", "pong.scenes"]
+license-files = ["LICENSE", "pong/assets/OFL-Orbitron.txt"]
+
+# Les images et la police sont indispensables au jeu : sans elles, une
+# installation (`pip install .`) démarrerait puis échouerait au chargement.
+[tool.setuptools.package-data]
+pong = ["assets/*"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]

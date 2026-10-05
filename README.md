@@ -210,3 +210,6 @@ Un tutoriel complet en français, un chapitre par étape, se trouve dans
 ## Licence
 
 Distribué sous licence **MIT** — libre d'utilisation, de modification et de partage.
+
+La police **Orbitron**, embarquée dans `pong/assets/`, est distribuée sous
+**SIL Open Font License 1.1** (voir `pong/assets/OFL-Orbitron.txt`).
