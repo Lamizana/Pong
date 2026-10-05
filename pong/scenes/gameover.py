@@ -7,17 +7,16 @@ from .base import Scene
 
 
 class GameOverScene(Scene):
-    def __init__(self, app, winner, mode, level):
+    def __init__(self, app, winner, mode):
         super().__init__(app)
         self.winner = winner
         self.mode = mode
-        self.level = level
 
     def handle_event(self, event):
         if event.type != pygame.KEYDOWN:
             return
         if event.key in settings.KEY_VALIDATE:
-            self.app.switch_scene("game", mode=self.mode, level=self.level)
+            self.app.switch_scene("game", mode=self.mode)
         elif event.key in settings.KEY_MENU:
             self.app.switch_scene("menu")
 

@@ -45,7 +45,8 @@ MAX_BOUNCE_ANGLE = 60       # angle maximal de rebond, en degrés
 BALL_SPIN_FACTOR = 0.2      # vitesse de rotation visuelle de la balle (réglable)
 
 # --- Score ---
-POINTS_TO_WIN = 7
+POINTS_TO_WIN = 5
+POINT_CHOICES = (3, 5, 10)  # valeurs proposées dans les options
 
 # --- Contrôles (touches pygame) ---
 # Joueur 1 : Z/S (AZERTY) et W/S (QWERTY) en secours.
@@ -66,9 +67,9 @@ AI_DEAD_ZONE = 6            # tolérance (px) autour de la cible, évite le trem
 # speed : vitesse maximale de la raquette de l'IA (px/s)
 # error : écart maximal (px) visé par rapport au centre de la balle (rend l'IA battable)
 AI_LEVELS = {
-    "facile": {"speed": 300, "error": 70, "label": "1 joueur — Facile"},
-    "moyen": {"speed": 440, "error": 35, "label": "1 joueur — Moyen"},
-    "difficile": {"speed": 640, "error": 8, "label": "1 joueur — Difficile"},
+    "facile": {"speed": 300, "error": 70, "label": "Facile"},
+    "moyen": {"speed": 440, "error": 35, "label": "Moyen"},
+    "difficile": {"speed": 640, "error": 8, "label": "Difficile"},
 }
 
 # --- Sons ---

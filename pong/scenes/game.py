@@ -17,10 +17,12 @@ from .pause import PauseScene
 
 
 class GameScene(Scene):
-    def __init__(self, app, mode="1p", level="moyen"):
+    def __init__(self, app, mode="1p"):
         super().__init__(app)
         self.mode = mode
-        self.level = level
+        # Difficulté et points pour gagner viennent des options (app.config).
+        self.level = app.config["level"]
+        self.points_to_win = app.config["points_to_win"]
 
         # Raquettes placées à l'intérieur du cadre bleu néon : le sprite s'étend
         # vers le bord du terrain, sa zone de frappe restant sur le bord intérieur.
@@ -32,8 +34,8 @@ class GameScene(Scene):
         self.left_paddle = Paddle(x=left_x)
         self.right_paddle = Paddle(x=right_x)
         self.ball = Ball()
-        self.score = Score()
-        self.ai = AI(level=level) if mode == "1p" else None
+        self.score = Score(points_to_win=self.points_to_win)
+        self.ai = AI(level=self.level) if mode == "1p" else None
 
         self.serve_timer = 1.0
         self.serve_direction = random.choice((-1, 1))
@@ -154,7 +156,7 @@ class GameScene(Scene):
 
         if winner is not None:
             self.app.sound.win()
-            self.app.set_scene(GameOverScene(self.app, winner, self.mode, self.level))
+            self.app.set_scene(GameOverScene(self.app, winner, self.mode))
             return
 
         # Remise en jeu vers le camp qui vient d'encaisser le point.
@@ -214,7 +216,7 @@ class GameScene(Scene):
 
     def _draw_mode_label(self, surface):
         if self.mode == "1p":
-            label = settings.AI_LEVELS[self.level]["label"]
+            label = "1 joueur — " + settings.AI_LEVELS[self.level]["label"]
         else:
             label = "2 joueurs"
         self.app.draw_text(surface, label, self.app.font_small, settings.TEXT_DIM,

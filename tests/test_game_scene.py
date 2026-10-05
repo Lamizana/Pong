@@ -5,6 +5,7 @@ import pygame
 from pong import settings
 from pong.app import App
 from pong.scenes.game import GameScene
+from pong.scenes.gameover import GameOverScene
 
 
 class RecordingSound:
@@ -52,7 +53,7 @@ def test_win_sound_is_played_on_victory():
     game = GameScene(app, mode="2p")
     app.sound = RecordingSound()
     game.serve_timer = 0.0
-    game.score.left = settings.POINTS_TO_WIN - 1
+    game.score.left = game.points_to_win - 1
     game.ball.x = settings.FIELD_RIGHT + game.ball.radius + 10
 
     game.update(0.016)
@@ -63,7 +64,8 @@ def test_win_sound_is_played_on_victory():
 
 def test_ai_moves_during_serve_countdown():
     app = App(sound_enabled=False)
-    game = GameScene(app, mode="1p", level="difficile")
+    app.config["level"] = "difficile"
+    game = GameScene(app, mode="1p")
     game.serve_timer = 1.0
     game.ai.target_offset = 0.0
     game.ball.y = 0.0
@@ -127,6 +129,22 @@ def test_ball_bounces_when_touching_paddle_corner():
     game.update(0.001)
 
     assert ball.vx > 0, "la balle a traversé la raquette sur un coin"
+    pygame.quit()
+
+
+def test_game_uses_configured_points_to_win():
+    """La partie se gagne aux points réglés dans les options."""
+    app = App(sound_enabled=False)
+    app.config["points_to_win"] = 3
+    app.switch_scene("game", mode="2p")
+    game = app.scene
+    game.serve_timer = 0.0
+    game.score.left = 2  # un point de plus et c'est la victoire
+    game.ball.x = settings.FIELD_RIGHT + game.ball.radius + 10
+
+    game.update(0.016)
+
+    assert isinstance(app.scene, GameOverScene)
     pygame.quit()
 
 

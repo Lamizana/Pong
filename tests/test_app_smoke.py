@@ -18,8 +18,8 @@ def test_full_scene_flow():
     app = App(sound_enabled=False)
     assert isinstance(app.scene, MenuScene)
 
-    # Menu → « 1 joueur — Moyen », sélectionné par son libellé (indépendant de l'ordre).
-    target = settings.AI_LEVELS["moyen"]["label"]
+    # Menu → « 1 joueur » (difficulté et points viennent des options).
+    target = "1 joueur"
     for _ in range(len(app.scene.options) + 1):
         if app.scene.options[app.scene.index][0] == target:
             break
@@ -27,7 +27,7 @@ def test_full_scene_flow():
     app.scene.handle_event(_key(pygame.K_RETURN))
     assert isinstance(app.scene, GameScene)
     assert app.scene.mode == "1p"
-    assert app.scene.level == "moyen"
+    assert app.scene.level == app.config["level"]
 
     # Quelques frames de jeu, sans erreur.
     for _ in range(5):
@@ -49,7 +49,7 @@ def test_full_scene_flow():
     assert game.score.right == 1
 
     # Forcer la victoire du camp gauche.
-    game.score.left = settings.POINTS_TO_WIN - 1
+    game.score.left = game.points_to_win - 1
     game.serve_timer = 0.0
     game.ball.x = settings.FIELD_RIGHT + game.ball.radius + 10
     game.update(0.016)
@@ -72,9 +72,8 @@ def test_two_player_mode_has_no_ai():
     pygame.quit()
 
 
-def test_menu_labels_come_from_settings():
+def test_menu_has_expected_entries():
     app = App(sound_enabled=False)
     labels = [label for label, _, _ in app.scene.options]
-    for config in settings.AI_LEVELS.values():
-        assert config["label"] in labels
+    assert labels == ["1 joueur", "2 joueurs", "Options", "Quitter"]
     pygame.quit()

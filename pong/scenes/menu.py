@@ -1,4 +1,4 @@
-"""Menu principal : choix du mode de jeu."""
+"""Menu principal : lancement d'une partie et accès aux options."""
 
 import pygame
 
@@ -6,30 +6,28 @@ from .. import settings, synthwave
 from .base import Scene
 
 
+def fit_menu_frame(frame):
+    """Réduit le cadre du menu pour qu'il tienne dans le rectangle bleu néon."""
+    width = settings.FIELD_WIDTH - 40
+    height = max(1, round(frame.get_height() * width / frame.get_width()))
+    return pygame.transform.smoothscale(frame, (width, height))
+
+
 class MenuScene(Scene):
-    """Écran d'accueil listant les modes de jeu."""
+    """Écran d'accueil : partie 1 joueur, 2 joueurs, options, quitter."""
 
     def __init__(self, app):
         super().__init__(app)
-        # Les libellés de difficulté viennent de settings.AI_LEVELS (source unique).
+        # La difficulté et les points pour gagner se règlent dans les options.
         self.options = [
-            (config["label"], "game", {"mode": "1p", "level": key})
-            for key, config in settings.AI_LEVELS.items()
-        ]
-        self.options += [
+            ("1 joueur", "game", {"mode": "1p"}),
             ("2 joueurs", "game", {"mode": "2p"}),
+            ("Options", "options", {}),
             ("Quitter", None, None),
         ]
         self.index = 0
         # Cadre redimensionné une fois pour tenir dans le rectangle bleu néon.
-        self.frame = self._fit_frame(app.assets.menu_frame)
-
-    @staticmethod
-    def _fit_frame(frame):
-        """Réduit le cadre pour qu'il tienne dans le rectangle bleu néon."""
-        width = settings.FIELD_WIDTH - 40
-        height = max(1, round(frame.get_height() * width / frame.get_width()))
-        return pygame.transform.smoothscale(frame, (width, height))
+        self.frame = fit_menu_frame(app.assets.menu_frame)
 
     def handle_event(self, event):
         if event.type != pygame.KEYDOWN:

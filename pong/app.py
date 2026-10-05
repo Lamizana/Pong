@@ -6,6 +6,7 @@ from . import settings
 from .resources import AssetStore
 from .scenes.game import GameScene
 from .scenes.menu import MenuScene
+from .scenes.options import OptionsScene
 from .sound import SoundManager
 
 
@@ -29,11 +30,14 @@ class App:
         # Images partagées par toutes les scènes (thème cyberpunk).
         self.assets = AssetStore()
 
+        # Réglages modifiables depuis les options (valables pour la session).
+        self.config = {"level": "moyen", "points_to_win": settings.POINTS_TO_WIN}
+
         self.font_small = pygame.font.SysFont(None, 28)
         self.font_medium = pygame.font.SysFont(None, 44)
         self.font_large = pygame.font.SysFont(None, 72)
 
-        self._scenes = {"menu": MenuScene, "game": GameScene}
+        self._scenes = {"menu": MenuScene, "game": GameScene, "options": OptionsScene}
         self.scene = None
         self.switch_scene("menu")
 
