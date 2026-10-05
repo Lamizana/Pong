@@ -42,11 +42,11 @@ class GameOverScene(Scene):
 
         # Textes dans la zone centrale du panneau (fond sombre).
         synthwave.glow_text(surface, self.app.font_medium, title, color,
-                            center=(center_x, frame_rect.top + int(0.40 * frame_rect.height)),
+                            center=(center_x, frame_rect.top + int(0.37 * frame_rect.height)),
                             spread=3)
         self.app.draw_text(surface, "Entrée : rejouer", self.app.font_small,
                            settings.TEXT_COLOR,
-                           center=(center_x, frame_rect.top + int(0.62 * frame_rect.height)))
+                           center=(center_x, frame_rect.top + int(0.51 * frame_rect.height)))
         self.app.draw_text(surface, "M ou Q : menu", self.app.font_small,
                            settings.TEXT_DIM,
-                           center=(center_x, frame_rect.top + int(0.74 * frame_rect.height)))
+                           center=(center_x, frame_rect.top + int(0.62 * frame_rect.height)))
