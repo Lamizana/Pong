@@ -24,7 +24,8 @@ def main(out_dir="docs/screenshots"):
     os.makedirs(out_dir, exist_ok=True)
     app = App(sound_enabled=False)
 
-    # Écran-titre « PRESS START » (scène d'ouverture).
+    # Écran-titre : première frame de la vidéo d'accueil.
+    app.scene.update(0.0)
     app.scene.draw(app.screen)
     pygame.image.save(app.screen, os.path.join(out_dir, "start.png"))
 

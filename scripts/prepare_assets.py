@@ -8,6 +8,8 @@ Usage : python scripts/prepare_assets.py
 """
 
 from pathlib import Path
+import shutil
+import subprocess
 
 from PIL import Image, ImageChops, ImageFilter, ImageOps
 
@@ -39,6 +41,12 @@ TITLE_WIDTH = 240
 TITLE_ALPHA_THRESHOLD = 170
 # La balle : sprite au diamètre exact du cercle de collision (2 × BALL_RADIUS).
 BALL_SPRITE_SIZE = 16
+
+# Écran-titre : la vidéo d'accueil est découpée en frames JPEG et sa piste
+# audio extraite en Ogg. Le fps doit rester aligné sur `settings.START_VIDEO_FPS`.
+START_VIDEO_FPS = 15
+START_VIDEO_DIR = "start_video"
+START_AUDIO = "start_audio.ogg"
 
 
 def is_green_background(r, g, b):
@@ -203,12 +211,54 @@ def build_region(source, dest, box, *, height=None, width=None):
     image.save(dest)
 
 
+def _run_ffmpeg(args):
+    """Lance ffmpeg, avec une erreur claire s'il est absent ou s'il échoue."""
+    try:
+        subprocess.run(["ffmpeg", "-y", "-v", "error", *args], check=True)
+    except FileNotFoundError as exc:
+        raise RuntimeError(
+            "ffmpeg est requis pour préparer la vidéo de l'écran-titre."
+        ) from exc
+    except subprocess.CalledProcessError as exc:
+        raise RuntimeError(f"ffmpeg a échoué (code {exc.returncode}).") from exc
+
+
+def build_start_video(source, out_dir):
+    """Découpe la vidéo d'accueil en frames JPEG et extrait sa piste audio.
+
+    Les frames remplissent la fenêtre (recadrage centré 900×600). Renvoie le
+    nombre de frames produites. Nécessite `ffmpeg` sur la machine.
+    """
+    path = SRC / source
+    if not path.exists():
+        raise FileNotFoundError(f"Vidéo source introuvable : {path}")
+
+    width, height = BACKGROUND_SIZE
+    frames_dir = out_dir / START_VIDEO_DIR
+    if frames_dir.exists():
+        shutil.rmtree(frames_dir)
+    frames_dir.mkdir(parents=True)
+
+    _run_ffmpeg([
+        "-i", str(path),
+        "-vf", (f"scale={width}:{height}:force_original_aspect_ratio=increase,"
+                f"crop={width}:{height},fps={START_VIDEO_FPS}"),
+        "-q:v", "4",
+        str(frames_dir / "frame_%03d.jpg"),
+    ])
+    _run_ffmpeg(["-i", str(path), "-vn", "-c:a", "libvorbis", "-q:a", "5",
+                 str(out_dir / START_AUDIO)])
+    return len(list(frames_dir.glob("*.jpg")))
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
 
     build_background("fond_partie.jpeg", OUT / "background.png")
     build_background("fond_accueil.jpeg", OUT / "menu.png")
     build_background("ecran_principal.jpeg", OUT / "start_screen.png")
+    frames = build_start_video("ecran_principal_video.mp4", OUT)
+    print(f"  pong/assets/{START_VIDEO_DIR}/  {frames} frames  +  {START_AUDIO}")
     build_sprite("raquette_gauche.jpeg", OUT / "paddle_left.png", height=80)
     build_sprite("raquette_droite.jpeg", OUT / "paddle_right.png", height=80)
     build_sprite("balle.jpeg", OUT / "ball.png", max_size=BALL_SPRITE_SIZE)

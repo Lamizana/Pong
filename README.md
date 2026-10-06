@@ -43,7 +43,7 @@ images générées par IA chargées comme assets.
 ## Apercu
 
 <p align="center">
-  <img src="docs/screenshots/start.png" alt="Écran-titre « PRESS START »" width="380">
+  <img src="docs/screenshots/start.png" alt="Écran-titre (animation d'accueil)" width="380">
   <img src="docs/screenshots/menu.png" alt="Menu principal (thème cyberpunk)" width="380">
 </p>
 

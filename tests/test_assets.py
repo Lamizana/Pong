@@ -54,6 +54,17 @@ def test_bundled_font_asset_exists():
 
     assert asset_path(settings.ASSET_FONT).exists()
 
+
+def test_start_animation_assets_exist():
+    """L'animation d'accueil et sa musique sont bien produites."""
+    from pong.resources import asset_path, video_frames
+
+    frames = video_frames(settings.ASSET_START_VIDEO)
+
+    assert len(frames) > 60            # ~10 s à 15 i/s
+    assert frames == sorted(frames)
+    assert asset_path(settings.ASSET_START_AUDIO).exists()
+
 def test_missing_asset_raises_error_with_path():
     """Un asset absent doit lever une erreur explicite contenant son chemin."""
     with pytest.raises(FileNotFoundError) as excinfo:

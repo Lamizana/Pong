@@ -23,6 +23,17 @@ def asset_path(name):
     return path
 
 
+def video_frames(name):
+    """Chemins triés des images d'une animation (dossier d'assets)."""
+    directory = ASSETS_DIR / name
+    if not directory.is_dir():
+        raise FileNotFoundError(f"Animation introuvable : {directory}")
+    frames = sorted(directory.glob("*.jpg"))
+    if not frames:
+        raise FileNotFoundError(f"Aucune image d'animation dans : {directory}")
+    return frames
+
+
 class AssetStore:
     """Images du jeu, chargées une fois puis réutilisées par les scènes."""
 

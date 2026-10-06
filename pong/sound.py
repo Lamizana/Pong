@@ -82,3 +82,23 @@ class SoundManager:
 
     def win(self):
         self.play("win")
+
+    def play_music(self, path, loops=-1):
+        """Joue une musique de fond en boucle (`loops=-1` = à l'infini)."""
+        if not self.enabled:
+            return
+        try:
+            pygame.mixer.music.load(str(path))
+            pygame.mixer.music.play(loops)
+        except Exception:
+            # La musique est optionnelle : on continue sans elle.
+            pass
+
+    def stop_music(self):
+        """Arrête la musique de fond, si une musique joue."""
+        if not self.enabled:
+            return
+        try:
+            pygame.mixer.music.stop()
+        except Exception:
+            pass

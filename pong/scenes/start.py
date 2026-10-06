@@ -1,32 +1,66 @@
-"""Écran-titre affiché au lancement : « PRESS START » mène au menu principal."""
-
-import math
+"""Écran-titre : la vidéo d'accueil tourne en boucle, toute touche passe au menu."""
 
 import pygame
 
-from .. import neon, settings
+from .. import settings
+from ..resources import asset_path, video_frames
 from .base import Scene
 
-# Centre du rectangle « PRESS START » dans l'asset 900×600 (relevé sur l'image).
-START_BUTTON_CENTER = (450, 368)
+# Nombre de frames gardées en mémoire autour de la frame courante.
+_CACHE_WINDOW = 3
 
 
 class StartScene(Scene):
+    """Joue l'animation d'accueil en boucle, avec sa musique de fond."""
+
     def __init__(self, app):
         super().__init__(app)
         self.time = 0.0
+        self._cache = {}
+        try:
+            self.frames = video_frames(settings.ASSET_START_VIDEO)
+        except FileNotFoundError:
+            # Repli : image statique si les frames n'ont pas été générées.
+            self.frames = []
+        try:
+            self.app.sound.play_music(asset_path(settings.ASSET_START_AUDIO))
+        except FileNotFoundError:
+            pass  # musique optionnelle
 
     def handle_event(self, event):
-        if event.type == pygame.KEYDOWN and event.key in settings.KEY_VALIDATE:
+        if event.type == pygame.KEYDOWN:
+            self.app.sound.stop_music()
             self.app.switch_scene("menu")
 
     def update(self, dt):
         self.time += dt
+        if self.frames:
+            self._fill_cache()
+
+    def _index(self):
+        """Index de la frame courante : la boucle revient à 0 en fin d'animation."""
+        return int(self.time * settings.START_VIDEO_FPS) % len(self.frames)
+
+    def _fill_cache(self):
+        """Charge la frame courante et les suivantes, une seule par image.
+
+        Décoder une JPEG n'est pas instantané : en répartissant les chargements
+        sur plusieurs images affichées, la lecture reste fluide.
+        """
+        count = len(self.frames)
+        index = self._index()
+        for offset in range(_CACHE_WINDOW + 1):
+            i = (index + offset) % count
+            if i not in self._cache:
+                self._cache[i] = pygame.image.load(str(self.frames[i])).convert()
+                break
+        keep = {(index + offset) % count for offset in range(-1, _CACHE_WINDOW + 1)}
+        for i in [i for i in self._cache if i not in keep]:
+            del self._cache[i]
 
     def draw(self, surface):
-        surface.blit(self.app.assets.start_screen, (0, 0))
-
-        # Pulsation : l'écart du halo oscille doucement (0 → 4).
-        spread = 2 + round(2 * math.sin(self.time * 3.0))
-        neon.glow_text(surface, self.app.font_medium, "PRESS START",
-                       settings.NEON_PINK, center=START_BUTTON_CENTER, spread=spread)
+        if not self.frames:
+            surface.blit(self.app.assets.start_screen, (0, 0))
+            return
+        frame = self._cache.get(self._index())
+        surface.blit(frame if frame is not None else self.app.assets.start_screen, (0, 0))
