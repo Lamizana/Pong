@@ -2,7 +2,7 @@
 
 import pygame
 
-from pong import settings
+from pong import settings, ui
 from pong.app import App
 from pong.scenes.menu import MenuScene
 from pong.scenes.options import OptionsScene
@@ -82,6 +82,24 @@ def test_options_draws_without_error():
     app.switch_scene("options")
 
     app.scene.draw(app.screen)
+
+def test_options_does_not_draw_a_title():
+    """Le panneau n'affiche plus de titre « OPTIONS » dans sa bande haute."""
+    app = App(sound_enabled=False)
+    app.switch_scene("options")
+    app.scene.draw(app.screen)
+    frame_rect = ui.panel_rect(app.scene.frame)
+
+    # Bande occupée par l'ancien titre : police de 72 px centrée à top + 40.
+    yellow = tuple(settings.NEON_YELLOW[:3])
+    count = sum(
+        1
+        for y in range(frame_rect.top + 4, frame_rect.top + 76)
+        for x in range(frame_rect.centerx - 160, frame_rect.centerx + 160)
+        if app.screen.get_at((x, y))[:3] == yellow
+    )
+
+    assert count == 0
 
 def test_options_shows_configured_level_label():
     app = App(sound_enabled=False)

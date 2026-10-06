@@ -2,7 +2,7 @@
 
 import pygame
 
-from .. import config, neon, settings, ui
+from .. import config, settings, ui
 from .base import Scene
 
 _ROW_LEVEL = 0
@@ -66,10 +66,6 @@ class OptionsScene(Scene):
         surface.blit(self.app.assets.menu_background, (0, 0))
         frame_rect = ui.panel_rect(self.frame)
         surface.blit(self.frame, frame_rect)
-
-        neon.glow_text(surface, self.app.font_large, "OPTIONS",
-                       settings.NEON_YELLOW,
-                       center=(settings.WINDOW_WIDTH // 2, frame_rect.top + 40), spread=4)
 
         labels = [f"{label} : {value}" if value else label
                   for label, value in self._rows()]
