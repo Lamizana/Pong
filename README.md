@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <em>Déployable en exécutable Linux &amp; Windows, avec un tutoriel complet en français</em>
+  <em>Déployable en exécutable Linux &amp; Windows, avec un cours complet en français</em>
 </p>
 
 ---
@@ -31,7 +31,7 @@ joueurs** en local sur le même clavier.
 
 Le projet est pensé comme un **exemple pédagogique** : la logique du jeu (physique, IA,
 score) est **séparée de l'affichage**, entièrement **testée**, et accompagnée d'un
-**tutoriel pas à pas en français**. Il se déploie en **exécutable autonome** (Linux et
+**cours pas à pas en français**. Il se déploie en **exécutable autonome** (Linux et
 Windows) via PyInstaller et GitHub Actions.
 
 Le tout habillé d'un thème **cyberpunk** : fond illustré (ville néon, portail
@@ -68,7 +68,6 @@ images générées par IA chargées comme assets.
   - [Tests](#tests)
 - [Packaging et deploiement](#packaging-et-deploiement)
 - [Cours complet](#cours-complet)
-- [Tutoriel](#tutoriel)
 - [Licence](#licence)
 
 ---
@@ -132,7 +131,6 @@ Pong/
 ├── tests/                       # Tests pytest
 ├── docs/
 │   ├── cours/                   # Cours complet (13 chapitres, pas à pas)
-│   ├── tutoriel/                # Tutoriel complet (12 chapitres)
 │   └── screenshots/             # Captures d'écran
 ├── build.sh / build.ps1         # Création des exécutables
 └── .github/workflows/build.yml  # CI : tests + builds Linux & Windows
@@ -212,18 +210,6 @@ déploiement. Vous y écrivez le jeu vous-même, brique par brique.
 04. Balle · 05. Collisions · 06. IA · 07. Score · 08. Menu et options ·
 09. Sons et pause · 10. Fin de partie · 11. Thème par images ·
 12. Polish et déploiement
-
----
-
-## Tutoriel
-
-Un tutoriel complet en français, un chapitre par étape, se trouve dans
-**[`docs/tutoriel/`](docs/tutoriel/README.md)** :
-
-00. Introduction · 01. Installation · 02. Structure · 03. Boucle de jeu ·
-04. Raquettes · 05. Balle et physique · 06. IA · 07. Score et victoire ·
-08. Menu et scènes · 09. Sons · 10. Pause · 11. Packaging et déploiement ·
-12. Thème et assets
 
 ---
 

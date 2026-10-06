@@ -1,4 +1,4 @@
-"""Génère des aperçus PNG des écrans du jeu (README, tutoriel, CI).
+"""Génère des aperçus PNG des écrans du jeu (README, CI).
 
 Usage : python scripts/render_preview.py [dossier_de_sortie]
 Défaut : docs/screenshots
