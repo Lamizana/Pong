@@ -26,6 +26,8 @@ class MenuScene(Scene):
         new_index = ui.navigation_index(event, self.index, len(self.options))
         if new_index is not None:
             self.index = new_index
+        elif event.type == pygame.KEYDOWN and event.key in settings.KEY_HOME:
+            self.app.switch_scene("start")
         elif event.type == pygame.KEYDOWN and event.key in settings.KEY_VALIDATE:
             self._select()
 
@@ -44,4 +46,4 @@ class MenuScene(Scene):
         ui.draw_choices(surface, self.app, frame_rect,
                         [label for label, _, _ in self.options], self.index)
         ui.draw_hint(surface, self.app,
-                     "Flèches ou Z/S : naviguer     Entrée : valider")
+                     "↑/↓ ou Z/S : naviguer     Entrée : valider     Échap : accueil")

@@ -50,6 +50,9 @@ P2_DOWN = (pygame.K_DOWN,)
 KEY_PAUSE = (pygame.K_p, pygame.K_ESCAPE)
 KEY_VALIDATE = (pygame.K_RETURN, pygame.K_KP_ENTER, pygame.K_SPACE)
 KEY_MENU = (pygame.K_q, pygame.K_m)
+# Retour à l'écran d'accueil depuis les menus. Sens propre à chaque écran :
+# en partie, Échap sert à la pause (KEY_PAUSE) ; dans les menus, à l'accueil.
+KEY_HOME = (pygame.K_ESCAPE,)
 
 # --- Polices (Orbitron, embarquée dans pong/assets/) ---
 FONT_SMALL_SIZE = 28

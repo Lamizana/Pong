@@ -6,6 +6,7 @@ from pong.app import App
 from pong.scenes.game import GameScene
 from pong.scenes.gameover import GameOverScene
 from pong.scenes.menu import MenuScene
+from pong.scenes.start import StartScene
 
 def _key(code):
     return pygame.event.Event(pygame.KEYDOWN, key=code)
@@ -50,6 +51,14 @@ def test_menu_key_returns_to_menu():
     scene.handle_event(_key(pygame.K_m))
 
     assert isinstance(app.scene, MenuScene)
+
+def test_escape_returns_to_home_screen():
+    app = App(sound_enabled=False)
+    scene = _game_over(app)
+
+    scene.handle_event(_key(pygame.K_ESCAPE))
+
+    assert isinstance(app.scene, StartScene)
 
 def test_gameover_draws_without_error():
     app = App(sound_enabled=False)

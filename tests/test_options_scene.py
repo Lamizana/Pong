@@ -6,6 +6,7 @@ from pong import settings
 from pong.app import App
 from pong.scenes.menu import MenuScene
 from pong.scenes.options import OptionsScene
+from pong.scenes.start import StartScene
 
 def _key(code):
     return pygame.event.Event(pygame.KEYDOWN, key=code)
@@ -57,6 +58,22 @@ def test_options_return_row_goes_back_to_menu():
     scene.index = 2  # ligne « Retour »
 
     scene.handle_event(_key(pygame.K_RETURN))
+
+    assert isinstance(app.scene, MenuScene)
+
+def test_options_escape_returns_to_home_screen():
+    app = App(sound_enabled=False)
+    app.switch_scene("options")
+
+    app.scene.handle_event(_key(pygame.K_ESCAPE))
+
+    assert isinstance(app.scene, StartScene)
+
+def test_options_pause_key_returns_to_menu():
+    app = App(sound_enabled=False)
+    app.switch_scene("options")
+
+    app.scene.handle_event(_key(pygame.K_p))
 
     assert isinstance(app.scene, MenuScene)
 

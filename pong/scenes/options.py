@@ -26,7 +26,9 @@ class OptionsScene(Scene):
             return
         if event.type != pygame.KEYDOWN:
             return
-        if event.key == pygame.K_LEFT:
+        if event.key in settings.KEY_HOME:
+            self.app.switch_scene("start")
+        elif event.key == pygame.K_LEFT:
             self._change(-1)
         elif event.key == pygame.K_RIGHT:
             self._change(1)
@@ -73,4 +75,4 @@ class OptionsScene(Scene):
                   for label, value in self._rows()]
         ui.draw_choices(surface, self.app, frame_rect, labels, self.index)
         ui.draw_hint(surface, self.app,
-                     "Flèches ←/→ : changer     Entrée/Échap : retour")
+                     "Flèches ←/→ : changer     Entrée : retour     Échap : accueil")

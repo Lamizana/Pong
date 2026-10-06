@@ -30,7 +30,9 @@ class GameOverScene(Scene):
             return
         if event.type != pygame.KEYDOWN:
             return
-        if event.key in settings.KEY_VALIDATE:
+        if event.key in settings.KEY_HOME:
+            self.app.switch_scene("start")
+        elif event.key in settings.KEY_VALIDATE:
             self._select()
         elif event.key in settings.KEY_MENU:
             self.app.switch_scene("menu")
@@ -65,4 +67,4 @@ class GameOverScene(Scene):
                         [label for label, _ in self.options], self.index,
                         zone_top=_CHOICES_TOP, zone_bottom=_CHOICES_BOTTOM)
         ui.draw_hint(surface, self.app,
-                     "Flèches ou Z/S : choisir     Entrée : valider")
+                     "↑/↓ ou Z/S : choisir     Entrée : valider     Échap : accueil")

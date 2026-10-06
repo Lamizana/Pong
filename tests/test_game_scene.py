@@ -6,6 +6,7 @@ from pong import settings
 from pong.app import App
 from pong.scenes.game import GameScene
 from pong.scenes.gameover import GameOverScene
+from pong.scenes.pause import PauseScene
 
 class RecordingSound:
     """Double de test : enregistre les sons joués au lieu de les jouer."""
@@ -24,6 +25,15 @@ class RecordingSound:
 
     def win(self):
         self.played.append("win")
+
+def test_escape_pauses_the_game():
+    """En partie, Échap garde son sens : pause, pas retour à l'accueil."""
+    app = App(sound_enabled=False)
+    app.switch_scene("game", mode="1p")
+
+    app.scene.handle_event(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_ESCAPE))
+
+    assert isinstance(app.scene, PauseScene)
 
 def test_fast_ball_does_not_tunnel_through_left_paddle():
     app = App(sound_enabled=False)
