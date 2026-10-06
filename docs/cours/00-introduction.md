@@ -20,7 +20,7 @@ Deux raquettes verticales se font face et une balle rebondit entre elles. Un jou
 
 <div align="center">
   <p>
-    <img src="images/Pong.svg" alt="Pong originel" width="380">
+    <img src="./images/Pong.svg" alt="Pong originel" width="380">
   </p>
   <p><em>Premier Pong sortit en 1972</em></p>
 
@@ -126,7 +126,7 @@ Pour toute la logique du jeu, nous suivrons un rythme en trois temps, appelé
 - **Refactor** :
   - je nettoie le code sans casser les tests.
 
-> [!Info]
+> [!Note]
 > **Pourquoi écrire le test d'abord ?**
 > - Parce qu'un test écrit *après* le code vérifie seulement « ce que le code fait », alors qu'un test écrit *avant* dit « ce que le code **doit** faire ». C'est toute la différence.
 
