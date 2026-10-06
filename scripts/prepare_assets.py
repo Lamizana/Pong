@@ -213,7 +213,11 @@ def build_start_video(source, out_dir):
         "-q:v", "4",
         str(frames_dir / "frame_%03d.jpg"),
     ])
-    _run_ffmpeg(["-i", str(path), "-vn", "-c:a", "libvorbis", "-q:a", "5",
+    # `+bitexact` + `-map_metadata -1` : encodage reproductible (sinon ffmpeg
+    # tire un numéro de série aléatoire et le fichier change à chaque passage).
+    _run_ffmpeg(["-i", str(path), "-vn", "-fflags", "+bitexact",
+                 "-flags:a", "+bitexact", "-map_metadata", "-1",
+                 "-c:a", "libvorbis", "-q:a", "5",
                  str(out_dir / START_AUDIO)])
     return len(list(frames_dir.glob("*.jpg")))
 
