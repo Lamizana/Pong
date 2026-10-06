@@ -1,6 +1,5 @@
 # 00. Introduction et architecture
 
----
 
 ## Objectifs
 

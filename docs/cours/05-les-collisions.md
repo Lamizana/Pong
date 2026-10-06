@@ -233,47 +233,47 @@ def circle_rect_contact(cx, cy, radius, rect):
 ### `tests/test_collision.py`
 
 ```python
-"""Tests de la détection cercle / rectangle."""
+"""Tests de la détection de collision cercle / rectangle (pure)."""
 
 import pygame
 
 from pong.collision import circle_rect_contact
 
-RECT = pygame.Rect(100, 100, 20, 60)   # une raquette verticale
+
+def _rect():
+    return pygame.Rect(100, 100, 15, 80)
 
 
-def test_far_away_circle_does_not_touch():
-    assert circle_rect_contact(0, 0, 8, RECT) is None
+def test_contact_on_side_face():
+    contact = circle_rect_contact(93.0, 140.0, 8, _rect())
+    assert contact is not None
+    (nx, ny), penetration = contact
+    assert nx < 0 and abs(ny) < 1e-6
+    assert penetration == 1.0
 
 
-def test_circle_touching_the_flat_side():
-    contact = circle_rect_contact(RECT.left - 8, 130, 8, RECT)
+def test_contact_detected_on_corner_where_bounding_box_misses():
+    # Cœur du bug corrigé : le carré englobant de la balle a son bord inférieur
+    # tout juste sur le bord supérieur de la raquette (donc `colliderect` = faux),
+    # mais le cercle réel touche bien le coin supérieur.
+    rect = _rect()
+    cx, cy, radius = 107.0, 92.05, 8.0
+    assert int(cy - radius) + 2 * radius <= rect.top  # le carré ne touche pas
+
+    contact = circle_rect_contact(cx, cy, radius, rect)
 
     assert contact is not None
     (nx, ny), penetration = contact
-    assert nx == -1 and ny == 0          # normale horizontale, vers la gauche
-    assert penetration == 0
+    assert ny < 0
+    assert 0 < penetration <= radius
 
 
-def test_tangent_circle_is_a_contact():
-    """Le cas que la boîte englobante ratait (bug du coin)."""
-    contact = circle_rect_contact(RECT.left, RECT.top - 8, 8, RECT)
-
-    assert contact is not None
+def test_tangent_counts_as_contact():
+    assert circle_rect_contact(107.0, 92.0, 8, _rect()) is not None
 
 
-def test_circle_on_the_corner_gets_a_diagonal_normal():
-    contact = circle_rect_contact(RECT.left - 6, RECT.top - 6, 8, RECT)
-
-    assert contact is not None
-    (nx, ny), _ = contact
-    assert nx < 0 and ny < 0             # normale oblique (vers le haut-gauche)
-
-
-def test_center_inside_gets_a_fallback_normal():
-    (nx, ny), penetration = circle_rect_contact(110, 130, 8, RECT)
-
-    assert (nx, ny) == (0.0, -1.0)
+def test_no_contact_when_clearly_far():
+    assert circle_rect_contact(107.0, 88.0, 8, _rect()) is None
 ```
 
 ### Le branchement dans `GameScene`
@@ -331,25 +331,23 @@ from ..collision import circle_rect_contact
 ### `tests/test_game_scene.py` — le test de non-régression
 
 ```python
-def test_ball_bounces_when_touching_the_paddle_corner():
+def test_ball_bounces_when_touching_paddle_corner():
     """Une balle qui frôle un coin ne doit pas traverser la raquette."""
     app = App(sound_enabled=False)
     app.switch_scene("game", mode="2p")
     scene = app.scene
 
-    paddle = scene.right_paddle
+    paddle = scene.left_paddle
     ball = scene.ball
-    # La balle arrive sur le coin haut de la raquette.
-    ball.x = paddle.rect.left - ball.radius + 1
-    ball.y = paddle.rect.top - ball.radius + 1
-    ball.speed = 500
-    ball.bounce_off_paddle(paddle.center_y, direction=1)
-    ball.vx = -abs(ball.vx)          # … non : elle doit aller VERS la raquette
-    ball.vx = -ball.speed            # vers la gauche, donc vers la raquette droite
+    # La balle frôle le coin supérieur de la raquette gauche.
+    ball.x = paddle.rect.left
+    ball.y = paddle.rect.top - ball.radius + 0.5
+    ball.vx, ball.vy = -100.0, 0.0    # elle va vers la gauche, vers la raquette
+    ball.speed = 100.0
 
-    scene._resolve_paddle(paddle, direction=-1)
+    scene._resolve_paddle(paddle, direction=1)
 
-    assert ball.x <= paddle.rect.left - ball.radius + 1   # repoussée à gauche
+    assert ball.vx > 0                # repartie vers la droite, pas traversée
 ```
 
 > 💡 Écrivez ce test **avant** d'écrire `_resolve_paddle`. Vous le verrez échouer

@@ -144,11 +144,30 @@ Trois choix de conception à retenir :
 Dans `GameScene`, on profite des valeurs déjà renvoyées par la logique :
 
 ```python
+        for _ in range(steps):
+            self.ball.update(sub_dt)
             if self.ball.handle_walls():     # renvoie True si rebond
                 self.app.sound.wall_bounce()
             if self._handle_paddles():       # renvoie True si touche
-                self.app.sound.paddle_hit()
-...
+                break
+            if self.ball.off_screen() is not None:
+                break
+
+    def _handle_paddles(self):
+        """Renvoie True si une collision balle/raquette a été traitée."""
+        if self._resolve_paddle(self.left_paddle, direction=1):
+            self._after_paddle_hit()
+            return True
+        if self._resolve_paddle(self.right_paddle, direction=-1):
+            self._after_paddle_hit()
+            return True
+        return False
+
+    def _after_paddle_hit(self):
+        self.app.sound.paddle_hit()
+        if self.ai is not None:
+            self.ai.randomize_offset()   # nouvelle visée pour le prochain échange
+
         winner = self.score.add_point(scorer)
         self.app.sound.point_scored()
         if winner is not None:
@@ -157,7 +176,9 @@ Dans `GameScene`, on profite des valeurs déjà renvoyées par la logique :
 
 > 💡 Voyez comme le fait d'avoir fait **renvoyer un booléen** à `handle_walls`
 > (chapitre 04) et `_handle_paddles` (chapitre 05) paie maintenant : le son se
-> branche en une ligne, sans recalculer quoi que ce soit.
+> branche là où la collision est déjà détectée (`_after_paddle_hit`), et le `break`
+> sort proprement des sous-étapes. En profiter pour réarmer la visée de l'IA
+> (`randomize_offset`) évite un second `if` ailleurs.
 
 ## 6. La pause
 
@@ -328,36 +349,37 @@ class SoundManager:
 ### `tests/test_sound.py` (extraits)
 
 ```python
-"""Tests de la génération de son."""
+"""Tests de la génération de sons et de la robustesse du gestionnaire audio."""
 
-import array
+import struct
 
 from pong import settings
 from pong.sound import SoundManager, generate_tone
 
 
-def test_tone_has_the_expected_size():
-    samples = int(settings.SOUND_SAMPLE_RATE * 0.090)
-    expected = samples * 2 * 2          # stéréo × 16 bits
-
-    assert len(generate_tone(440, 90)) == expected
+def test_tone_length_matches_duration():
+    data = generate_tone(440, 90)
+    expected_samples = int(settings.SOUND_SAMPLE_RATE * 90 / 1000)
+    # 2 octets par échantillon, 2 canaux (stéréo)
+    assert len(data) == expected_samples * 4
 
 
 def test_tone_fades_in_and_out():
-    buffer = generate_tone(440, 100)
-    values = array.array("h")
-    values.frombytes(buffer)
+    data = generate_tone(440, 90)
+    values = struct.unpack("<" + "h" * (len(data) // 2), data)
+    # Enveloppe : premier et dernier échantillons à zéro (pas de clic).
+    assert values[0] == 0
+    assert values[-1] == 0
 
-    assert abs(values[0]) < abs(values[len(values) // 2])   # début plus faible
-    assert abs(values[-1]) < abs(values[len(values) // 2])  # fin plus faible
 
-
-def test_disabled_manager_stays_silent_and_safe():
-    manager = SoundManager(enabled=False)
-
-    manager.paddle_hit()      # ne doit rien faire, ni lever d'erreur
-
-    assert manager.enabled is False
+def test_disabled_sound_manager_is_safe():
+    sound = SoundManager(enabled=False)
+    assert sound.enabled is False
+    # Aucune exception ne doit être levée quand le son est désactivé.
+    sound.paddle_hit()
+    sound.wall_bounce()
+    sound.point_scored()
+    sound.win()
 ```
 
 ### `pong/scenes/pause.py`

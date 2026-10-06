@@ -297,49 +297,54 @@ class Ball:
 ### `tests/test_ball.py` (extraits)
 
 ```python
-"""Tests de la balle : rebonds, sortie et angle de renvoi."""
+"""Tests de la physique de la balle (sans fenêtre graphique)."""
+
+import pytest
 
 from pong import settings
 from pong.ball import Ball
 
 
-def test_ball_bounces_off_the_top_wall():
-    ball = Ball()
-    ball.y = settings.FIELD_TOP + ball.radius
-    ball.vy = -200      # elle monte
+# --- Rebond sur les murs haut / bas ---
 
+def test_bounce_off_top_wall():
+    ball = Ball()
+    ball.y = settings.FIELD_TOP + settings.BALL_RADIUS - 1
+    ball.vy = -200.0
     bounced = ball.handle_walls()
-
     assert bounced is True
-    assert ball.vy > 0                          # elle redescend
-    assert ball.y >= settings.FIELD_TOP + ball.radius
+    assert ball.vy > 0
+    assert ball.y == pytest.approx(settings.FIELD_TOP + settings.BALL_RADIUS)
 
 
-def test_motionless_ball_on_the_wall_does_not_jitter():
+def test_no_bounce_when_vy_is_zero():
     ball = Ball()
-    ball.y = settings.FIELD_TOP + ball.radius
-    ball.vy = 0          # immobile
-
+    ball.y = settings.FIELD_TOP + settings.BALL_RADIUS - 1
+    ball.vy = 0.0
     assert ball.handle_walls() is False
-    assert ball.vy == 0
 
 
-def test_ball_leaving_on_the_left_is_detected():
+# --- Rebond sur une raquette (angle selon le point d'impact) ---
+
+def test_hit_paddle_top_sends_ball_upward():
+    ball = Ball()
+    center = 300.0
+    ball.y = center - settings.PADDLE_HEIGHT / 2
+    ball.bounce_off_paddle(paddle_center_y=center, direction=1)
+    assert ball.vy < 0
+    assert ball.vx > 0
+
+
+# --- Sortie de terrain ---
+
+def test_off_screen_left_and_right():
     ball = Ball()
     ball.x = settings.FIELD_LEFT - ball.radius - 1
-
     assert ball.off_screen() == "left"
-
-
-def test_hitting_the_top_half_sends_the_ball_upwards():
-    ball = Ball()
-    ball.y = -40                # au-dessus du centre de la raquette
-    ball.speed = 400
-
-    ball.bounce_off_paddle(paddle_center_y=0, direction=1)
-
-    assert ball.vx > 0          # repart vers la droite
-    assert ball.vy < 0          # et vers le haut
+    ball.x = settings.FIELD_RIGHT + ball.radius + 1
+    assert ball.off_screen() == "right"
+    ball.x = (settings.FIELD_LEFT + settings.FIELD_RIGHT) / 2
+    assert ball.off_screen() is None
 ```
 
 ### Brancher la balle dans `GameScene`
@@ -354,15 +359,25 @@ from ..ball import Ball
 
     def update(self, dt):
         keys = pygame.key.get_pressed()
-        self._control(self.left_paddle, keys, settings.P1_UP, settings.P1_DOWN, dt)
-        if self.mode == "2p":
-            self._control(self.right_paddle, keys, settings.P2_UP, settings.P2_DOWN, dt)
+        self._move_players(keys, dt)
 
         self.ball.update(dt)
         self.ball.handle_walls()
         if self.ball.off_screen():
             # Les points viendront au chapitre 07 ; pour l'instant on relance.
             self.ball.reset()
+
+    def _move_players(self, keys, dt):
+        """Déplace chaque raquette selon les touches appuyées."""
+        if any(keys[key] for key in settings.P1_UP):
+            self.left_paddle.move_up(dt)
+        if any(keys[key] for key in settings.P1_DOWN):
+            self.left_paddle.move_down(dt)
+        if self.mode == "2p":
+            if any(keys[key] for key in settings.P2_UP):
+                self.right_paddle.move_up(dt)
+            if any(keys[key] for key in settings.P2_DOWN):
+                self.right_paddle.move_down(dt)
 
     def draw(self, surface):
         surface.fill(BACKGROUND_COLOR)

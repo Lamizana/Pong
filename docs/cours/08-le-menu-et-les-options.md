@@ -35,7 +35,8 @@ les **paramètres** à lui passer. Ajouter une entrée = ajouter une ligne. Et p
 afficher le menu, on n'a qu'un seul endroit à modifier :
 
 ```python
-        ui.draw_choices(surface, self.app, [label for label, _, _ in self.options], self.index)
+        ui.draw_choices(surface, self.app, frame_rect,
+                        [label for label, _, _ in self.options], self.index)
 ```
 
 ## 2. Naviguer : l'index et le modulo
@@ -158,12 +159,15 @@ class GameScene(Scene):
 ## À vous de jouer
 
 1. Créez `pong/ui.py` avec la fonction `navigation_index`.
-2. Transformez `MenuScene` : quatre entrées, navigation, validation, et le retour
-   au menu depuis la partie (`Q`/`M`).
+2. Transformez `MenuScene` : quatre entrées, navigation, validation, et, depuis
+   la pause, le retour au menu (`Q`/`M` — le chapitre 09 branche la pause).
 3. Créez `OptionsScene` : deux lignes réglables et une ligne « Retour ».
-4. Déclarez `"options"` dans `App._scenes` et ajoutez `app.config` dans `App`.
-5. Écrivez les tests :
+4. Créez la scène `start` (l'écran d'accueil) et enregistrez-la dans
+   `App._scenes` : le menu et les options y reviennent avec « Échap ».
+5. Déclarez `"options"` dans `App._scenes` et ajoutez `app.config` dans `App`.
+6. Écrivez les tests :
    - depuis le menu, choisir « Options » ouvre bien `OptionsScene` ;
+   - « Échap », depuis le menu ou les options, ramène à l'écran d'accueil ;
    - dans les options, ← et → changent la valeur **et** bouclent (5 → 10 → 3) ;
    - la ligne « Retour » ramène au menu ;
    - `navigation_index` renvoie `None` pour une touche qui n'en est pas une.
@@ -235,6 +239,8 @@ class MenuScene(Scene):
         new_index = ui.navigation_index(event, self.index, len(self.options))
         if new_index is not None:
             self.index = new_index
+        elif event.type == pygame.KEYDOWN and event.key in settings.KEY_HOME:
+            self.app.switch_scene("start")
         elif event.type == pygame.KEYDOWN and event.key in settings.KEY_VALIDATE:
             self._select()
 
@@ -258,14 +264,47 @@ class MenuScene(Scene):
             self.app.draw_text(surface, label, self.app.font_small, color,
                                center=(settings.WINDOW_WIDTH // 2, 280 + i * 50))
 
-        self.app.draw_text(surface, "Flèches ou Z/S : naviguer     Entrée : valider",
+        self.app.draw_text(surface, "↑/↓ ou Z/S : naviguer     Entrée : valider     Échap : accueil",
                            self.app.font_small, settings.TEXT_DIM,
                            center=(settings.WINDOW_WIDTH // 2,
                                    settings.WINDOW_HEIGHT - 30))
 ```
 
 > 💡 Le dessin est volontairement simple : au chapitre 11, ce menu recevra un
-> **panneau** et un **titre** venus d'images, sans changer sa logique.
+> **panneau** venu d'une image, sans changer sa logique. Le mot `PONG`, lui, ira
+> sur l'écran d'accueil.
+
+### L'écran d'accueil (`pong/scenes/start.py`)
+
+Comme le menu et les options reviennent à l'accueil avec « Échap », il faut une
+scène `start`, même minimale pour l'instant :
+
+```python
+"""Écran d'accueil : toute touche ouvre le menu."""
+
+import pygame
+
+from .. import settings
+from .base import Scene
+
+
+class StartScene(Scene):
+    """Écran-titre minimal : n'importe quelle touche ouvre le menu."""
+
+    def handle_event(self, event):
+        if event.type == pygame.KEYDOWN:
+            self.app.switch_scene("menu")
+
+    def draw(self, surface):
+        surface.fill((18, 6, 46))
+        self.app.draw_text(surface, "PONG", self.app.font_large,
+                           settings.NEON_YELLOW,
+                           center=(settings.WINDOW_WIDTH // 2,
+                                   settings.WINDOW_HEIGHT // 2))
+```
+
+> 💡 Au chapitre 11, cet écran deviendra une **vidéo** ; sa logique (toute touche
+> ouvre le menu) ne changera pas.
 
 ### `pong/scenes/options.py`
 
@@ -295,7 +334,9 @@ class OptionsScene(Scene):
             return
         if event.type != pygame.KEYDOWN:
             return
-        if event.key == pygame.K_LEFT:
+        if event.key in settings.KEY_HOME:
+            self.app.switch_scene("start")
+        elif event.key == pygame.K_LEFT:
             self._change(-1)
         elif event.key == pygame.K_RIGHT:
             self._change(1)
@@ -328,18 +369,15 @@ class OptionsScene(Scene):
 
     def draw(self, surface):
         surface.fill((18, 6, 46))
-        self.app.draw_text(surface, "OPTIONS", self.app.font_large,
-                           settings.NEON_YELLOW,
-                           center=(settings.WINDOW_WIDTH // 2, 120))
 
         for i, (label, value) in enumerate(self._rows()):
             text = f"{label} : {value}" if value else label
             prefix = "> " if i == self.index else "  "
             color = settings.NEON_PINK if i == self.index else settings.TEXT_DIM
             self.app.draw_text(surface, prefix + text, self.app.font_small, color,
-                               center=(settings.WINDOW_WIDTH // 2, 260 + i * 50))
+                               center=(settings.WINDOW_WIDTH // 2, 200 + i * 50))
 
-        self.app.draw_text(surface, "Flèches ←/→ : changer     Entrée/Échap : retour",
+        self.app.draw_text(surface, "Flèches ←/→ : changer     Entrée : retour     Échap : accueil",
                            self.app.font_small, settings.TEXT_DIM,
                            center=(settings.WINDOW_WIDTH // 2,
                                    settings.WINDOW_HEIGHT - 30))
@@ -349,21 +387,24 @@ class OptionsScene(Scene):
 
 ```python
 from .scenes.options import OptionsScene
+from .scenes.start import StartScene
 ...
 
         self.config = {"level": "moyen", "points_to_win": settings.POINTS_TO_WIN}
-        self._scenes = {"menu": MenuScene, "game": GameScene, "options": OptionsScene}
+        self._scenes = {"start": StartScene, "menu": MenuScene,
+                        "game": GameScene, "options": OptionsScene}
 ```
 
 ### `tests/test_options_scene.py` (extraits)
 
 ```python
-"""Tests de l'écran Options : navigation et réglages."""
+"""Tests de l'écran Options : difficulté et points pour gagner."""
 
 import pygame
 
 from pong import settings
 from pong.app import App
+from pong.scenes.menu import MenuScene
 from pong.scenes.options import OptionsScene
 
 
@@ -371,39 +412,41 @@ def _key(code):
     return pygame.event.Event(pygame.KEYDOWN, key=code)
 
 
-def test_options_changes_difficulty_and_wraps():
+def test_options_changes_difficulty_in_config():
     app = App(sound_enabled=False)
     app.switch_scene("options")
     scene = app.scene
-    scene.index = 0
+    scene.index = 0  # ligne « Difficulté »
+    before = app.config["level"]
 
     scene.handle_event(_key(pygame.K_RIGHT))
-    assert app.config["level"] != "moyen"
+
+    assert app.config["level"] != before
     assert app.config["level"] in settings.AI_LEVELS
 
 
-def test_options_changes_points():
+def test_options_changes_points_in_config():
     app = App(sound_enabled=False)
     app.switch_scene("options")
     scene = app.scene
-    scene.index = 1
+    scene.index = 1  # ligne « Points pour gagner »
     before = app.config["points_to_win"]
 
-    scene.handle_event(_key(pygame.K_LEFT))
+    scene.handle_event(_key(pygame.K_RIGHT))
 
     assert app.config["points_to_win"] != before
     assert app.config["points_to_win"] in settings.POINT_CHOICES
 
 
-def test_return_row_goes_back_to_the_menu():
+def test_options_return_row_goes_back_to_menu():
     app = App(sound_enabled=False)
     app.switch_scene("options")
     scene = app.scene
-    scene.index = 2      # « Retour »
+    scene.index = 2  # « Retour »
 
     scene.handle_event(_key(pygame.K_RETURN))
 
-    assert isinstance(app.scene, type(app._scenes["menu"](app)))
+    assert isinstance(app.scene, MenuScene)
 ```
 
 > 💡 Notre `App` prend maintenant un paramètre `sound_enabled` (chapitre 09) : les
@@ -415,7 +458,7 @@ Le jeu commence à ressembler à un jeu.
 
 > **Dans le projet de référence :** `pong/ui.py` grandira au chapitre 11 (panneau,
 > choix, invite) ; `pong/scenes/menu.py` et `pong/scenes/options.py` y adopteront le
-> panneau et le titre par images, sans que leur logique change.
+> panneau par images, sans que leur logique change.
 
 ## En résumé
 

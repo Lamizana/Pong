@@ -73,12 +73,14 @@ On réutilise le helper du chapitre 08 — et c'est tout l'intérêt de l'avoir 
 
 ```python
     def handle_event(self, event):
+        new_index = ui.navigation_index(event, self.index, len(self.options))
+        if new_index is not None:
+            self.index = new_index
+            return
         if event.type != pygame.KEYDOWN:
             return
-        if event.key in settings.P1_UP or event.key in settings.P2_UP:
-            self.index = (self.index - 1) % len(self.options)
-        elif event.key in settings.P1_DOWN or event.key in settings.P2_DOWN:
-            self.index = (self.index + 1) % len(self.options)
+        if event.key in settings.KEY_HOME:
+            self.app.switch_scene("start")
         elif event.key in settings.KEY_VALIDATE:
             self._select()
         elif event.key in settings.KEY_MENU:
@@ -152,7 +154,7 @@ assert scene.index == 1
 
 import pygame
 
-from .. import settings
+from .. import settings, ui
 from .base import Scene
 
 
@@ -167,12 +169,14 @@ class GameOverScene(Scene):
         self.index = 0
 
     def handle_event(self, event):
+        new_index = ui.navigation_index(event, self.index, len(self.options))
+        if new_index is not None:
+            self.index = new_index
+            return
         if event.type != pygame.KEYDOWN:
             return
-        if event.key in settings.P1_UP or event.key in settings.P2_UP:
-            self.index = (self.index - 1) % len(self.options)
-        elif event.key in settings.P1_DOWN or event.key in settings.P2_DOWN:
-            self.index = (self.index + 1) % len(self.options)
+        if event.key in settings.KEY_HOME:
+            self.app.switch_scene("start")
         elif event.key in settings.KEY_VALIDATE:
             self._select()
         elif event.key in settings.KEY_MENU:
@@ -208,7 +212,7 @@ class GameOverScene(Scene):
             self.app.draw_text(surface, prefix + label, self.app.font_small,
                                text_color, center=(center_x, 330 + i * 40))
 
-        self.app.draw_text(surface, "Flèches ou Z/S : choisir     Entrée : valider",
+        self.app.draw_text(surface, "↑/↓ ou Z/S : choisir     Entrée : valider     Échap : accueil",
                            self.app.font_small, settings.TEXT_DIM,
                            center=(center_x, settings.WINDOW_HEIGHT - 30))
 ```
@@ -224,6 +228,7 @@ from pong.app import App
 from pong.scenes.game import GameScene
 from pong.scenes.gameover import GameOverScene
 from pong.scenes.menu import MenuScene
+from pong.scenes.start import StartScene
 
 
 def _key(code):
@@ -231,11 +236,12 @@ def _key(code):
 
 
 def _game_over(app):
+    """Place une scène de fin de partie (victoire joueur 1, mode 1 joueur)."""
     app.set_scene(GameOverScene(app, "left", "1p"))
     return app.scene
 
 
-def test_arrow_keys_move_the_selection():
+def test_arrow_keys_move_selection():
     app = App(sound_enabled=False)
     scene = _game_over(app)
 
@@ -245,9 +251,10 @@ def test_arrow_keys_move_the_selection():
     assert scene.index == 0
 
 
-def test_replay_restarts_in_the_same_mode():
+def test_validate_replay_restarts_in_same_mode():
     app = App(sound_enabled=False)
     scene = _game_over(app)
+    assert scene.index == 0  # « Rejouer »
 
     scene.handle_event(_key(pygame.K_RETURN))
 
@@ -255,23 +262,32 @@ def test_replay_restarts_in_the_same_mode():
     assert app.scene.mode == "1p"
 
 
-def test_menu_row_returns_to_the_menu():
+def test_validate_menu_returns_to_menu():
     app = App(sound_enabled=False)
     scene = _game_over(app)
-    scene.handle_event(_key(pygame.K_DOWN))     # « Menu »
+    scene.handle_event(_key(pygame.K_DOWN))  # « Menu »
 
     scene.handle_event(_key(pygame.K_RETURN))
 
     assert isinstance(app.scene, MenuScene)
 
 
-def test_menu_key_returns_to_the_menu():
+def test_menu_key_returns_to_menu():
     app = App(sound_enabled=False)
     scene = _game_over(app)
 
     scene.handle_event(_key(pygame.K_m))
 
     assert isinstance(app.scene, MenuScene)
+
+
+def test_escape_returns_to_home_screen():
+    app = App(sound_enabled=False)
+    scene = _game_over(app)
+
+    scene.handle_event(_key(pygame.K_ESCAPE))
+
+    assert isinstance(app.scene, StartScene)
 ```
 
 > 💡 Ces tests n'ouvrent aucune fenêtre : ils **simulent** des événements clavier et
@@ -310,7 +326,8 @@ Bravo : le jeu est **complet**. Menu, options, partie (1 ou 2 joueurs), IA, scor
 sons, pause et fin de partie : tout y est.
 
 > **Dans le projet de référence :** `pong/scenes/gameover.py` recevra au chapitre 11
-> le panneau et le titre par images ; ses tests sont déjà ceux de ce corrigé.
+> le panneau par images. Ses tests sont ceux de ce corrigé, rejoints par un test
+> d'affichage sans erreur.
 
 ## En résumé
 
