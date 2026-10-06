@@ -2,7 +2,7 @@
 
 import pygame
 
-from . import config, settings
+from . import config, settings, ui
 from .resources import AssetStore, asset_path
 from .scenes.game import GameScene
 from .scenes.menu import MenuScene
@@ -17,12 +17,17 @@ class App:
     def __init__(self, sound_enabled=True):
         pygame.init()
         try:
-            self.screen = pygame.display.set_mode(
-                (settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT)
+            pygame.display.set_mode(
+                (settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT), pygame.RESIZABLE
             )
         except pygame.error as exc:  # dépend du matériel : message clair plutôt qu'un crash
             raise SystemExit(f"Impossible d'ouvrir la fenêtre de jeu : {exc}")
         pygame.display.set_caption(settings.CAPTION)
+
+        # Surface interne fixe : le jeu se dessine TOUJOURS en 900×600, quelle
+        # que soit la taille de la fenêtre. `present()` met ensuite le rendu à
+        # l'échelle (letterbox) dans la fenêtre redimensionnable.
+        self.screen = pygame.Surface((settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT))
 
         self.clock = pygame.time.Clock()
         self.sound = SoundManager(enabled=sound_enabled)
@@ -78,13 +83,32 @@ class App:
                     if event.type == pygame.QUIT:
                         self.quit()
                         break
+                    if event.type == pygame.VIDEORESIZE:
+                        # On ré-applique la taille annoncée : la surface
+                        # d'affichage suit le redimensionnement de la fenêtre.
+                        pygame.display.set_mode(event.size, pygame.RESIZABLE)
+                        continue
                     scene.handle_event(event)
                 else:
                     scene.update(dt)
                     scene.draw(self.screen)
-                    pygame.display.flip()
+                    self.present()
         finally:
             pygame.quit()
+
+    def present(self):
+        """Affiche le canvas dans la fenêtre, centré au même ratio (letterbox).
+
+        Les bandes restantes restent noires plutôt que d'étirer le rendu.
+        """
+        display = pygame.display.get_surface()
+        size, offset = ui.letterbox(self.screen.get_size(), display.get_size())
+        if size == display.get_size():
+            display.blit(self.screen, (0, 0))  # la fenêtre a exactement son ratio
+        else:
+            display.fill((0, 0, 0))  # barres noires
+            display.blit(pygame.transform.smoothscale(self.screen, size), offset)
+        pygame.display.flip()
 
     def draw_text(self, surface, text, font, color, center=None, topleft=None):
         """Petit utilitaire de rendu de texte, renvoie le rectangle occupé."""

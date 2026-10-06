@@ -7,6 +7,9 @@ regroupées ici pour être ajustées en un seul endroit.
 import pygame
 
 # --- Fenêtre ---
+# La fenêtre est redimensionnable, mais le jeu se dessine TOUJOURS sur un canvas
+# fixe WINDOW_WIDTH×WINDOW_HEIGHT : App.present() met ensuite le rendu à l'échelle
+# en conservant ce ratio (letterbox : barres noires plutôt que déformation).
 WINDOW_WIDTH = 900
 WINDOW_HEIGHT = 600
 FPS = 60

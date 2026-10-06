@@ -74,3 +74,44 @@ def test_menu_has_expected_entries():
     app.switch_scene("menu")
     labels = [label for label, _, _ in app.scene.options]
     assert labels == ["1 joueur", "2 joueurs", "Options", "Quitter"]
+
+def test_window_is_resizable_with_a_fixed_canvas():
+    # Fenêtre neuve : sinon les drapeaux de celle créée par conftest sont
+    # conservés (pygame ne les change pas après coup) et le test ne prouve rien.
+    pygame.display.quit()
+    app = App(sound_enabled=False)
+
+    # Le jeu se dessine toujours en 900×600, quelle que soit la fenêtre.
+    assert app.screen.get_size() == (settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT)
+    assert pygame.display.get_surface().get_flags() & pygame.RESIZABLE
+
+def test_present_letterboxes_into_a_wider_window():
+    app = App(sound_enabled=False)
+    pygame.display.set_mode((1200, 600), pygame.RESIZABLE)  # fenêtre élargie
+    app.scene.draw(app.screen)
+
+    app.present()
+
+    display = pygame.display.get_surface()
+    assert display.get_size() == (1200, 600)
+    assert display.get_at((0, 0))[:3] == (0, 0, 0)  # barre noire à gauche
+    assert display.get_at((600, 300))[:3] == app.screen.get_at((450, 300))[:3]
+
+def test_run_applies_a_resize_and_exits_on_quit(monkeypatch):
+    """La boucle principale applique VIDEORESIZE puis se ferme sur QUIT."""
+    app = App(sound_enabled=False)
+    sizes = []
+    original = pygame.display.set_mode
+
+    def spy(size, flags=0):
+        sizes.append(size)
+        return original(size, flags)
+
+    monkeypatch.setattr(pygame.display, "set_mode", spy)
+    pygame.event.post(pygame.event.Event(pygame.VIDEORESIZE, size=(1000, 700)))
+    pygame.event.post(pygame.event.Event(pygame.QUIT))
+
+    app.run()  # ne doit ni boucler indéfiniment ni lever d'exception
+
+    assert (1000, 700) in sizes
+    assert app.running is False

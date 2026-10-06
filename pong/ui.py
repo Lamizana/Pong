@@ -23,6 +23,19 @@ def panel_rect(frame):
         (settings.FIELD_TOP + settings.FIELD_BOTTOM) // 2))
 
 
+def letterbox(source, target):
+    """Taille et décalage pour afficher `source` dans `target` sans la déformer.
+
+    Le contenu garde son ratio et se centre : les bandes restantes (letterbox)
+    sont laissées au fond noir de la fenêtre. Renvoie `((largeur, hauteur),
+    (x, y))`.
+    """
+    scale = min(target[0] / source[0], target[1] / source[1])
+    width = max(1, round(source[0] * scale))
+    height = max(1, round(source[1] * scale))
+    return (width, height), ((target[0] - width) // 2, (target[1] - height) // 2)
+
+
 def navigation_index(event, index, count):
     """Nouvel index de sélection, ou None si l'événement n'est pas un déplacement.
 

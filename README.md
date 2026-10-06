@@ -84,6 +84,7 @@ images générées par IA chargées comme assets.
 | **Physique de rebond avancée** | L'angle de la balle dépend du point d'impact sur la raquette |
 | **Audio** | Bruitages synthétisés en code + une bande-son jouée en boucle sur tout le jeu |
 | **Pause** | Reprise exactement où la partie s'était arrêtée |
+| **Fenêtre redimensionnable** | Le rendu reste en 900×600 et suit la fenêtre sans déformation (barres noires) |
 | **Retour à l'accueil** | Depuis les menus, `Échap` ramène à l'écran d'accueil |
 | **Theme cyberpunk** | Fond illustré (ville néon, portail doré, grille), raquettes mécaniques, balle cybernétique, halos néon |
 | **Tests automatises** | Physique, IA, score et parcours des scènes, sans ouvrir de fenêtre |
