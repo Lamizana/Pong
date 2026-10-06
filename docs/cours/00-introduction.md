@@ -16,7 +16,7 @@
 
 Le **Pong** est l'un des tout premiers jeux vidéo (1972).
 
-Deux raquettes verticales se font face et une balle rebondit entre elles. Un joueur marque un point quand la balle passe derrière la raquette adverse.
+Deux raquettes verticales se font face et une balle rebondit entre elles.Un joueur marque un point quand la balle passe derrière la raquette adverse.
 
 <div align="center">
   <p>
@@ -26,7 +26,7 @@ Deux raquettes verticales se font face et une balle rebondit entre elles. Un jou
 
 </div>
 
-```
+```console
         ┌──────────────────────────────┐
         │                              │
         │  ▍                        ▐  │
@@ -53,7 +53,7 @@ Les règles tiennent en une phrase, mais on y retrouve **tous** les ingrédients
 ## 2. Ce que vous allez construire
 
 | Fonctionnalité | Chapitre |
-|----------------|----------|
+| ---------------- | ---------- |
 | Fenêtre, boucle de jeu, scènes | **02** |
 | Raquettes et contrôle au clavier | **03** |
 | Balle, rebonds, physique | **04** |
@@ -98,7 +98,7 @@ Détaillons chaque couche :
 - **`main.py`** ne fait presque rien : il crée l'application et la lance.
 
 > [!Note]
-> **Pourquoi cette séparation ?** Parce qu'elle rend chaque chapitre très lisible :
+> **Pourquoi cette séparation ?** Parce qu'elle rend chaque chapitre très lisible:
 > - on parle d'**un fichier à la fois**. Et surtout, elle permet de tester la physique du jeu **sans ouvrir de fenêtre**,ce qui sera notre filet de sécurité.
 
 ---
@@ -108,7 +108,7 @@ Détaillons chaque couche :
 Pour toute la logique du jeu, nous suivrons un rythme en trois temps, appelé
 **rouge → vert → refactor** :
 
-```
+```console
    ① ROUGE                     ② VERT                    ③ REFACTOR
    ┌──────────────┐            ┌──────────────┐          ┌──────────────┐
    │ J'écris un   │            │ J'écris le   │          │ Je nettoie   │
@@ -128,7 +128,7 @@ Pour toute la logique du jeu, nous suivrons un rythme en trois temps, appelé
 
 > [!Note]
 > **Pourquoi écrire le test d'abord ?**
-> - Parce qu'un test écrit *après* le code vérifie seulement « ce que le code fait », alors qu'un test écrit *avant* dit « ce que le code **doit** faire ». C'est toute la différence.
+>- Parce qu'un test écrit *après* le code vérifie seulement « ce que le code fait », alors qu'un test écrit *avant* dit « ce que le code **doit** faire ». C'est toute la différence.
 
 Nous utiliserons **pytest**. Un test, c'est une simple fonction :
 

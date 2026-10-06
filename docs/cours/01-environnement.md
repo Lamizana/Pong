@@ -81,7 +81,7 @@ python -c "import pygame; print(pygame.version.ver)"
 Créez dès maintenant l'arborescence. Le paquet `pong/` contiendra la logique, et
 `tests/` les tests.
 
-```
+```console
 pong/                       ← le dossier du projet
 ├── main.py                 ← point d'entrée
 ├── requirements.txt
@@ -113,7 +113,7 @@ New-Item pong\__init__.py, pong\scenes\__init__.py -ItemType File
 > est *le projet*, le dossier interne est *le paquet* (la partie importable :
 > `from pong.app import App`). C'est une convention courante en Python.
 
-## À vous de jouer !
+## À vous de jouer
 
 Écrivez `main.py` pour qu'il :
 
