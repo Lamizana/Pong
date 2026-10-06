@@ -15,7 +15,7 @@ def _key(code):
 
 def test_full_scene_flow():
     app = App(sound_enabled=False)
-    # Au lancement : l'écran-titre « PRESS START ».
+    # Au lancement : l'écran-titre animé.
     assert isinstance(app.scene, StartScene)
     app.scene.handle_event(_key(pygame.K_RETURN))
     assert isinstance(app.scene, MenuScene)

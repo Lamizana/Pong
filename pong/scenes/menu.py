@@ -41,11 +41,6 @@ class MenuScene(Scene):
         frame_rect = ui.panel_rect(self.frame)
         surface.blit(self.frame, frame_rect)
 
-        # Titre (image), dans la bande haute du cadre.
-        title = self.app.assets.title
-        surface.blit(title, title.get_rect(center=(
-            settings.WINDOW_WIDTH // 2, frame_rect.top + 8 + title.get_height() // 2)))
-
         ui.draw_choices(surface, self.app, frame_rect,
                         [label for label, _, _ in self.options], self.index)
         ui.draw_hint(surface, self.app,

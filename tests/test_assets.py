@@ -17,14 +17,12 @@ def test_asset_store_loads_expected_sizes():
     assert max(store.ball.get_size()) <= 24
     assert store.menu_frame.get_width() <= 900
     assert store.score_screen.get_height() == 72
-    assert store.title.get_width() == 240
     assert store.start_screen.get_size() == (900, 600)
 
 def test_sprites_have_transparent_corners():
     store = AssetStore()
 
-    sprites = (store.paddle_left, store.paddle_right, store.ball,
-               store.menu_frame, store.title)
+    sprites = (store.paddle_left, store.paddle_right, store.ball, store.menu_frame)
     for sprite in sprites:
         width, height = sprite.get_size()
         for corner in ((0, 0), (width - 1, 0), (0, height - 1), (width - 1, height - 1)):
@@ -39,7 +37,7 @@ def test_sprites_have_no_green_fringe():
     """Le chroma-key ne doit pas laisser de liseré vert sur les bords."""
     store = AssetStore()
 
-    for sprite in (store.paddle_left, store.paddle_right, store.ball, store.title):
+    for sprite in (store.paddle_left, store.paddle_right, store.ball):
         width, height = sprite.get_size()
         offending = []
         for y in range(height):

@@ -96,7 +96,6 @@ ASSET_START_VIDEO = "start_video"
 ASSET_START_AUDIO = "start_audio.ogg"
 START_VIDEO_FPS = 15
 ASSET_MENU_FRAME = "menu_frame.png"
-ASSET_TITLE = "title.png"
 ASSET_SCORE_SCREEN = "score_screen.png"
 ASSET_PADDLE_LEFT = "paddle_left.png"
 ASSET_PADDLE_RIGHT = "paddle_right.png"
