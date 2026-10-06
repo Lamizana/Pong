@@ -124,3 +124,40 @@ def test_build_background_keeps_aspect_ratio(tmp_path, monkeypatch):
     hauteur = max(ys) - min(ys) + 1
     # Un carré source doit rester carré ; un étirement donnerait ~30×60.
     assert abs(largeur - hauteur) <= 4
+
+
+def test_build_start_video_fits_the_whole_video(tmp_path, monkeypatch):
+    """La vidéo 16:9 tient entière dans les frames : bandes noires, pas de rognage."""
+    import shutil
+    import subprocess
+
+    import pytest
+    import scripts.prepare_assets as prepare
+
+    if shutil.which("ffmpeg") is None:
+        pytest.skip("ffmpeg absent")
+
+    # Clip de test 16:9 (640×360) au motif clair : le contenu est maîtrisé.
+    subprocess.run(
+        ["ffmpeg", "-y", "-v", "error", "-f", "lavfi",
+         "-i", "testsrc2=size=640x360:rate=10:duration=0.5",
+         str(tmp_path / "video.mp4")],
+        check=True,
+    )
+    monkeypatch.setattr(prepare, "SRC", tmp_path)
+
+    count = prepare.build_start_video("video.mp4", tmp_path / "out")
+
+    assert count >= 1
+    frame = Image.open(
+        tmp_path / "out" / prepare.START_VIDEO_DIR / "frame_001.jpg"
+    ).convert("RGB")
+    assert frame.size == (900, 600)
+
+    px = frame.load()
+    # 16:9 dans 3:2 → 900×506 : bandes noires de 47 px en haut et en bas.
+    assert all(max(px[x, y]) < 16
+               for x in range(0, 900, 10) for y in (2, 8, 592, 598))
+    # Le motif de la vidéo reste visible au centre (un recadrage remplirait tout).
+    assert any(max(px[x, y]) > 40
+               for x in range(0, 900, 10) for y in (250, 300, 350))

@@ -193,9 +193,11 @@ def _run_ffmpeg(args):
 
 
 def build_start_video(source, out_dir):
-    """Découpe la vidéo d'accueil en frames JPEG (900×600, recadrage centré).
+    """Découpe la vidéo d'accueil en frames JPEG (900×600, **sans recadrage**).
 
-    Renvoie le nombre de frames produites. Nécessite `ffmpeg` sur la machine.
+    La vidéo entière est mise à l'échelle pour tenir dans le cadre (`decrease`)
+    puis complétée par des bandes noires (`pad`) : rien n'est rogné. Renvoie le
+    nombre de frames produites. Nécessite `ffmpeg` sur la machine.
     La vidéo est jouée **en muet** : la musique est une piste séparée.
     """
     path = SRC / source
@@ -210,8 +212,9 @@ def build_start_video(source, out_dir):
 
     _run_ffmpeg([
         "-i", str(path),
-        "-vf", (f"scale={width}:{height}:force_original_aspect_ratio=increase,"
-                f"crop={width}:{height},fps={START_VIDEO_FPS}"),
+        "-vf", (f"scale={width}:{height}:force_original_aspect_ratio=decrease,"
+                f"pad={width}:{height}:(ow-iw)/2:(oh-ih)/2:black,"
+                f"fps={START_VIDEO_FPS}"),
         "-q:v", "4",
         str(frames_dir / "frame_%03d.jpg"),
     ])
