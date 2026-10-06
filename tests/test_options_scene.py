@@ -12,6 +12,7 @@ def _key(code):
 
 def _select(app, label):
     """Amène la sélection du menu sur `label` puis valide."""
+    app.switch_scene("menu")
     for _ in range(len(app.scene.options) + 1):
         if app.scene.options[app.scene.index][0] == label:
             break

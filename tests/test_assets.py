@@ -18,6 +18,7 @@ def test_asset_store_loads_expected_sizes():
     assert store.menu_frame.get_width() <= 900
     assert store.score_screen.get_height() == 72
     assert store.title.get_width() == 240
+    assert store.start_screen.get_size() == (900, 600)
 
 def test_sprites_have_transparent_corners():
     store = AssetStore()

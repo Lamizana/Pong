@@ -7,6 +7,7 @@ from .resources import AssetStore, asset_path
 from .scenes.game import GameScene
 from .scenes.menu import MenuScene
 from .scenes.options import OptionsScene
+from .scenes.start import StartScene
 from .sound import SoundManager
 
 
@@ -39,9 +40,10 @@ class App:
         self.font_medium = pygame.font.Font(font_path, settings.FONT_MEDIUM_SIZE)
         self.font_large = pygame.font.Font(font_path, settings.FONT_LARGE_SIZE)
 
-        self._scenes = {"menu": MenuScene, "game": GameScene, "options": OptionsScene}
+        self._scenes = {"start": StartScene, "menu": MenuScene, "game": GameScene,
+                        "options": OptionsScene}
         self.scene = None
-        self.switch_scene("menu")
+        self.switch_scene("start")
 
     def switch_scene(self, name, **kwargs):
         """Construit une nouvelle scène et l'active."""

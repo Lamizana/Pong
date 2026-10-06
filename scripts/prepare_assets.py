@@ -208,6 +208,7 @@ def main():
 
     build_background("fond_partie.jpeg", OUT / "background.png")
     build_background("fond_accueil.jpeg", OUT / "menu.png")
+    build_background("ecran_principal.jpeg", OUT / "start_screen.png")
     build_sprite("raquette_gauche.jpeg", OUT / "paddle_left.png", height=80)
     build_sprite("raquette_droite.jpeg", OUT / "paddle_right.png", height=80)
     build_sprite("balle.jpeg", OUT / "ball.png", max_size=BALL_SPRITE_SIZE)
@@ -218,8 +219,8 @@ def main():
     build_region("rectangle_menu_01.jpeg", OUT / "score_screen.png",
                  SCORE_SCREEN_BOX, height=SCORE_SCREEN_HEIGHT)
 
-    for name in ("background", "menu", "paddle_left", "paddle_right", "ball",
-                 "menu_frame", "title", "score_screen"):
+    for name in ("background", "menu", "start_screen", "paddle_left", "paddle_right",
+                 "ball", "menu_frame", "title", "score_screen"):
         path = OUT / f"{name}.png"
         with Image.open(path) as im:
             print(f"  {path.relative_to(ROOT)}  {im.size}  {im.mode}")

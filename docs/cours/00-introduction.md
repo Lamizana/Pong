@@ -1,4 +1,6 @@
-# 00 — Introduction et architecture
+# Introduction et architecture
+
+---
 
 ## Objectifs
 
@@ -9,11 +11,21 @@
   la clé d'un code lisible ;
 - ce qu'est le **développement piloté par les tests** (TDD), qu'on appliquera partout.
 
+---
+
 ## 1. Le jeu Pong
 
 Le **Pong** est l'un des tout premiers jeux vidéo (1972). Deux raquettes verticales
 se font face et une balle rebondit entre elles. Un joueur marque un point quand la
 balle passe derrière la raquette adverse.
+
+<div align="center">
+  <p>
+    <img src="images/Pong.svg" alt="Pong originel" width="380">
+  </p>
+  <p><em>Premier Pong sortit en 1972</em></p>
+
+</div>
 
 ```
         ┌──────────────────────────────┐
@@ -30,6 +42,8 @@ C'est un excellent premier projet : les règles tiennent en une phrase, mais on 
 retrouve **tous** les ingrédients d'un vrai jeu — une boucle, des objets qui
 bougent, des collisions, une IA, un score, des menus et du son.
 
+---
+
 ## 2. Ce que vous allez construire
 
 | Fonctionnalité | Chapitre |
@@ -44,6 +58,8 @@ bougent, des collisions, une IA, un score, des menus et du son.
 | Sons générés en code | 09 |
 | Thème par images et police dédiée | 11, 12 |
 | Exécutables Linux et Windows | 12 |
+
+---
 
 ## 3. L'architecture : des couches de responsabilités
 
@@ -82,9 +98,11 @@ Détaillons chaque couche :
   travail à la **scène courante**.
 - **`main.py`** ne fait presque rien : il crée l'application et la lance.
 
-> 💡 **Pourquoi cette séparation ?** Parce qu'elle rend chaque chapitre très lisible :
-> on parle d'**un fichier à la fois**. Et surtout, elle permet de tester la physique
-> du jeu **sans ouvrir de fenêtre** — ce qui sera notre filet de sécurité.
+> [!Note]
+> **Pourquoi cette séparation ?** Parce qu'elle rend chaque chapitre très lisible :
+> - on parle d'**un fichier à la fois**. Et surtout, elle permet de tester la physique du jeu **sans ouvrir de fenêtre**,ce qui sera notre filet de sécurité.
+
+---
 
 ## 4. Le développement piloté par les tests (TDD)
 
@@ -101,14 +119,17 @@ Pour toute la logique du jeu, nous suivrons un rythme en trois temps, appelé
    └──────────────┘            └──────────────┘          └──────────────┘
 ```
 
-1. **Rouge** : j'écris un test qui décrit le comportement attendu… et je vérifie
+- **Rouge** :
+  - j'écris un test qui décrit le comportement attendu… et je vérifie
    qu'il **échoue**. Un test qui passe tout de suite ne prouve rien.
-2. **Vert** : j'écris juste assez de code pour que le test passe.
-3. **Refactor** : je nettoie le code sans casser les tests.
+- **Vert** :
+  - j'écris juste assez de code pour que le test passe.
+- **Refactor** :
+  - je nettoie le code sans casser les tests.
 
-> 💡 **Pourquoi écrire le test d'abord ?** Parce qu'un test écrit *après* le code
-> vérifie seulement « ce que le code fait », alors qu'un test écrit *avant* dit
-> « ce que le code **doit** faire ». C'est toute la différence.
+> [!Info]
+> **Pourquoi écrire le test d'abord ?**
+> - Parce qu'un test écrit *après* le code vérifie seulement « ce que le code fait », alors qu'un test écrit *avant* dit « ce que le code **doit** faire ». C'est toute la différence.
 
 Nous utiliserons **pytest**. Un test, c'est une simple fonction :
 
@@ -116,6 +137,8 @@ Nous utiliserons **pytest**. Un test, c'est une simple fonction :
 def test_addition():
     assert 2 + 2 == 4
 ```
+
+---
 
 ## 5. Comment lire un chapitre
 

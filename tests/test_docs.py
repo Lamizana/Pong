@@ -33,7 +33,7 @@ def test_readme_shows_every_screenshot():
     """Chaque capture du dépôt est montrée : pas de fichier orphelin."""
     readme = _read("README.md")
 
-    for name in ("menu.png", "game.png", "gameover.png"):
+    for name in ("start.png", "menu.png", "game.png", "gameover.png"):
         assert name in readme, f"{name} n'est pas montré dans le README"
         assert (ROOT / "docs" / "screenshots" / name).exists()
 

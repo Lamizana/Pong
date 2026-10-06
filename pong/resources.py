@@ -28,6 +28,7 @@ class AssetStore:
 
     def __init__(self):
         self.background = self._load_opaque(settings.ASSET_BACKGROUND)
+        self.start_screen = self._load_opaque(settings.ASSET_START)
         self.menu_background = self._load_opaque(settings.ASSET_MENU)
         self.menu_frame = self._load_sprite(settings.ASSET_MENU_FRAME)
         self.title = self._load_sprite(settings.ASSET_TITLE)

@@ -8,12 +8,16 @@ from pong.scenes.game import GameScene
 from pong.scenes.gameover import GameOverScene
 from pong.scenes.menu import MenuScene
 from pong.scenes.pause import PauseScene
+from pong.scenes.start import StartScene
 
 def _key(code):
     return pygame.event.Event(pygame.KEYDOWN, key=code)
 
 def test_full_scene_flow():
     app = App(sound_enabled=False)
+    # Au lancement : l'écran-titre « PRESS START ».
+    assert isinstance(app.scene, StartScene)
+    app.scene.handle_event(_key(pygame.K_RETURN))
     assert isinstance(app.scene, MenuScene)
 
     # Menu → « 1 joueur » (difficulté et points viennent des options).
@@ -67,5 +71,6 @@ def test_two_player_mode_has_no_ai():
 
 def test_menu_has_expected_entries():
     app = App(sound_enabled=False)
+    app.switch_scene("menu")
     labels = [label for label, _, _ in app.scene.options]
     assert labels == ["1 joueur", "2 joueurs", "Options", "Quitter"]

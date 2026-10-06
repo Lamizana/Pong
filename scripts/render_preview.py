@@ -24,7 +24,12 @@ def main(out_dir="docs/screenshots"):
     os.makedirs(out_dir, exist_ok=True)
     app = App(sound_enabled=False)
 
+    # Écran-titre « PRESS START » (scène d'ouverture).
+    app.scene.draw(app.screen)
+    pygame.image.save(app.screen, os.path.join(out_dir, "start.png"))
+
     # Menu principal.
+    app.switch_scene("menu")
     app.scene.draw(app.screen)
     pygame.image.save(app.screen, os.path.join(out_dir, "menu.png"))
 
@@ -45,7 +50,7 @@ def main(out_dir="docs/screenshots"):
 
     pygame.quit()
     print(f"Aperçus enregistrés dans {out_dir}/ "
-          f"(menu.png, game.png, gameover.png)")
+          f"(start.png, menu.png, game.png, gameover.png)")
 
 
 if __name__ == "__main__":
