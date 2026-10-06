@@ -49,7 +49,7 @@ self.index = (self.index + 1) % len(self.options)   # descend, et revient en hau
 L'opérateur `%` (modulo) donne le **reste** de la division :
 
 | `index` | `(index + 1) % 4` |
-|---------|-------------------|
+| --------- | ------------------- |
 | 0 | 1 |
 | 2 | 3 |
 | **3** | **0** ← on boucle |
@@ -100,7 +100,7 @@ Deux cas particuliers élégants :
 L'écran Options est aussi un menu, mais chaque ligne porte une **valeur** qu'on fait
 défiler avec ← et → :
 
-```
+```console
    > Difficulté : Moyen
      Points pour gagner : 5
      Retour
@@ -155,7 +155,7 @@ class GameScene(Scene):
 > 💡 Comme la difficulté n'est plus passée en paramètre, le menu devient plus
 > simple : `switch_scene("game", mode="1p")` suffit.
 
-## À vous de jouer !
+## À vous de jouer
 
 1. Créez `pong/ui.py` avec la fonction `navigation_index`.
 2. Transformez `MenuScene` : quatre entrées, navigation, validation, et le retour
