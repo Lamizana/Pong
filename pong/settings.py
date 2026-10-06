@@ -91,9 +91,9 @@ TEXT_DIM = (188, 172, 224)
 ASSET_BACKGROUND = "background.png"
 ASSET_MENU = "menu.png"
 ASSET_START = "start_screen.png"
-# Animation et musique d'accueil (produites par scripts/prepare_assets.py).
+# Animation d'accueil et bande-son du jeu (produites par prepare_assets.py).
 ASSET_START_VIDEO = "start_video"
-ASSET_START_AUDIO = "start_audio.ogg"
+ASSET_MUSIC = "music_pong.mp3"
 START_VIDEO_FPS = 15
 ASSET_MENU_FRAME = "menu_frame.png"
 ASSET_SCORE_SCREEN = "score_screen.png"

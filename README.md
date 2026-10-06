@@ -82,7 +82,7 @@ images générées par IA chargées comme assets.
 | **Menu principal** | Sélection du mode, navigation clavier, relance de partie |
 | **Score et victoire** | Premier à 5 points (réglable : 3, 5 ou 10), écran de fin avec rejeu |
 | **Physique de rebond avancée** | L'angle de la balle dépend du point d'impact sur la raquette |
-| **Sons générés en code** | Bruitages synthétisés, aucun fichier audio requis |
+| **Audio** | Bruitages synthétisés en code + une bande-son jouée en boucle sur tout le jeu |
 | **Pause** | Reprise exactement où la partie s'était arrêtée |
 | **Theme cyberpunk** | Fond illustré (ville néon, portail doré, grille), raquettes mécaniques, balle cybernétique, halos néon |
 | **Tests automatises** | Physique, IA, score et parcours des scènes, sans ouvrir de fenêtre |
@@ -114,13 +114,13 @@ Pong/
 │   ├── paddle.py                # Raquettes : déplacement borné
 │   ├── ai.py                    # Adversaire automatique (3 niveaux)
 │   ├── score.py                 # Score et condition de victoire
-│   ├── sound.py                 # Génération et lecture des sons
+│   ├── sound.py                 # Sons (bruitages) et musique
 │   ├── collision.py             # Contact cercle/rectangle (balle vs raquette)
 │   ├── neon.py                  # Texte néon (halo diffus + texte net)
 │   ├── ui.py                    # Helpers d'interface (panneau, choix, navigation)
 │   ├── config.py                # Réglages persistants (difficulté, points)
 │   ├── resources.py             # Chargement des assets (images, police)
-│   ├── assets/                  # Images PNG + police Orbitron (et sa licence)
+│   ├── assets/                  # Images, animation d'accueil, musique et police
 │   ├── app.py                   # Fenêtre, boucle de jeu, gestion des scènes
 │   └── scenes/                  # Menu, options, partie, pause, fin de partie
 ├── scripts/

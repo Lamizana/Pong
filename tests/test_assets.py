@@ -61,7 +61,7 @@ def test_start_animation_assets_exist():
 
     assert len(frames) > 60            # ~10 s à 15 i/s
     assert frames == sorted(frames)
-    assert asset_path(settings.ASSET_START_AUDIO).exists()
+    assert asset_path(settings.ASSET_MUSIC).exists()
 
 def test_missing_asset_raises_error_with_path():
     """Un asset absent doit lever une erreur explicite contenant son chemin."""

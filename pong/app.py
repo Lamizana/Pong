@@ -27,6 +27,7 @@ class App:
         self.clock = pygame.time.Clock()
         self.sound = SoundManager(enabled=sound_enabled)
         self.running = True
+        self._start_music()
 
         # Images partagées par toutes les scènes (thème cyberpunk).
         self.assets = AssetStore()
@@ -44,6 +45,14 @@ class App:
                         "options": OptionsScene}
         self.scene = None
         self.switch_scene("start")
+
+    def _start_music(self):
+        """Boucle la bande-son du jeu (silencieux si l'audio est indisponible)."""
+        try:
+            path = asset_path(settings.ASSET_MUSIC)
+        except FileNotFoundError:
+            return  # musique optionnelle
+        self.sound.play_music(path)
 
     def switch_scene(self, name, **kwargs):
         """Construit une nouvelle scène et l'active."""

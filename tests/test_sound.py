@@ -43,3 +43,11 @@ def test_disabled_sound_manager_is_safe():
     sound.wall_bounce()
     sound.point_scored()
     sound.win()
+
+
+def test_disabled_sound_manager_ignores_music():
+    sound = SoundManager(enabled=False)
+
+    # Sans audio, la musique est ignorée sans erreur (fichier absent inclus).
+    sound.play_music("chemin/inexistant.mp3")
+    sound.stop_music()

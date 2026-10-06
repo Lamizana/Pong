@@ -34,11 +34,13 @@ SCORE_SCREEN_HEIGHT = 72
 # La balle : sprite au diamètre exact du cercle de collision (2 × BALL_RADIUS).
 BALL_SPRITE_SIZE = 16
 
-# Écran-titre : la vidéo d'accueil est découpée en frames JPEG et sa piste
-# audio extraite en Ogg. Le fps doit rester aligné sur `settings.START_VIDEO_FPS`.
+# Écran-titre : la vidéo d'accueil est découpée en frames JPEG. Le fps doit
+# rester aligné sur `settings.START_VIDEO_FPS`.
 START_VIDEO_FPS = 15
 START_VIDEO_DIR = "start_video"
-START_AUDIO = "start_audio.ogg"
+
+# Bande-son du jeu : copiée telle quelle (aucun ré-encodage).
+MUSIC = "music_pong.mp3"
 
 
 def is_green_background(r, g, b):
@@ -191,10 +193,10 @@ def _run_ffmpeg(args):
 
 
 def build_start_video(source, out_dir):
-    """Découpe la vidéo d'accueil en frames JPEG et extrait sa piste audio.
+    """Découpe la vidéo d'accueil en frames JPEG (900×600, recadrage centré).
 
-    Les frames remplissent la fenêtre (recadrage centré 900×600). Renvoie le
-    nombre de frames produites. Nécessite `ffmpeg` sur la machine.
+    Renvoie le nombre de frames produites. Nécessite `ffmpeg` sur la machine.
+    La vidéo est jouée **en muet** : la musique est une piste séparée.
     """
     path = SRC / source
     if not path.exists():
@@ -213,13 +215,15 @@ def build_start_video(source, out_dir):
         "-q:v", "4",
         str(frames_dir / "frame_%03d.jpg"),
     ])
-    # `+bitexact` + `-map_metadata -1` : encodage reproductible (sinon ffmpeg
-    # tire un numéro de série aléatoire et le fichier change à chaque passage).
-    _run_ffmpeg(["-i", str(path), "-vn", "-fflags", "+bitexact",
-                 "-flags:a", "+bitexact", "-map_metadata", "-1",
-                 "-c:a", "libvorbis", "-q:a", "5",
-                 str(out_dir / START_AUDIO)])
     return len(list(frames_dir.glob("*.jpg")))
+
+
+def build_music(source, out_dir):
+    """Copie la bande-son dans les assets (aucun ré-encodage)."""
+    path = SRC / source
+    if not path.exists():
+        raise FileNotFoundError(f"Bande-son introuvable : {path}")
+    shutil.copyfile(path, out_dir / MUSIC)
 
 
 def main():
@@ -229,7 +233,8 @@ def main():
     build_background("fond_accueil.jpeg", OUT / "menu.png")
     build_background("ecran_principal.jpeg", OUT / "start_screen.png")
     frames = build_start_video("ecran_principal_video.mp4", OUT)
-    print(f"  pong/assets/{START_VIDEO_DIR}/  {frames} frames  +  {START_AUDIO}")
+    build_music(MUSIC, OUT)
+    print(f"  pong/assets/{START_VIDEO_DIR}/  {frames} frames  +  {MUSIC}")
     build_sprite("raquette_gauche.jpeg", OUT / "paddle_left.png", height=80)
     build_sprite("raquette_droite.jpeg", OUT / "paddle_right.png", height=80)
     build_sprite("balle.jpeg", OUT / "ball.png", max_size=BALL_SPRITE_SIZE)

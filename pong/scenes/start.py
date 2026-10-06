@@ -3,7 +3,7 @@
 import pygame
 
 from .. import settings
-from ..resources import asset_path, video_frames
+from ..resources import video_frames
 from .base import Scene
 
 # Nombre de frames gardées en mémoire autour de la frame courante.
@@ -22,14 +22,9 @@ class StartScene(Scene):
         except FileNotFoundError:
             # Repli : image statique si les frames n'ont pas été générées.
             self.frames = []
-        try:
-            self.app.sound.play_music(asset_path(settings.ASSET_START_AUDIO))
-        except FileNotFoundError:
-            pass  # musique optionnelle
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
-            self.app.sound.stop_music()
             self.app.switch_scene("menu")
 
     def update(self, dt):
