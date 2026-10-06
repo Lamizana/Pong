@@ -67,6 +67,7 @@ images générées par IA chargées comme assets.
   - [Controles](#controles)
   - [Tests](#tests)
 - [Packaging et deploiement](#packaging-et-deploiement)
+- [Cours complet](#cours-complet)
 - [Tutoriel](#tutoriel)
 - [Licence](#licence)
 
@@ -128,6 +129,7 @@ Pong/
 ├── images/                      # Images sources (JPEG, hors dépôt)
 ├── tests/                       # Tests pytest
 ├── docs/
+│   ├── cours/                   # Cours complet (13 chapitres, pas à pas)
 │   ├── tutoriel/                # Tutoriel complet (12 chapitres)
 │   └── screenshots/             # Captures d'écran
 ├── build.sh / build.ps1         # Création des exécutables
@@ -193,6 +195,20 @@ et le parcours complet des scènes — **sans fenêtre**.
 > chaque `push` sur `main`, à chaque tag `v*`, ou manuellement. Les exécutables sont
 > ensuite téléchargeables dans l'onglet **Actions** (artefacts `Pong-linux` et
 > `Pong-windows`).
+
+---
+
+## Cours complet
+
+Un **cours complet pas à pas**, sur le modèle d'OpenClassrooms — objectifs,
+théorie, exercices « à vous de jouer » et corrigés — se trouve dans
+**[`docs/cours/`](docs/cours/README.md)** : 13 chapitres, de l'architecture au
+déploiement. Vous y écrivez le jeu vous-même, brique par brique.
+
+00. Introduction · 01. Environnement · 02. Boucle et scènes · 03. Raquettes ·
+04. Balle · 05. Collisions · 06. IA · 07. Score · 08. Menu et options ·
+09. Sons et pause · 10. Fin de partie · 11. Thème par images ·
+12. Polish et déploiement
 
 ---
 
