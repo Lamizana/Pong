@@ -1,4 +1,4 @@
-# 12 — Le polish et le déploiement
+# 12. Le polish et le déploiement
 
 ## Objectifs
 

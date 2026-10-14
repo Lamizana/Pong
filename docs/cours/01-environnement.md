@@ -258,4 +258,4 @@ Une fenêtre sombre doit s'ouvrir. Fermez-la : le programme se termine sans erre
 
 ## Étape suivante
 
-→ [02 — La boucle et les scènes](02-boucle-et-scenes.md)
+→ [02. La boucle et les scènes](02-boucle-et-scenes.md)

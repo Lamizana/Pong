@@ -1,4 +1,4 @@
-# 07 — Le score et la victoire
+# 07. Le score et la victoire
 
 ## Objectifs
 
@@ -367,4 +367,4 @@ une IA, un score et une victoire. La partie 2 est terminée !
 
 ## Étape suivante
 
-→ [08 — Le menu et les options](08-le-menu-et-les-options.md)
+→ [08. Le menu et les options](08-le-menu-et-les-options.md)

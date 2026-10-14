@@ -1,4 +1,4 @@
-# 02 — La boucle et les scènes
+# 02. La boucle et les scènes
 
 ## Objectifs
 
@@ -383,4 +383,4 @@ Vous devez voir `1 passed`. Bravo : vous avez votre premier test.
 
 ## Étape suivante
 
-→ [03 — Les raquettes](03-les-raquettes.md)
+→ [03. Les raquettes](03-les-raquettes.md)

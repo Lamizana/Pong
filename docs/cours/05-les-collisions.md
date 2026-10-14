@@ -1,4 +1,4 @@
-# 05 — Les collisions
+# 05. Les collisions
 
 ## Objectifs
 
@@ -373,4 +373,4 @@ adversaire pour la raquette de droite : l'IA.
 
 ## Étape suivante
 
-→ [06 — L'IA](06-lia.md)
+→ [06. L'IA](06-lia.md)

@@ -1,4 +1,4 @@
-# 10 — La fin de partie
+# 10. La fin de partie
 
 ## Objectifs
 
@@ -340,4 +340,4 @@ sons, pause et fin de partie : tout y est.
 
 ## Étape suivante
 
-→ [11 — Le thème par images](11-le-theme-par-images.md)
+→ [11. Le thème par images](11-le-theme-par-images.md)

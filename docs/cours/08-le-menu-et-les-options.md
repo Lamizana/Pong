@@ -1,4 +1,4 @@
-# 08 — Le menu et les options
+# 08. Le menu et les options
 
 ## Objectifs
 
@@ -470,4 +470,4 @@ Le jeu commence à ressembler à un jeu.
 
 ## Étape suivante
 
-→ [09 — Les sons et la pause](09-sons-et-pause.md)
+→ [09. Les sons et la pause](09-sons-et-pause.md)

@@ -1,4 +1,4 @@
-# 09 — Les sons et la pause
+# 09. Les sons et la pause
 
 ## Objectifs
 
@@ -443,4 +443,4 @@ exactement où vous en étiez — même score, mêmes positions.
 
 ## Étape suivante
 
-→ [10 — La fin de partie](10-la-fin-de-partie.md)
+→ [10. La fin de partie](10-la-fin-de-partie.md)

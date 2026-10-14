@@ -1,4 +1,4 @@
-# 04 — La balle
+# 04. La balle
 
 ## Objectifs
 
@@ -411,4 +411,4 @@ manque que les raquettes !** Ce sera l'objet du prochain chapitre.
 
 ## Étape suivante
 
-→ [05 — Les collisions](05-les-collisions.md)
+→ [05. Les collisions](05-les-collisions.md)
