@@ -196,7 +196,7 @@ def test_polish_chapter_packaging_matches_project():
     chapter = _read("docs/cours/12-polish-et-deploiement.md")
 
     assert '"pong/assets$SEP pong/assets"' not in chapter
-    assert '"pong/assets$SEPpong/assets"' in chapter
+    assert '"pong/assets${SEP}pong/assets"' in chapter
     assert "assets/start_video/*" in chapter
     assert "24 copies" in chapter
-    assert "code de sortie" not in chapter
+    assert "message d'erreur et code de sortie" not in chapter

@@ -39,7 +39,7 @@ def glow_text(surface, font, text, color, center, spread=3):
 - Une seule fonction, utilisée par le menu, les options, la pause et la fin.
 
 > ⚠️ **Un halo trop large fait « gras ».** `spread=1` donne un halo discret
-> (4 copies), `spread=4` un halo très marqué (16 copies). À régler selon le goût.
+> (4 copies), `spread=4` un halo très marqué (24 copies). À régler selon le goût.
 
 ## 2. Une vraie police
 
@@ -186,7 +186,7 @@ pyinstaller --onefile --windowed --name Pong \
 # build.ps1 (Windows)
 $SEP = ";"
 pyinstaller --onefile --windowed --name Pong `
-    --add-data "pong/assets$SEP pong/assets" main.py
+    --add-data "pong/assets${SEP}pong/assets" main.py
 ```
 
 Et pour ne pas reconstruire à la main, GitHub Actions le fait à chaque version :
@@ -209,7 +209,7 @@ PyInstaller n'est pas le seul moyen de distribuer :
 
 ```toml
 [tool.setuptools.package-data]
-pong = ["assets/*"]
+pong = ["assets/*", "assets/start_video/*"]
 
 [tool.setuptools]
 license-files = ["LICENSE", "pong/assets/OFL-Orbitron.txt"]
@@ -228,7 +228,7 @@ déjà :
 - les parcours d'écran (menu, options, pause, fin),
 - les **assets** (présents, tailles, transparence, coins nets),
 - la **configuration** (défauts, validation, persistance),
-- le **démarrage** (message d'erreur et code de sortie).
+- le **démarrage** (message d'erreur, et le journal `pong-error.log`).
 
 En tout, plus de **cent tests** qui tournent en quelques secondes :
 

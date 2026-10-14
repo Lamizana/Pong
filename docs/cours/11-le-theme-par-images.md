@@ -102,11 +102,11 @@ def despill_green(image):
     return Image.merge("RGBA", (r, Image.composite(vert_limite, g, semi), b, a))
 ```
 
-> ⚠️ **Le fond n'est pas toujours du même vert !** Notre image de titre utilise un
-> vert **sombre**, que la règle ci-dessus ne détecte pas (le bleu y est trop proche
-> du vert). D'où une seconde règle, fondée sur la **dominante verte + une faible
-> luminance** (`remove_dark_green_background`). Morale : un détourage se vérifie
-> **sur les vraies images**, jamais « en principe ».
+> ⚠️ **Le seuil se calibre sur les vraies images.** `GREEN_THRESHOLD = 40` (« le
+> vert dépasse le rouge et le bleu d'au moins 40 ») a été réglé sur nos sources :
+> trop haut, des restes de fond subsistent ; trop bas, des pixels du sujet
+> disparaissent. D'où `remove_green_background`, qu'on vérifie **sur les vraies
+> images**, jamais « en principe ».
 
 ## 4. Charger une image avec pygame
 
@@ -171,7 +171,8 @@ Et dans `App.__init__` :
         self.assets = AssetStore()
 ```
 
-Toutes les scènes y accèdent par `self.app.assets.raquette`, etc.
+Toutes les scènes y accèdent par `self.app.assets.paddle_left`,
+`self.app.assets.ball`, etc.
 
 ## 7. Le sprite n'est que l'habillage
 
@@ -229,9 +230,9 @@ def panel_rect(frame):
 On regroupe ces helpers d'écran dans `pong/ui.py`, aux côtés de `navigation_index` :
 **aucune scène n'a besoin de connaître la taille du panneau** pour l'afficher.
 
-Le titre `PONG` devient lui aussi une image (`title.png`), blittée en haut du
-panneau. Le texte passe en **clair** (le panneau est sombre) : ce sont les
-constantes `TEXT_COLOR` / `TEXT_DIM` de `settings.py`.
+L'écran d'accueil, lui, est un fond **opaque** : `start_screen.png`, chargé par
+`AssetStore` sous le nom `ASSET_START`. Le texte passe en **clair** (le panneau
+est sombre) : ce sont les constantes `TEXT_COLOR` / `TEXT_DIM` de `settings.py`.
 
 > 💡 **Un détail qui compte :** les libellés lisibles sur un panneau **cyan** doivent
 > être sombres ; sur un panneau **sombre**, ils doivent être clairs. Notre thème a
@@ -358,7 +359,7 @@ class AssetStore:
         self.background = self._load_opaque(settings.ASSET_BACKGROUND)
         self.menu_background = self._load_opaque(settings.ASSET_MENU)
         self.menu_frame = self._load_sprite(settings.ASSET_MENU_FRAME)
-        self.title = self._load_sprite(settings.ASSET_TITLE)
+        self.start_screen = self._load_opaque(settings.ASSET_START)
         self.score_screen = self._load_sprite(settings.ASSET_SCORE_SCREEN)
         self.paddle_left = self._load_sprite(settings.ASSET_PADDLE_LEFT)
         self.paddle_right = self._load_sprite(settings.ASSET_PADDLE_RIGHT)
@@ -382,7 +383,7 @@ class AssetStore:
 ASSET_BACKGROUND = "background.png"
 ASSET_MENU = "menu.png"
 ASSET_MENU_FRAME = "menu_frame.png"
-ASSET_TITLE = "title.png"
+ASSET_START = "start_screen.png"
 ASSET_SCORE_SCREEN = "score_screen.png"
 ASSET_PADDLE_LEFT = "paddle_left.png"
 ASSET_PADDLE_RIGHT = "paddle_right.png"

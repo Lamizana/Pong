@@ -159,8 +159,8 @@ class GameScene(Scene):
 ## À vous de jouer
 
 1. Créez `pong/ui.py` avec la fonction `navigation_index`.
-2. Transformez `MenuScene` : quatre entrées, navigation, validation, et, depuis
-   la pause, le retour au menu (`Q`/`M` — le chapitre 09 branche la pause).
+2. Transformez `MenuScene` : quatre entrées, navigation, validation, et —
+   depuis la pause, le retour au menu (`Q`/`M`) — le chapitre 09 branche la pause.
 3. Créez `OptionsScene` : deux lignes réglables et une ligne « Retour ».
 4. Créez la scène `start` (l'écran d'accueil) et enregistrez-la dans
    `App._scenes` : le menu et les options y reviennent avec « Échap ».
