@@ -74,7 +74,7 @@ Puis la classe `Ball`. La mise en jeu choisit une direction **au hasard**, dans 
 On veut une **vitesse totale constante** (`speed`) mais une **direction variable**. Si `θ` est l'angle par rapport à l'horizontale, alors :
 
 | Composante | Formule |
-|------------|---------|
+| ------------ | --------- |
 | horizontale | `vx = speed × cos(θ)` |
 | verticale | `vy = speed × sin(θ)` |
 

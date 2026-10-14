@@ -51,7 +51,7 @@ Un sprite de jeu a rarement la forme finale souhaitée. Nos images sources vienn
 Trois étapes, trois responsabilités :
 
 | Étape | Quand | Rôle |
-|-------|-------|------|
+| ------- | ------- | ------ |
 | `prepare_assets.py` | à la main, une fois | détourer, recadrer, redimensionner |
 | `pong/assets/*.png` | — | le résultat, **embarqué** avec le jeu |
 | `AssetStore` | au lancement | charger en mémoire, une seule fois |
@@ -116,7 +116,7 @@ pygame.image.load(str(chemin))
 Deux conversions sont possibles, et le choix n'est **pas** anodin :
 
 | Méthode | Quand | Résultat |
-|---------|-------|----------|
+| --------- | ------- | ---------- |
 | `.convert()` | image **opaque** (un fond) | format d'affichage, plus rapide à dessiner |
 | `.convert_alpha()` | image avec **transparence** (un sprite) | conserve le canal alpha |
 

@@ -56,7 +56,7 @@ AI_LEVELS = {
 Un **dictionnaire de dictionnaires** : chaque niveau rassemble ses réglages et son libellé. C'est facile à lire, et ajouter un niveau « impossible » ne demande qu'une ligne.
 
 | Niveau | Vitesse | Imprécision | Ressenti |
-|--------|---------|-------------|----------|
+| -------- | --------- | ------------- | ---------- |
 | Facile | 300 px/s | ±70 px | rate souvent, laisse passer |
 | Moyen | 440 px/s | ±35 px | équilibré |
 | Difficile | 640 px/s | ±8 px | très présent, mais pas parfait |

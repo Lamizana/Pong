@@ -80,7 +80,7 @@ dt = min(self.clock.tick(settings.FPS) / 1000.0, 0.05)
 Pourquoi est-ce capital ? Imaginez une balle qui avance de « 5 pixels par image » :
 
 | Écran | Images/s | Distance en 1 s |
-|-------|----------|-----------------|
+| ------- | ---------- | ----------------- |
 | classique | 60 | 300 px |
 | jeu rapide | 144 | 720 px ❌ |
 
