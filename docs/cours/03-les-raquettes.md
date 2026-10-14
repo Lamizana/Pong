@@ -312,7 +312,7 @@ def test_reset_recenters_the_paddle():
     assert paddle.y == settings.FIELD_TOP + (settings.FIELD_HEIGHT - paddle.height) / 2
 ```
 
-Lancez `pytest` : les tests passent. Notez au passage que **ces tests n'ouvrent aucune fenêtre** — c'est tout l'intérêt d'avoir séparé la logique de l'affichage.
+Lancez `pytest` : les tests passent. Notez au passage que **ces tests n'ouvrent aucune fenêtre** ; c'est tout l'intérêt d'avoir séparé la logique de l'affichage.
 
 ### `pong/scenes/game.py` (première version)
 

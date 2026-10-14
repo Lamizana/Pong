@@ -95,7 +95,7 @@ def config_dir():
 Trois principes de robustesse :
 
 1. **Chaque système a ses conventions** (Windows aime `%APPDATA%`, Linux `XDG`).
-2. **`PONG_CONFIG_DIR`** permet de tout rediriger — c'est ce qui rendra les tests hermétiques (aucun test n'écrit dans le dossier réel de l'utilisateur).
+2. **`PONG_CONFIG_DIR`** permet de tout rediriger ; c'est ce qui rendra les tests hermétiques (aucun test n'écrit dans le dossier réel de l'utilisateur).
 3. **Un fichier absent, illisible ou corrompu retombe sur les défauts.** Jamais de plantage à cause d'un réglage :
 
 ```python

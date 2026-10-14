@@ -61,7 +61,7 @@ class Score:
         return None
 ```
 
-Remarquez la **valeur renvoyée** par `add_point` : le vainqueur, ou `None`. L'appelant n'a donc pas besoin de demander séparément « est-ce fini ? » puis « qui a gagné ? » — une seule opération, une seule réponse.
+Remarquez la **valeur renvoyée** par `add_point` : le vainqueur, ou `None`. L'appelant n'a donc pas besoin de demander séparément « est-ce fini ? » puis « qui a gagné ? », une seule opération, une seule réponse.
 
 Le paramètre `points_to_win` rend la règle **configurable** : les options du menu la régleront sur 3, 5 ou 10 (chapitre 08). C'est aussi ce qui rend le test de victoire plus rapide à écrire : `Score(points_to_win=1)`.
 
@@ -85,7 +85,7 @@ winner = self.score.add_point(scorer)
 
 ## 4. La remise en jeu
 
-Un point marqué, et la balle téléportée au centre instantanément ? Brutal. On instaure une courte pause — un **décompte** — pendant lequel le joueur peut se repositionner :
+Un point marqué, et la balle téléportée au centre instantanément ? Brutal. On instaure une courte pause (un **décompte**) pendant lequel le joueur peut se repositionner :
 
 ```
         ●  « Prêt ! »          → 1 seconde plus tard, la balle part
@@ -100,7 +100,7 @@ Un point marqué, et la balle téléportée au centre instantanément ? Brutal. 
         self.right_paddle.reset()
 ```
 
-- `serve_direction` : la balle part vers celui qui vient d'encaisser — équitable.
+- `serve_direction` : la balle part vers celui qui vient d'encaisser, équitable.
 - `serve_timer` : un compte à rebours en secondes. Tant qu'il est positif, la balle **ne bouge pas** (mais les raquettes restent contrôlables).
 - On **recentre** les raquettes, sinon un joueur mal placé serait pénalisé deux fois.
 
@@ -140,7 +140,7 @@ Et les polices dans `App.__init__` :
 ```
 
 > [!NOTE]
-> `SysFont(None, taille)` utilise la police système par défaut : aucune ressource à embarquer. Au chapitre 12, nous la remplacerons par une **vraie police** venue d'un fichier — sans changer une seule ligne des scènes, puisque tout passe par `draw_text`.
+> `SysFont(None, taille)` utilise la police système par défaut : aucune ressource à embarquer. Au chapitre 12, nous la remplacerons par une **vraie police** venue d'un fichier ; sans changer une seule ligne des scènes, puisque tout passe par `draw_text`.
 
 Puis, dans la scène :
 
@@ -291,7 +291,7 @@ def test_reset_clears_everything():
     assert score.winner() is None
 ```
 
-### `GameScene` — le score et la remise en jeu
+### `GameScene` : le score et la remise en jeu
 
 ```python
 from ..score import Score
@@ -363,7 +363,7 @@ Vous avez maintenant **un Pong complet qui se joue** : deux raquettes, une balle
 - Les **règles** (le score) vivent dans leur propre module, sans affichage : on les teste en trois lignes.
 - `add_point` renvoie **directement** le vainqueur : une opération, une réponse.
 - Une **remise en jeu** avec décompte et recentrage rend le jeu équitable.
-- Un utilitaire `draw_text` centralise le rendu du texte — pratique pour tout afficher, et pour changer de police plus tard sans rien casser.
+- Un utilitaire `draw_text` centralise le rendu du texte, pratique pour tout afficher, et pour changer de police plus tard sans rien casser.
 
 ---
 

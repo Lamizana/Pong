@@ -34,7 +34,7 @@ if ball.rect.colliderect(paddle.rect):
 
 C'est simple… et **faux**. Deux problèmes :
 
-1. **Le carré n'est pas un cercle.** Aux coins, le carré de la balle touche le rectangle alors que la balle (le disque) ne le touche **pas encore** — on déclenche un rebond « dans le vide ».
+1. **Le carré n'est pas un cercle.** Aux coins, le carré de la balle touche le rectangle alors que la balle (le disque) ne le touche **pas encore** ; on déclenche un rebond « dans le vide ».
 2. **L'inégalité est stricte.** Quand le carré de la balle est exactement **tangent** au bord de la raquette, `colliderect` renvoie `False` : le contact réel est **raté**. C'est précisément le bug que ce chapitre corrige : la balle traversait la raquette quand elle l'effleurait sur un coin.
 
 > [!WARNING]
@@ -323,7 +323,7 @@ from ..collision import circle_rect_contact
         return True
 ```
 
-### `tests/test_game_scene.py` — le test de non-régression
+### `tests/test_game_scene.py` : le test de non-régression
 
 ```python
 def test_ball_bounces_when_touching_paddle_corner():

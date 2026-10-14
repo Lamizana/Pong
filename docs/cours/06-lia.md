@@ -28,7 +28,7 @@ else:
     paddle.move_down(dt)
 ```
 
-Cette IA-là est **imbattable** : elle ne rate jamais rien. Un adversaire parfait n'est pas amusant — il faut lui donner deux faiblesses **contrôlées** :
+Cette IA-là est **imbattable** : elle ne rate jamais rien. Un adversaire parfait n'est pas amusant ; il faut lui donner deux faiblesses **contrôlées** :
 
 1. une **vitesse limitée** : elle ne peut pas rattraper une balle trop rapide ;
 2. une **imprécision de visée** : elle vise à côté, un peu au hasard.
@@ -132,7 +132,7 @@ La ligne essentielle est `step = min(abs(diff), self.speed * dt)` :
 - `self.speed * dt` est la distance **maximale** parcourable en `dt` secondes ;
 - si la cible est plus proche que cela, on s'arrête **exactement** dessus (`abs(diff)`), sans la dépasser.
 
-C'est ce qui évite de « dépasser puis revenir en arrière » — un autre tremblement.
+C'est ce qui évite de « dépasser puis revenir en arrière », un autre tremblement.
 
 Notez que l'IA utilise `paddle.move_by` (le déplacement **brut**) et non `paddle.move` : elle calcule elle-même sa distance, et `move_by` continue de respecter les bornes du terrain. C'est exactement pourquoi nous avions découpé les deux méthodes au chapitre 03.
 

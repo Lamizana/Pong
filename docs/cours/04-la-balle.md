@@ -178,7 +178,7 @@ Un Pong amusant ne renvoie pas la balle toujours au même angle : **l'angle dép
    - une balle immobile **ne bouge pas** (le bug du « tremblement ») ;
    - la balle qui sort à gauche est détectée (`"left"`) ;
    - frappée en haut de la raquette, la balle repart **vers le haut** ; au centre, **à plat**.
-3. Branchez la balle dans `GameScene` : déplacez-la, faites-la rebondir, et **relancez-la au centre** dès qu'elle sort (pour l'instant, le point ne compte pas — ce sera le chapitre 07).
+3. Branchez la balle dans `GameScene` : déplacez-la, faites-la rebondir, et **relancez-la au centre** dès qu'elle sort (pour l'instant, le point ne compte pas ; ce sera le chapitre 07).
 
 <details>
 <summary>Un indice pour le rebond « qui repart vers le haut »</summary>
@@ -404,7 +404,7 @@ La balle rebondit maintenant en haut et en bas, et sort par les côtés. **Il ne
 - Un lancer utilise la **trigonométrie** : `vx = speed·cos θ`, `vy = speed·sin θ`.
 - Un rebond teste la **direction** (`vy < 0`) pour éviter les vibrations.
 - On **replace** la balle dans le terrain avant d'inverser la vitesse.
-- L'angle de renvoi dépend du **point d'impact** sur la raquette — c'est ce qui rend le jeu intéressant.
+- L'angle de renvoi dépend du **point d'impact** sur la raquette ; c'est ce qui rend le jeu intéressant.
 
 ---
 

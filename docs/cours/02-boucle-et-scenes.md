@@ -130,7 +130,7 @@ def set_scene(self, scene):
 La différence entre les deux est importante :
 
 - `switch_scene` **construit** une scène neuve (par exemple, quitter le menu pour commencer une partie).
-- `set_scene` **réactive** une scène existante — c'est ce qui permettra de reprendre une partie après une pause **sans la recréer**.
+- `set_scene` **réactive** une scène existante ; c'est ce qui permettra de reprendre une partie après une pause **sans la recréer**.
 
 ---
 
@@ -158,7 +158,7 @@ def run(self):
 
 Deux subtilités :
 
-- **`scene = self.scene`** fige la scène du début d'image. Sans cela, un événement qui change de scène redirigerait les événements **suivants de la même image** vers la nouvelle scène — source de bugs très difficiles à trouver.
+- **`scene = self.scene`** fige la scène du début d'image. Sans cela, un événement qui change de scène redirigerait les événements **suivants de la même image** vers la nouvelle scène, source de bugs très difficiles à trouver.
 - **`for ... else`** : le `else` ne s'exécute que si la boucle `for` n'a pas été interrompue par un `break`. Autrement dit, si on vient de fermer la fenêtre, on **saute** la mise à jour et le dessin de cette image.
 
 ---
@@ -367,7 +367,7 @@ pytest
 
 Vous devez voir `1 passed`. Bravo : vous avez votre premier test.
 
-> **Dans le projet de référence :** `pong/app.py` est bien plus complet à la fin du cours (assets, polices, son, réglages). Nous l'enrichirons chapitre après chapitre — c'est exactement comme cela qu'on construit un jeu.
+> **Dans le projet de référence :** `pong/app.py` est bien plus complet à la fin du cours (assets, polices, son, réglages). Nous l'enrichirons chapitre après chapitre ; c'est exactement comme cela qu'on construit un jeu.
 
 </details>
 

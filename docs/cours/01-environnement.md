@@ -204,7 +204,7 @@ Décortiquons-le.
 
 ### `pygame.init()` et la fenêtre
 
-`pygame.init()` démarre les sous-systèmes (affichage, son, polices). `pygame.display.set_mode((900, 600))` ouvre la fenêtre et renvoie sa **surface** : la zone de pixels sur laquelle on dessine. Tout ce qu'on « dessine » l'est en réalité sur cette surface, en mémoire — jusqu'à ce qu'on l'affiche.
+`pygame.init()` démarre les sous-systèmes (affichage, son, polices). `pygame.display.set_mode((900, 600))` ouvre la fenêtre et renvoie sa **surface** : la zone de pixels sur laquelle on dessine. Tout ce qu'on « dessine » l'est en réalité sur cette surface, en mémoire, jusqu'à ce qu'on l'affiche.
 
 ### La boucle de jeu
 
@@ -220,7 +220,7 @@ Un jeu est une boucle qui tourne des dizaines de fois par seconde : lire les ent
 
 ### `fill` puis `flip`
 
-`screen.fill(...)` efface tout l'écran avec une couleur — sans cela, le dessin de l'image précédente resterait visible. `pygame.display.flip()` envoie le résultat à l'écran. **Si vous oubliez `flip()`, rien ne s'affiche jamais.**
+`screen.fill(...)` efface tout l'écran avec une couleur ; sans cela, le dessin de l'image précédente resterait visible. `pygame.display.flip()` envoie le résultat à l'écran. **Si vous oubliez `flip()`, rien ne s'affiche jamais.**
 
 ### Le `try / finally`
 

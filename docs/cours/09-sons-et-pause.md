@@ -211,7 +211,7 @@ class PauseScene(Scene):
 
 Deux points essentiels :
 
-- **`set_scene(self.game)`** : on **réactive** la partie telle quelle, avec son score et ses positions — c'est exactement pour cela que `set_scene` existe (chapitre 02). `switch_scene("game")` créerait une partie **neuve**.
+- **`set_scene(self.game)`** : on **réactive** la partie telle quelle, avec son score et ses positions ; c'est exactement pour cela que `set_scene` existe (chapitre 02). `switch_scene("game")` créerait une partie **neuve**.
 - **Le jeu ne se met pas à jour** pendant la pause : `PauseScene.update` ne fait rien, donc la balle est bien figée. La partie ne bouge que parce que `PauseScene.draw` appelle `self.game.draw(surface)`.
 
 Ajoutez à `settings.py` :
@@ -428,7 +428,7 @@ class PauseScene(Scene):
                            settings.TEXT_DIM, center=(center_x, 365))
 ```
 
-Faites une partie, appuyez sur `P` : le jeu se fige, et `P` (ou Entrée) reprend exactement où vous en étiez — même score, mêmes positions.
+Faites une partie, appuyez sur `P` : le jeu se fige, et `P` (ou Entrée) reprend exactement où vous en étiez, même score, mêmes positions.
 
 > **Dans le projet de référence :** `pong/sound.py` est identique. La pause utilisera `pong/ui.py` pour centrer ses trois lignes sur les métriques de police (chapitre 11) et un halo néon (chapitre 12).
 

@@ -90,7 +90,7 @@ Quelques compléments indispensables :
 
 - **érosion** (`MinFilter`) : retire le liseré vert d'un pixel sur le contour ;
 - **`clean_alpha`** : force à zéro les opacités minuscules (1-2 %) laissées par le redimensionnement, pour des coins nets ;
-- **`despill`** : sur les seuls pixels semi-transparents, ramène le vert à `max(rouge, bleu)` — supprime la teinte verte résiduelle.
+- **`despill`** : sur les seuls pixels semi-transparents, ramène le vert à `max(rouge, bleu)`, supprime la teinte verte résiduelle.
 
 ```python
 def despill_green(image):
@@ -121,7 +121,7 @@ Deux conversions sont possibles, et le choix n'est **pas** anodin :
 | `.convert_alpha()` | image avec **transparence** (un sprite) | conserve le canal alpha |
 
 > [!TIP]
-> Convertir une image au format de l'écran accélère énormément le dessin. On le fait **une fois**, au chargement — jamais par image.
+> Convertir une image au format de l'écran accélère énormément le dessin. On le fait **une fois**, au chargement, jamais par image.
 
 ---
 
@@ -190,7 +190,7 @@ Point crucial : passer aux images **ne change pas la logique**. Le rectangle de 
 ```
 
 > [!IMPORTANT]
-> **La règle d'or :** la physique ne dépend jamais d'une taille de sprite. Ici, le sprite **déborde vers l'extérieur** du rectangle de collision, dont le bord intérieur marque la zone de frappe. Si vous régénérez l'image avec une autre largeur, le jeu reste correct — au pire, l'alignement visuel bouge d'un pixel.
+> **La règle d'or :** la physique ne dépend jamais d'une taille de sprite. Ici, le sprite **déborde vers l'extérieur** du rectangle de collision, dont le bord intérieur marque la zone de frappe. Si vous régénérez l'image avec une autre largeur, le jeu reste correct ; au pire, l'alignement visuel bouge d'un pixel.
 
 Et la balle gagne même une petite animation : elle **tourne sur elle-même**, proportionnellement à sa vitesse.
 
@@ -227,7 +227,7 @@ On regroupe ces helpers d'écran dans `pong/ui.py`, aux côtés de `navigation_i
 L'écran d'accueil, lui, est un fond **opaque** : `start_screen.png`, chargé par `AssetStore` sous le nom `ASSET_START`. Le texte passe en **clair** (le panneau est sombre) : ce sont les constantes `TEXT_COLOR` / `TEXT_DIM` de `settings.py`.
 
 > [!NOTE]
-> **Un détail qui compte :** les libellés lisibles sur un panneau **cyan** doivent être sombres ; sur un panneau **sombre**, ils doivent être clairs. Notre thème a changé de panneau en cours de route, et c'est une constante qui l'a absorbé — jamais une valeur codée en dur au fond d'une scène.
+> **Un détail qui compte :** les libellés lisibles sur un panneau **cyan** doivent être sombres ; sur un panneau **sombre**, ils doivent être clairs. Notre thème a changé de panneau en cours de route, et c'est une constante qui l'a absorbé, jamais une valeur codée en dur au fond d'une scène.
 
 ---
 
@@ -371,7 +371,7 @@ class AssetStore:
         return pygame.image.load(str(asset_path(name))).convert_alpha()
 ```
 
-### `settings.py` — les noms d'assets
+### `settings.py` : les noms d'assets
 
 ```python
 # --- Assets (images du thème, générées par scripts/prepare_assets.py) ---
@@ -420,7 +420,7 @@ def test_missing_asset_raises_a_clear_error():
         asset_path("fichier-inexistant.png")
 ```
 
-> **Dans le projet de référence :** c'est exactement cette architecture. Le `score_screen.png` y est extrait du panneau de menu, et les positions de score sont dérivées de la largeur du panneau — jamais codées en dur.
+> **Dans le projet de référence :** c'est exactement cette architecture. Le `score_screen.png` y est extrait du panneau de menu, et les positions de score sont dérivées de la largeur du panneau, jamais codées en dur.
 
 </details>
 

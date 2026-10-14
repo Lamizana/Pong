@@ -35,7 +35,7 @@ class GameOverScene(Scene):
 On lui transmet **deux informations** :
 
 - `winner` : qui a gagné ;
-- `mode` : dans quel mode la partie se jouait — indispensable pour rejouer **à l'identique**.
+- `mode` : dans quel mode la partie se jouait, indispensable pour rejouer **à l'identique**.
 
 ---
 
@@ -72,7 +72,7 @@ Plutôt que deux raccourcis clavier, on offre un **vrai menu** à deux entrées,
           Menu
 ```
 
-On réutilise le helper du chapitre 08 — et c'est tout l'intérêt de l'avoir isolé :
+On réutilise le helper du chapitre 08, et c'est tout l'intérêt de l'avoir isolé :
 
 ```python
     def handle_event(self, event):
@@ -341,7 +341,7 @@ Bravo : le jeu est **complet**. Menu, options, partie (1 ou 2 joueurs), IA, scor
 ## En résumé
 
 - Un état de jeu mérite **sa propre scène** : plus clair, et testable.
-- On transmet les **données nécessaires** (`winner`, `mode`) — rien de plus.
+- On transmet les **données nécessaires** (`winner`, `mode`), rien de plus.
 - Un menu de fin **réutilise** la navigation des autres menus.
 - Stocker une **action** plutôt qu'une scène garde le menu déclaratif.
 - `set_scene` quand on construit la scène soi-même, `switch_scene` quand c'est le dictionnaire qui la fabrique.

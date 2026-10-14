@@ -57,7 +57,7 @@ L'opérateur `%` (modulo) donne le **reste** de la division :
 | 2 | 3 |
 | **3** | **0** ← on boucle |
 
-Ainsi, descendre depuis la dernière ligne ramène à la première, sans `if`. Et pour monter, on utilise `(index - 1) % 4` — en Python, `-1 % 4` vaut bien `3`.
+Ainsi, descendre depuis la dernière ligne ramène à la première, sans `if`. Et pour monter, on utilise `(index - 1) % 4` ; en Python, `-1 % 4` vaut bien `3`.
 
 Le projet accepte **deux jeux de touches** pour naviguer : les flèches (joueur 2) et Z/S ou W/S (joueur 1). On rassemble cela dans une petite fonction, pour ne pas la répéter dans chaque scène :
 
@@ -161,7 +161,7 @@ class GameScene(Scene):
 ## À vous de jouer
 
 1. Créez `pong/ui.py` avec la fonction `navigation_index`.
-2. Transformez `MenuScene` : quatre entrées, navigation, validation, et — depuis la pause, le retour au menu (`Q`/`M`) — le chapitre 09 branche la pause.
+2. Transformez `MenuScene` : quatre entrées, navigation, validation, et (depuis la pause, le retour au menu (`Q`/`M`)) le chapitre 09 branche la pause.
 3. Créez `OptionsScene` : deux lignes réglables et une ligne « Retour ».
 4. Créez la scène `start` (l'écran d'accueil) et enregistrez-la dans `App._scenes` : le menu et les options y reviennent avec « Échap ».
 5. Déclarez `"options"` dans `App._scenes` et ajoutez `app.config` dans `App`.
@@ -385,7 +385,7 @@ class OptionsScene(Scene):
                                    settings.WINDOW_HEIGHT - 30))
 ```
 
-### `App` — les réglages et la scène
+### `App` : les réglages et la scène
 
 ```python
 from .scenes.options import OptionsScene
