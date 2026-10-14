@@ -6,12 +6,12 @@
 
 À la fin de ce chapitre, vous saurez :
 
-- comprendre la **chaîne des assets** : image source → PNG préparé → écran ;
-- ce qu'est un **détourage** (« chroma-key ») et pourquoi on le fait **hors ligne** ;
-- charger une image avec pygame et choisir entre `convert()` et `convert_alpha()` ;
-- centraliser le chargement dans un **`AssetStore`** ;
-- remplacer des formes dessinées par des **sprites**, sans toucher à la logique ;
-- habiller le menu d'un **panneau** et d'un **titre** venus d'images.
+- Comprendre la **chaîne des assets** : image source → PNG préparé → écran.
+- Ce qu'est un **détourage** (« chroma-key ») et pourquoi on le fait **hors ligne**.
+- Charger une image avec pygame et choisir entre `convert()` et `convert_alpha()`.
+- Centraliser le chargement dans un **`AssetStore`**.
+- Remplacer des formes dessinées par des **sprites**, sans toucher à la logique.
+- Habiller le menu d'un **panneau** et d'un **titre** venus d'images.
 
 **Fichiers du projet :** `scripts/prepare_assets.py`, `pong/resources.py`, `pong/ui.py`, `pong/scenes/*.py`
 **Test du projet :** `tests/test_assets.py`, `tests/test_prepare_assets.py`

@@ -6,11 +6,11 @@
 
 À la fin de ce chapitre, vous saurez :
 
-- ajouter un **halo néon** derrière un texte ;
-- embarquer une **vraie police** (avec sa licence) et l'utiliser partout ;
-- rendre les réglages **persistants** d'une session à l'autre ;
-- afficher une **erreur lisible** même dans un exécutable sans console ;
-- créer un **exécutable** Linux et Windows, et l'automatiser sur GitHub Actions.
+- Ajouter un **halo néon** derrière un texte.
+- Embarquer une **vraie police** (avec sa licence) et l'utiliser partout.
+- Rendre les réglages **persistants** d'une session à l'autre.
+- Afficher une **erreur lisible** même dans un exécutable sans console.
+- Créer un **exécutable** Linux et Windows, et l'automatiser sur GitHub Actions.
 
 **Fichiers du projet :** `pong/neon.py`, `pong/config.py`, `main.py`, `build.sh`, `build.ps1`, `.github/workflows/build.yml`, `pyproject.toml`
 **Test du projet :** `tests/test_neon.py`, `tests/test_config.py`, `tests/test_main.py`, `tests/test_build_config.py`

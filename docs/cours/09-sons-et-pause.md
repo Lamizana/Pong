@@ -6,11 +6,11 @@
 
 À la fin de ce chapitre, vous saurez :
 
-- **générer** un son en Python, sans aucun fichier audio ;
-- construire un buffer PCM exploitable par pygame ;
-- concevoir un module de son qui **se dégrade proprement** quand l'audio n'existe
-  pas (CI, machine sans carte son) ;
-- créer un écran de **pause** qui fige la partie et sait la **reprendre**.
+- **Générer** un son en Python, sans aucun fichier audio.
+- Construire un buffer PCM exploitable par pygame.
+- Concevoir un module de son qui **se dégrade proprement** quand l'audio n'existe
+  pas (CI, machine sans carte son).
+- Créer un écran de **pause** qui fige la partie et sait la **reprendre**.
 
 **Fichiers du projet :** `pong/sound.py`, `pong/scenes/pause.py`, `pong/settings.py`
 **Test du projet :** `tests/test_sound.py`

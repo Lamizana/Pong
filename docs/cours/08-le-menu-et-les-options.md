@@ -6,12 +6,12 @@
 
 À la fin de ce chapitre, vous saurez :
 
-- construire un **menu navigable** au clavier ;
-- décrire les entrées du menu par une **liste de données** plutôt que par des `if` ;
-- créer un **sous-menu de réglages** (difficulté, points pour gagner) ;
-- partager un comportement entre plusieurs scènes (la **navigation**) sans le
-  dupliquer ;
-- transmettre des **paramètres** d'une scène à l'autre.
+- Construire un **menu navigable** au clavier.
+- Décrire les entrées du menu par une **liste de données** plutôt que par des `if`.
+- Créer un **sous-menu de réglages** (difficulté, points pour gagner).
+- Partager un comportement entre plusieurs scènes (la **navigation**) sans le
+  dupliquer.
+- Transmettre des **paramètres** d'une scène à l'autre.
 
 **Fichiers du projet :** `pong/scenes/menu.py`, `pong/scenes/options.py`, `pong/ui.py`
 **Test du projet :** `tests/test_options_scene.py`, `tests/test_app_smoke.py`

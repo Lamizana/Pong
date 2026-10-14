@@ -6,11 +6,11 @@
 
 À la fin de ce chapitre, vous saurez :
 
-- piloter une raquette **automatiquement** ;
-- régler une difficulté par **deux paramètres** : la vitesse et l'imprécision ;
-- rendre l'adversaire **battable** (et agréable à jouer) ;
-- éviter le **tremblement** grâce à une zone morte ;
-- tester un comportement aléatoire de façon **déterministe**.
+- Piloter une raquette **automatiquement**.
+- Régler une difficulté par **deux paramètres** : la vitesse et l'imprécision.
+- Rendre l'adversaire **battable** (et agréable à jouer).
+- Éviter le **tremblement** grâce à une zone morte.
+- Tester un comportement aléatoire de façon **déterministe**.
 
 **Fichiers du projet :** `pong/ai.py`, `pong/settings.py`
 **Test du projet :** `tests/test_ai.py`

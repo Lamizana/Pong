@@ -6,12 +6,12 @@
 
 À la fin de ce chapitre, vous saurez :
 
-- modéliser une **entité** du jeu par une classe (données + méthodes) ;
-- utiliser `pygame.Rect`, l'outil fourre-tout de pygame ;
-- déplacer une raquette **en fonction du temps** et l'**empêcher de sortir** du
-  terrain ;
-- créer la première version de la **scène de jeu** et la piloter au clavier ;
-- écrire les **tests** qui prouvent que les bornes fonctionnent.
+- Modéliser une **entité** du jeu par une classe (données + méthodes).
+- Utiliser `pygame.Rect`, l'outil fourre-tout de pygame.
+- Déplacer une raquette **en fonction du temps** et l'**empêcher de sortir** du
+  terrain.
+- Créer la première version de la **scène de jeu** et la piloter au clavier.
+- Écrire les **tests** qui prouvent que les bornes fonctionnent.
 
 **Fichiers du projet :** `pong/paddle.py`, `pong/scenes/game.py`, `pong/settings.py`
 **Test du projet :** `tests/test_paddle.py`

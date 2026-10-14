@@ -6,11 +6,11 @@
 
 À la fin de ce chapitre, vous saurez :
 
-- modéliser les **règles** du jeu dans une classe toute simple ;
-- détecter qu'un point est marqué et **à qui** il revient ;
-- gérer la **remise en jeu** (délai, direction, repositionnement) ;
-- **afficher** le score à l'écran ;
-- arrêter la partie quand un joueur atteint le nombre de points requis.
+- Modéliser les **règles** du jeu dans une classe toute simple.
+- Détecter qu'un point est marqué et **à qui** il revient.
+- Gérer la **remise en jeu** (délai, direction, repositionnement).
+- **Afficher** le score à l'écran.
+- Arrêter la partie quand un joueur atteint le nombre de points requis.
 
 **Fichiers du projet :** `pong/score.py`, `pong/scenes/game.py`, `pong/settings.py`
 **Test du projet :** `tests/test_score.py`

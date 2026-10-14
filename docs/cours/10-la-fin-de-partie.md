@@ -6,10 +6,10 @@
 
 À la fin de ce chapitre, vous saurez :
 
-- créer un **écran de fin** dédié, avec les bonnes informations ;
-- réutiliser la **navigation** d'un menu dans une autre scène ;
-- relancer une partie **dans le mode choisi** ;
-- enchaîner les scènes proprement : partie → fin → partie / menu.
+- Créer un **écran de fin** dédié, avec les bonnes informations.
+- Réutiliser la **navigation** d'un menu dans une autre scène.
+- Relancer une partie **dans le mode choisi**.
+- Enchaîner les scènes proprement : partie → fin → partie / menu.
 
 **Fichiers du projet :** `pong/scenes/gameover.py`, `pong/scenes/game.py`
 **Test du projet :** `tests/test_gameover_scene.py`

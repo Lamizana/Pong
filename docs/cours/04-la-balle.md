@@ -6,12 +6,12 @@
 
 À la fin de ce chapitre, vous saurez :
 
-- représenter un déplacement par un **vecteur vitesse** ;
-- faire rebondir une balle sur les bords **haut et bas** sans qu'elle se « colle » ;
-- détecter qu'une balle est **sortie** du terrain ;
-- renvoyer la balle avec un **angle qui dépend du point d'impact** (la « physique
-  Pong ») ;
-- accélérer progressivement le jeu à chaque échange.
+- Représenter un déplacement par un **vecteur vitesse**.
+- Faire rebondir une balle sur les bords **haut et bas** sans qu'elle se « colle ».
+- Détecter qu'une balle est **sortie** du terrain.
+- Renvoyer la balle avec un **angle qui dépend du point d'impact** (la « physique
+  Pong »).
+- Accélérer progressivement le jeu à chaque échange.
 
 **Fichiers du projet :** `pong/ball.py`, `pong/scenes/game.py`, `pong/settings.py`
 **Test du projet :** `tests/test_ball.py`

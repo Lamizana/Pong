@@ -6,11 +6,11 @@
 
 À la fin de ce chapitre, vous saurez :
 
-- transformer votre script du chapitre 01 en une **classe `App`** réutilisable ;
-- comprendre le **delta time** (`dt`) et pourquoi il rend le jeu indépendant du
-  matériel ;
-- créer des **scènes** (menu, partie, pause…) que l'`App` fait tourner ;
-- centraliser les constantes dans `settings.py`.
+- Transformer votre script du chapitre 01 en une **classe `App`** réutilisable.
+- Comprendre le **delta time** (`dt`) et pourquoi il rend le jeu indépendant du
+  matériel.
+- Créer des **scènes** (menu, partie, pause…) que l'`App` fait tourner.
+- Centraliser les constantes dans `settings.py`.
 
 **Fichiers du projet :** `main.py`, `pong/app.py`, `pong/scenes/base.py`, `pong/scenes/menu.py`, `pong/settings.py`
 **Test du projet :** `tests/test_app_smoke.py`

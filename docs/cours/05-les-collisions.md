@@ -6,12 +6,12 @@
 
 À la fin de ce chapitre, vous saurez :
 
-- détecter le contact entre un **cercle** (la balle) et un **rectangle** (la raquette) ;
-- pourquoi la détection par « boîte englobante » **rate** les contacts sur un coin ;
-- calculer une **normale** et une **pénétration** pour repousser proprement la balle ;
-- éviter le **« tunneling »** (la balle qui traverse une raquette) grâce aux
-  sous-étapes ;
-- écrire le **test de non-régression** qui reproduit le bug du coin.
+- Détecter le contact entre un **cercle** (la balle) et un **rectangle** (la raquette).
+- Pourquoi la détection par « boîte englobante » **rate** les contacts sur un coin.
+- Calculer une **normale** et une **pénétration** pour repousser proprement la balle.
+- Éviter le **« tunneling »** (la balle qui traverse une raquette) grâce aux
+  sous-étapes.
+- Écrire le **test de non-régression** qui reproduit le bug du coin.
 
 **Fichiers du projet :** `pong/collision.py`, `pong/scenes/game.py`
 **Test du projet :** `tests/test_collision.py`, `tests/test_game_scene.py`
