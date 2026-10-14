@@ -96,7 +96,7 @@ Détaillons chaque couche :
   travail à la **scène courante**.
 - **`main.py`** ne fait presque rien : il crée l'application et la lance.
 
-> [!Note]
+> [!NOTE]
 > **Pourquoi cette séparation ?** Parce qu'elle rend chaque chapitre très lisible:
 > - on parle d'**un fichier à la fois**. Et surtout, elle permet de tester la physique du jeu **sans ouvrir de fenêtre**,ce qui sera notre filet de sécurité.
 
@@ -125,7 +125,7 @@ Pour toute la logique du jeu, nous suivrons un rythme en trois temps, appelé
 - **Refactor** :
   - je nettoie le code sans casser les tests.
 
-> [!Note]
+> [!NOTE]
 > **Pourquoi écrire le test d'abord ?**
 >- Parce qu'un test écrit *après* le code vérifie seulement « ce que le code fait », alors qu'un test écrit *avant* dit « ce que le code **doit** faire ». C'est toute la différence.
 

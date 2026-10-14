@@ -6,7 +6,7 @@ Bienvenue ! Ce cours vous apprend à construire **de A à Z** un jeu **Pong** co
 
 À la fin du cours, vous aurez un jeu jouable à 1 ou 2 joueurs, avec une IA à trois niveaux, un menu, des options, des sons, une pause, un écran de fin, des tests automatisés, et un habillage « néon » à base d'images.
 
-> [!Note]
+> [!NOTE]
 > **Vous allez écrire le code vous-même.**
 > - Chaque chapitre se termine par un exercice « ***À vous de jouer !*** », suivi de son corrigé complet.
 
