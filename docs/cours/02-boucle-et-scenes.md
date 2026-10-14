@@ -7,8 +7,7 @@
 À la fin de ce chapitre, vous saurez :
 
 - Transformer votre script du chapitre 01 en une **classe `App`** réutilisable.
-- Comprendre le **delta time** (`dt`) et pourquoi il rend le jeu indépendant du
-  matériel.
+- Comprendre le **delta time** (`dt`) et pourquoi il rend le jeu indépendant du matériel.
 - Créer des **scènes** (menu, partie, pause…) que l'`App` fait tourner.
 - Centraliser les constantes dans `settings.py`.
 
@@ -19,12 +18,9 @@
 
 ## 1. Du script à l'application
 
-Au chapitre 01, tout tenait dans `main.py`. Ça fonctionne, mais un jeu complet a
-besoin de plusieurs écrans (menu, partie, pause, fin) et d'un état (score, scène
-courante…). Garder tout dans une seule boucle deviendrait vite illisible.
+Au chapitre 01, tout tenait dans `main.py`. Ça fonctionne, mais un jeu complet a besoin de plusieurs écrans (menu, partie, pause, fin) et d'un état (score, scène courante…). Garder tout dans une seule boucle deviendrait vite illisible.
 
-Nous allons donc créer une classe **`App`** qui possède la fenêtre, l'horloge et la
-scène courante, et qui contient **la boucle**. `main.py` se réduira à trois lignes.
+Nous allons donc créer une classe **`App`** qui possède la fenêtre, l'horloge et la scène courante, et qui contient **la boucle**. `main.py` se réduira à trois lignes.
 
 ---
 
@@ -47,9 +43,7 @@ CAPTION = "Pong"
 ```
 
 > [!NOTE]
-> **Pourquoi un fichier dédié ?** Imaginez `900` recopié dans huit fichiers :
-> pour changer la taille de la fenêtre, il faudrait tous les retrouver. Ici, une
-> seule ligne à modifier.
+> **Pourquoi un fichier dédié ?** Imaginez `900` recopié dans huit fichiers : pour changer la taille de la fenêtre, il faudrait tous les retrouver. Ici, une seule ligne à modifier.
 
 ---
 
@@ -74,8 +68,7 @@ class App:
 
 ## 4. Le delta time : la clé d'un jeu fluide
 
-Au chapitre 01, on appelait `clock.tick(60)` sans utiliser sa valeur de retour. Or
-`tick()` renvoie le **nombre de millisecondes écoulées** depuis l'image précédente.
+Au chapitre 01, on appelait `clock.tick(60)` sans utiliser sa valeur de retour. Or `tick()` renvoie le **nombre de millisecondes écoulées** depuis l'image précédente.
 
 ```python
 dt = min(self.clock.tick(settings.FPS) / 1000.0, 0.05)
@@ -91,24 +84,19 @@ Pourquoi est-ce capital ? Imaginez une balle qui avance de « 5 pixels par image
 | classique | 60 | 300 px |
 | jeu rapide | 144 | 720 px ❌ |
 
-La balle irait plus de deux fois plus vite selon le matériel ! En exprimant les
-vitesses en **pixels par seconde** et en multipliant par `dt`, tout le monde joue
-à la même vitesse :
+La balle irait plus de deux fois plus vite selon le matériel ! En exprimant les vitesses en **pixels par seconde** et en multipliant par `dt`, tout le monde joue à la même vitesse :
 
 ```python
 self.x += self.vx * dt        # vx en pixels/seconde
 ```
 
-Le plafond de 50 ms évite un autre problème : si vous déplacez la fenêtre ou si la
-machine est occupée, `dt` peut devenir énorme et la balle « sauterait » à travers
-les murs au retour.
+Le plafond de 50 ms évite un autre problème : si vous déplacez la fenêtre ou si la machine est occupée, `dt` peut devenir énorme et la balle « sauterait » à travers les murs au retour.
 
 ---
 
 ## 5. Les scènes
 
-Un jeu a plusieurs écrans. Plutôt qu'un gros `if` pour savoir lequel dessiner, on
-utilise des **scènes** : chacune est un objet avec trois méthodes.
+Un jeu a plusieurs écrans. Plutôt qu'un gros `if` pour savoir lequel dessiner, on utilise des **scènes** : chacune est un objet avec trois méthodes.
 
 ```python
 class Scene:
@@ -125,8 +113,7 @@ class Scene:
         """Dessine la scène sur `surface`."""
 ```
 
-Ces trois méthodes correspondent exactement aux trois temps de la boucle :
-**événements → mise à jour → dessin**.
+Ces trois méthodes correspondent exactement aux trois temps de la boucle : **événements → mise à jour → dessin**.
 
 L'`App` ne connaît que **la** scène courante et lui délègue tout :
 
@@ -142,10 +129,8 @@ def set_scene(self, scene):
 
 La différence entre les deux est importante :
 
-- `switch_scene` **construit** une scène neuve (par exemple, quitter le menu pour
-  commencer une partie).
-- `set_scene` **réactive** une scène existante — c'est ce qui permettra de
-  reprendre une partie après une pause **sans la recréer**.
+- `switch_scene` **construit** une scène neuve (par exemple, quitter le menu pour commencer une partie).
+- `set_scene` **réactive** une scène existante — c'est ce qui permettra de reprendre une partie après une pause **sans la recréer**.
 
 ---
 
@@ -173,12 +158,8 @@ def run(self):
 
 Deux subtilités :
 
-- **`scene = self.scene`** fige la scène du début d'image. Sans cela, un événement
-  qui change de scène redirigerait les événements **suivants de la même image**
-  vers la nouvelle scène — source de bugs très difficiles à trouver.
-- **`for ... else`** : le `else` ne s'exécute que si la boucle `for` n'a pas été
-  interrompue par un `break`. Autrement dit, si on vient de fermer la fenêtre, on
-  **saute** la mise à jour et le dessin de cette image.
+- **`scene = self.scene`** fige la scène du début d'image. Sans cela, un événement qui change de scène redirigerait les événements **suivants de la même image** vers la nouvelle scène — source de bugs très difficiles à trouver.
+- **`for ... else`** : le `else` ne s'exécute que si la boucle `for` n'a pas été interrompue par un `break`. Autrement dit, si on vient de fermer la fenêtre, on **saute** la mise à jour et le dessin de cette image.
 
 ---
 
@@ -188,21 +169,16 @@ Reprenez le code du chapitre 01 et transformez-le :
 
 1. Créez `pong/settings.py` avec les quatre constantes ci-dessus.
 2. Créez `pong/scenes/base.py` avec la classe `Scene`.
-3. Créez `pong/scenes/menu.py` avec une `MenuScene` qui, pour l'instant, se
-   contente de remplir l'écran d'une couleur sombre (par exemple `(18, 6, 46)`).
+3. Créez `pong/scenes/menu.py` avec une `MenuScene` qui, pour l'instant, se contente de remplir l'écran d'une couleur sombre (par exemple `(18, 6, 46)`).
 4. Créez `pong/app.py` avec la classe `App` (fenêtre, horloge, scènes, boucle).
 5. Réduisez `main.py` à : créer une `App` et appeler `run()`.
 
-**Vérification :** `python main.py` doit ouvrir une fenêtre sombre qui se ferme
-proprement. Puis écrivez un **test de fumée** qui démarre l'application sans
-écran réel (voir le corrigé) : c'est votre premier test, et il vérifie que le
-squelette du jeu tient debout.
+**Vérification :** `python main.py` doit ouvrir une fenêtre sombre qui se ferme proprement. Puis écrivez un **test de fumée** qui démarre l'application sans écran réel (voir le corrigé) : c'est votre premier test, et il vérifie que le squelette du jeu tient debout.
 
 <details>
 <summary>Un indice pour le test</summary>
 
-En environnement sans écran, pygame a besoin d'un pilote vidéo factice. On le
-choisit avec une variable d'environnement :
+En environnement sans écran, pygame a besoin d'un pilote vidéo factice. On le choisit avec une variable d'environnement :
 
 ```python
 import os
@@ -391,9 +367,7 @@ pytest
 
 Vous devez voir `1 passed`. Bravo : vous avez votre premier test.
 
-> **Dans le projet de référence :** `pong/app.py` est bien plus complet à la fin du
-> cours (assets, polices, son, réglages). Nous l'enrichirons chapitre après
-> chapitre — c'est exactement comme cela qu'on construit un jeu.
+> **Dans le projet de référence :** `pong/app.py` est bien plus complet à la fin du cours (assets, polices, son, réglages). Nous l'enrichirons chapitre après chapitre — c'est exactement comme cela qu'on construit un jeu.
 
 </details>
 

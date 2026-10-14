@@ -60,8 +60,7 @@ Le prompt du terminal affiche maintenant `(.venv)`. C'est bon signe : tout ce qu
 
 ## 4. Installer pygame et pytest
 
-pygame fournit la fenêtre, le dessin, le son et les événements clavier.
-pytest fait tourner les tests.
+pygame fournit la fenêtre, le dessin, le son et les événements clavier. pytest fait tourner les tests.
 
 Créez un fichier `requirements.txt` :
 
@@ -86,8 +85,7 @@ python -c "import pygame; print(pygame.version.ver)"
 
 ## 5. La structure du projet
 
-Créez dès maintenant l'arborescence. Le paquet `pong/` contiendra la logique, et
-`tests/` les tests.
+Créez dès maintenant l'arborescence. Le paquet `pong/` contiendra la logique, et `tests/` les tests.
 
 ```console
 pong/                       ← le dossier du projet
@@ -142,8 +140,7 @@ Pour cela, vous aurez besoin de :
 - `screen.fill(couleur)` et `pygame.display.flip()` pour dessiner ;
 - `pygame.quit()` à la fin, dans un `finally` (voir plus bas).
 
-Essayez seul(e) avant de lire le corrigé. Même si vous tâtonnez, vous apprendrez
-plus qu'en lisant.
+Essayez seul(e) avant de lire le corrigé. Même si vous tâtonnez, vous apprendrez plus qu'en lisant.
 
 <details>
 <summary>Un indice (cliquez pour déplier)</summary>
@@ -207,34 +204,23 @@ Décortiquons-le.
 
 ### `pygame.init()` et la fenêtre
 
-`pygame.init()` démarre les sous-systèmes (affichage, son, polices).
-`pygame.display.set_mode((900, 600))` ouvre la fenêtre et renvoie sa **surface** :
-la zone de pixels sur laquelle on dessine. Tout ce qu'on « dessine » l'est en
-réalité sur cette surface, en mémoire — jusqu'à ce qu'on l'affiche.
+`pygame.init()` démarre les sous-systèmes (affichage, son, polices). `pygame.display.set_mode((900, 600))` ouvre la fenêtre et renvoie sa **surface** : la zone de pixels sur laquelle on dessine. Tout ce qu'on « dessine » l'est en réalité sur cette surface, en mémoire — jusqu'à ce qu'on l'affiche.
 
 ### La boucle de jeu
 
-Un jeu est une boucle qui tourne des dizaines de fois par seconde : lire les
-entrées, mettre à jour, dessiner, recommencer. La nôtre se répète tant que
-`running` vaut `True`.
+Un jeu est une boucle qui tourne des dizaines de fois par seconde : lire les entrées, mettre à jour, dessiner, recommencer. La nôtre se répète tant que `running` vaut `True`.
 
 ### `clock.tick(FPS)`
 
-`tick(60)` attend le temps nécessaire pour ne pas dépasser 60 images par seconde.
-Sans lui, la boucle tournerait à plusieurs milliers de tours par seconde et
-saturerait un processeur pour rien.
+`tick(60)` attend le temps nécessaire pour ne pas dépasser 60 images par seconde. Sans lui, la boucle tournerait à plusieurs milliers de tours par seconde et saturerait un processeur pour rien.
 
 ### La file d'événements
 
-`pygame.event.get()` renvoie la liste de tout ce qui s'est passé depuis l'image
-précédente : touches pressées, clic sur la croix… On cherche ici l'événement
-`pygame.QUIT`, déclenché par la fermeture de la fenêtre, et on arrête la boucle.
+`pygame.event.get()` renvoie la liste de tout ce qui s'est passé depuis l'image précédente : touches pressées, clic sur la croix… On cherche ici l'événement `pygame.QUIT`, déclenché par la fermeture de la fenêtre, et on arrête la boucle.
 
 ### `fill` puis `flip`
 
-`screen.fill(...)` efface tout l'écran avec une couleur — sans cela, le dessin de
-l'image précédente resterait visible. `pygame.display.flip()` envoie le résultat à
-l'écran. **Si vous oubliez `flip()`, rien ne s'affiche jamais.**
+`screen.fill(...)` efface tout l'écran avec une couleur — sans cela, le dessin de l'image précédente resterait visible. `pygame.display.flip()` envoie le résultat à l'écran. **Si vous oubliez `flip()`, rien ne s'affiche jamais.**
 
 ### Le `try / finally`
 
@@ -245,14 +231,11 @@ finally:
     pygame.quit()
 ```
 
-Le bloc `finally` s'exécute **toujours**, même en cas d'erreur. C'est la garantie
-que pygame est refermé proprement, quoi qu'il arrive.
+Le bloc `finally` s'exécute **toujours**, même en cas d'erreur. C'est la garantie que pygame est refermé proprement, quoi qu'il arrive.
 
 ### `if __name__ == "__main__":`
 
-Cette condition est vraie quand on exécute le fichier directement
-(`python main.py`), fausse quand on l'importe depuis un test. C'est le réflexe à
-avoir pour un point d'entrée.
+Cette condition est vraie quand on exécute le fichier directement (`python main.py`), fausse quand on l'importe depuis un test. C'est le réflexe à avoir pour un point d'entrée.
 
 ### Lancer le jeu
 
@@ -269,15 +252,11 @@ Une fenêtre sombre doit s'ouvrir. Fermez-la : le programme se termine sans erre
 ## En résumé
 
 - On travaille toujours dans un **environnement virtuel** (`.venv`).
-- Un programme pygame s'articule autour d'une **boucle** : événements → mise à
-  jour → dessin.
-- `pygame.display.flip()` rend le dessin visible, et `try / finally` garantit
-  `pygame.quit()`.
+- Un programme pygame s'articule autour d'une **boucle** : événements → mise à jour → dessin.
+- `pygame.display.flip()` rend le dessin visible, et `try / finally` garantit `pygame.quit()`.
 - Le paquet `pong/` contiendra la logique ; `tests/` les tests.
 
-> **Dans le projet de référence :** ce premier jet correspond à `main.py` du
-> chapitre 01. Au chapitre 02, il devient un `main.py` de trois lignes et une vraie
-> classe `App` dans `pong/app.py`.
+> **Dans le projet de référence :** ce premier jet correspond à `main.py` du chapitre 01. Au chapitre 02, il devient un `main.py` de trois lignes et une vraie classe `App` dans `pong/app.py`.
 
 ---
 

@@ -18,9 +18,7 @@
 
 ## 1. Un écran dédié
 
-Quand un joueur atteint le nombre de points, la partie doit s'arrêter et **dire
-pourquoi**. On ne dessine pas un message par-dessus la partie : on bascule vers une
-scène dédiée. C'est plus clair, et surtout **testable**.
+Quand un joueur atteint le nombre de points, la partie doit s'arrêter et **dire pourquoi**. On ne dessine pas un message par-dessus la partie : on bascule vers une scène dédiée. C'est plus clair, et surtout **testable**.
 
 ```python
 class GameOverScene(Scene):
@@ -37,8 +35,7 @@ class GameOverScene(Scene):
 On lui transmet **deux informations** :
 
 - `winner` : qui a gagné ;
-- `mode` : dans quel mode la partie se jouait — indispensable pour rejouer **à
-  l'identique**.
+- `mode` : dans quel mode la partie se jouait — indispensable pour rejouer **à l'identique**.
 
 ---
 
@@ -58,8 +55,7 @@ Trois cas à distinguer, car il n'y a pas toujours deux joueurs :
             color = settings.NEON_PINK
 ```
 
-- « gauche » gagne → c'est **toujours** le joueur 1 (il contrôle la raquette de
-  gauche, quel que soit le mode) ;
+- « gauche » gagne → c'est **toujours** le joueur 1 (il contrôle la raquette de gauche, quel que soit le mode) ;
 - « droite » gagne en 1 joueur → c'est **l'IA** ;
 - « droite » gagne en 2 joueurs → c'est le **joueur 2**.
 
@@ -67,8 +63,7 @@ Trois cas à distinguer, car il n'y a pas toujours deux joueurs :
 
 ## 3. Un menu de fin navigable
 
-Plutôt que deux raccourcis clavier, on offre un **vrai menu** à deux entrées,
-navigable au clavier comme le menu principal :
+Plutôt que deux raccourcis clavier, on offre un **vrai menu** à deux entrées, navigable au clavier comme le menu principal :
 
 ```
         Victoire du joueur 1 !
@@ -107,9 +102,7 @@ Et l'action :
 ```
 
 > [!NOTE]
-> On stocke une **action** (`"replay"` / `"menu"`), pas une scène : « Rejouer »
-> n'est pas un écran, c'est un comportement qui dépend du mode. Cette petite
-> indirection garde le menu déclaratif.
+> On stocke une **action** (`"replay"` / `"menu"`), pas une scène : « Rejouer » n'est pas un écran, c'est un comportement qui dépend du mode. Cette petite indirection garde le menu déclaratif.
 
 ---
 
@@ -125,8 +118,7 @@ Dans `GameScene`, au moment où le score désigne un vainqueur :
             return
 ```
 
-On utilise `set_scene` (et non `switch_scene`) car il n'y a **rien à construire via
-le dictionnaire** : on fabrique la scène nous-mêmes, avec ses paramètres.
+On utilise `set_scene` (et non `switch_scene`) car il n'y a **rien à construire via le dictionnaire** : on fabrique la scène nous-mêmes, avec ses paramètres.
 
 ---
 
@@ -140,14 +132,12 @@ le dictionnaire** : on fabrique la scène nous-mêmes, avec ses paramètres.
    - `Q`/`M` revient directement au menu ;
    - `draw` ne lève pas d'erreur.
 3. Branchez la victoire dans `GameScene` (son de victoire + bascule).
-4. **Vérifiez à la main** : jouez une partie en 1 joueur à 3 points, perdez, puis
-   choisissez « Rejouer » : vous devez repartir en 1 joueur, à 3 points.
+4. **Vérifiez à la main** : jouez une partie en 1 joueur à 3 points, perdez, puis choisissez « Rejouer » : vous devez repartir en 1 joueur, à 3 points.
 
 <details>
 <summary>Un indice pour les tests</summary>
 
-Un test n'a pas besoin de « jouer » une partie : on peut placer directement une
-scène de fin.
+Un test n'a pas besoin de « jouer » une partie : on peut placer directement une scène de fin.
 
 ```python
 app.set_scene(GameOverScene(app, "left", "1p"))
@@ -309,8 +299,7 @@ def test_escape_returns_to_home_screen():
 ```
 
 > [!NOTE]
-> Ces tests n'ouvrent aucune fenêtre : ils **simulent** des événements clavier et
-> vérifient l'état de l'application. C'est rapide et fiable.
+> Ces tests n'ouvrent aucune fenêtre : ils **simulent** des événements clavier et vérifient l'état de l'application. C'est rapide et fiable.
 
 ### Le lien dans `GameScene`
 
@@ -341,12 +330,9 @@ from .gameover import GameOverScene
             self.ai.randomize_offset()
 ```
 
-Bravo : le jeu est **complet**. Menu, options, partie (1 ou 2 joueurs), IA, score,
-sons, pause et fin de partie : tout y est.
+Bravo : le jeu est **complet**. Menu, options, partie (1 ou 2 joueurs), IA, score, sons, pause et fin de partie : tout y est.
 
-> **Dans le projet de référence :** `pong/scenes/gameover.py` recevra au chapitre 11
-> le panneau par images. Ses tests sont ceux de ce corrigé, rejoints par un test
-> d'affichage sans erreur.
+> **Dans le projet de référence :** `pong/scenes/gameover.py` recevra au chapitre 11 le panneau par images. Ses tests sont ceux de ce corrigé, rejoints par un test d'affichage sans erreur.
 
 </details>
 
@@ -358,8 +344,7 @@ sons, pause et fin de partie : tout y est.
 - On transmet les **données nécessaires** (`winner`, `mode`) — rien de plus.
 - Un menu de fin **réutilise** la navigation des autres menus.
 - Stocker une **action** plutôt qu'une scène garde le menu déclaratif.
-- `set_scene` quand on construit la scène soi-même, `switch_scene` quand c'est le
-  dictionnaire qui la fabrique.
+- `set_scene` quand on construit la scène soi-même, `switch_scene` quand c'est le dictionnaire qui la fabrique.
 
 ---
 

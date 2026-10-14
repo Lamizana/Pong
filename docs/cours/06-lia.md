@@ -19,8 +19,7 @@
 
 ## 1. Le principe
 
-En mode 1 joueur, la raquette de droite est contrôlée par l'ordinateur. L'idée la
-plus simple : **elle suit la balle**.
+En mode 1 joueur, la raquette de droite est contrôlée par l'ordinateur. L'idée la plus simple : **elle suit la balle**.
 
 ```python
 if ball.y < paddle.center_y:
@@ -29,8 +28,7 @@ else:
     paddle.move_down(dt)
 ```
 
-Cette IA-là est **imbattable** : elle ne rate jamais rien. Un adversaire parfait
-n'est pas amusant — il faut lui donner deux faiblesses **contrôlées** :
+Cette IA-là est **imbattable** : elle ne rate jamais rien. Un adversaire parfait n'est pas amusant — il faut lui donner deux faiblesses **contrôlées** :
 
 1. une **vitesse limitée** : elle ne peut pas rattraper une balle trop rapide ;
 2. une **imprécision de visée** : elle vise à côté, un peu au hasard.
@@ -55,9 +53,7 @@ AI_LEVELS = {
 }
 ```
 
-Un **dictionnaire de dictionnaires** : chaque niveau rassemble ses réglages et son
-libellé. C'est facile à lire, et ajouter un niveau « impossible » ne demande qu'une
-ligne.
+Un **dictionnaire de dictionnaires** : chaque niveau rassemble ses réglages et son libellé. C'est facile à lire, et ajouter un niveau « impossible » ne demande qu'une ligne.
 
 | Niveau | Vitesse | Imprécision | Ressenti |
 |--------|---------|-------------|----------|
@@ -66,16 +62,13 @@ ligne.
 | Difficile | 640 px/s | ±8 px | très présent, mais pas parfait |
 
 > [!NOTE]
-> La vitesse du joueur est `PADDLE_SPEED = 520`. En « facile », l'IA est donc
-> **plus lente** que vous : vous pouvez la déborder.
+> La vitesse du joueur est `PADDLE_SPEED = 520`. En « facile », l'IA est donc **plus lente** que vous : vous pouvez la déborder.
 
 ---
 
 ## 3. La zone morte : éviter le tremblement
 
-Si l'IA vise une cible et s'y arrête pile, elle oscille : elle monte, se retrouve
-un pixel trop haut, redescend… Ce **tremblement** est laid et donne une impression
-de panique.
+Si l'IA vise une cible et s'y arrête pile, elle oscille : elle monte, se retrouve un pixel trop haut, redescend… Ce **tremblement** est laid et donne une impression de panique.
 
 La parade : ne rien faire tant qu'on est **assez proche** de la cible.
 
@@ -103,19 +96,14 @@ class AI:
 
 Deux détails de qualité :
 
-- **Un niveau inconnu lève une erreur claire** plutôt que de planter plus loin
-  avec un `KeyError` obscur. (« Échouer tôt, échouer fort. »)
-- **Le générateur aléatoire est injectable** (`rng`). Les tests pourront lui passer
-  un `random.Random(42)`, dont la suite de nombres est **toujours la même** : on
-  teste un comportement aléatoire sans qu'il soit imprévisible.
+- **Un niveau inconnu lève une erreur claire** plutôt que de planter plus loin avec un `KeyError` obscur. (« Échouer tôt, échouer fort. »)
+- **Le générateur aléatoire est injectable** (`rng`). Les tests pourront lui passer un `random.Random(42)`, dont la suite de nombres est **toujours la même** : on teste un comportement aléatoire sans qu'il soit imprévisible.
 
 ---
 
 ## 5. Viser… à côté
 
-L'imprécision n'est pas tirée à chaque image (l'IA tremblerait), mais **une fois
-par échange** : quand elle touche la balle, elle choisit une nouvelle erreur de
-visée.
+L'imprécision n'est pas tirée à chaque image (l'IA tremblerait), mais **une fois par échange** : quand elle touche la balle, elle choisit une nouvelle erreur de visée.
 
 ```python
     def randomize_offset(self):
@@ -142,15 +130,11 @@ visée.
 La ligne essentielle est `step = min(abs(diff), self.speed * dt)` :
 
 - `self.speed * dt` est la distance **maximale** parcourable en `dt` secondes ;
-- si la cible est plus proche que cela, on s'arrête **exactement** dessus
-  (`abs(diff)`), sans la dépasser.
+- si la cible est plus proche que cela, on s'arrête **exactement** dessus (`abs(diff)`), sans la dépasser.
 
 C'est ce qui évite de « dépasser puis revenir en arrière » — un autre tremblement.
 
-Notez que l'IA utilise `paddle.move_by` (le déplacement **brut**) et non
-`paddle.move` : elle calcule elle-même sa distance, et `move_by` continue de
-respecter les bornes du terrain. C'est exactement pourquoi nous avions découpé les
-deux méthodes au chapitre 03.
+Notez que l'IA utilise `paddle.move_by` (le déplacement **brut**) et non `paddle.move` : elle calcule elle-même sa distance, et `move_by` continue de respecter les bornes du terrain. C'est exactement pourquoi nous avions découpé les deux méthodes au chapitre 03.
 
 ---
 
@@ -164,8 +148,7 @@ deux méthodes au chapitre 03.
    - l'IA **monte** quand la balle est au-dessus ;
    - elle ne parcourt **jamais** plus que `speed × dt` en une image ;
    - dans la zone morte, elle **ne bouge pas** (anti-tremblement).
-4. Branchez l'IA dans `GameScene` : en mode `"1p"`, elle pilote la raquette de
-   droite ; en mode `"2p"`, c'est le clavier.
+4. Branchez l'IA dans `GameScene` : en mode `"1p"`, elle pilote la raquette de droite ; en mode `"2p"`, c'est le clavier.
 
 <details>
 <summary>Un indice pour tester proprement</summary>
@@ -317,14 +300,9 @@ from ..score import Score
         ...
 ```
 
-Vous pouvez maintenant jouer **seul contre l'IA** : au menu, lancez le mode
-`"1p"` avec `level="facile"`, puis `"difficile"`. La différence se sent
-immédiatement.
+Vous pouvez maintenant jouer **seul contre l'IA** : au menu, lancez le mode `"1p"` avec `level="facile"`, puis `"difficile"`. La différence se sent immédiatement.
 
-> **Dans le projet de référence :** `pong/ai.py` est identique. Le `level` ne sera
-> plus passé par le menu mais lu dans les **options** (chapitre 08), et l'IA
-> recevra une nouvelle visée après chaque échange (`randomize_offset` appelé par la
-> scène).
+> **Dans le projet de référence :** `pong/ai.py` est identique. Le `level` ne sera plus passé par le menu mais lu dans les **options** (chapitre 08), et l'IA recevra une nouvelle visée après chaque échange (`randomize_offset` appelé par la scène).
 
 </details>
 
@@ -333,11 +311,9 @@ immédiatement.
 ## En résumé
 
 - Une IA parfaite n'est pas amusante : on la rend **battable** (vitesse + erreur).
-- Une **zone morte** et un déplacement borné (`min(abs(diff), speed*dt)`) évitent
-  les tremblements.
+- Une **zone morte** et un déplacement borné (`min(abs(diff), speed*dt)`) évitent les tremblements.
 - Un **générateur aléatoire injectable** rend un comportement aléatoire testable.
-- Valider les entrées (`ValueError` sur un niveau inconnu) échoue **tôt** et
-  clairement.
+- Valider les entrées (`ValueError` sur un niveau inconnu) échoue **tôt** et clairement.
 
 ---
 

@@ -19,11 +19,9 @@
 
 ## 1. Les règles en une phrase
 
-> Un point est marqué quand la balle sort **derrière** une raquette.
-> Le premier à **5 points** gagne.
+> Un point est marqué quand la balle sort **derrière** une raquette. Le premier à **5 points** gagne.
 
-Encore une fois, ce sont des **règles** : aucune image, aucune fenêtre. On les met
-dans leur propre module, et on les teste.
+Encore une fois, ce sont des **règles** : aucune image, aucune fenêtre. On les met dans leur propre module, et on les teste.
 
 Ajoutez à `settings.py` :
 
@@ -63,13 +61,9 @@ class Score:
         return None
 ```
 
-Remarquez la **valeur renvoyée** par `add_point` : le vainqueur, ou `None`. L'appelant
-n'a donc pas besoin de demander séparément « est-ce fini ? » puis « qui a gagné ? » —
-une seule opération, une seule réponse.
+Remarquez la **valeur renvoyée** par `add_point` : le vainqueur, ou `None`. L'appelant n'a donc pas besoin de demander séparément « est-ce fini ? » puis « qui a gagné ? » — une seule opération, une seule réponse.
 
-Le paramètre `points_to_win` rend la règle **configurable** : les options du menu la
-régleront sur 3, 5 ou 10 (chapitre 08). C'est aussi ce qui rend le test de victoire
-plus rapide à écrire : `Score(points_to_win=1)`.
+Le paramètre `points_to_win` rend la règle **configurable** : les options du menu la régleront sur 3, 5 ou 10 (chapitre 08). C'est aussi ce qui rend le test de victoire plus rapide à écrire : `Score(points_to_win=1)`.
 
 ---
 
@@ -91,9 +85,7 @@ winner = self.score.add_point(scorer)
 
 ## 4. La remise en jeu
 
-Un point marqué, et la balle téléportée au centre instantanément ? Brutal. On
-instaure une courte pause — un **décompte** — pendant lequel le joueur peut se
-repositionner :
+Un point marqué, et la balle téléportée au centre instantanément ? Brutal. On instaure une courte pause — un **décompte** — pendant lequel le joueur peut se repositionner :
 
 ```
         ●  « Prêt ! »          → 1 seconde plus tard, la balle part
@@ -109,8 +101,7 @@ repositionner :
 ```
 
 - `serve_direction` : la balle part vers celui qui vient d'encaisser — équitable.
-- `serve_timer` : un compte à rebours en secondes. Tant qu'il est positif, la balle
-  **ne bouge pas** (mais les raquettes restent contrôlables).
+- `serve_timer` : un compte à rebours en secondes. Tant qu'il est positif, la balle **ne bouge pas** (mais les raquettes restent contrôlables).
 - On **recentre** les raquettes, sinon un joueur mal placé serait pénalisé deux fois.
 
 Dans `update` :
@@ -125,8 +116,7 @@ Dans `update` :
 
 ## 5. Afficher le score
 
-Il faut pouvoir lire le score. Au chapitre 02, nous n'avions pas encore de texte.
-Ajoutons un petit utilitaire à `App` :
+Il faut pouvoir lire le score. Au chapitre 02, nous n'avions pas encore de texte. Ajoutons un petit utilitaire à `App` :
 
 ```python
     def draw_text(self, surface, text, font, color, center=None, topleft=None):
@@ -150,10 +140,7 @@ Et les polices dans `App.__init__` :
 ```
 
 > [!NOTE]
-> `SysFont(None, taille)` utilise la police système par défaut : aucune ressource
-> à embarquer. Au chapitre 12, nous la remplacerons par une **vraie police** venue
-> d'un fichier — sans changer une seule ligne des scènes, puisque tout passe par
-> `draw_text`.
+> `SysFont(None, taille)` utilise la police système par défaut : aucune ressource à embarquer. Au chapitre 12, nous la remplacerons par une **vraie police** venue d'un fichier — sans changer une seule ligne des scènes, puisque tout passe par `draw_text`.
 
 Puis, dans la scène :
 
@@ -167,9 +154,7 @@ Puis, dans la scène :
                            settings.NEON_PINK, center=(center_x + 60, y))
 ```
 
-> **Dans le projet de référence :** ces chiffres seront posés dans un **panneau de
-> score** issu du décor (chapitre 11), et la victoire ouvrira l'écran de fin
-> (chapitre 10). Pour l'instant, contentons-nous d'un affichage lisible.
+> **Dans le projet de référence :** ces chiffres seront posés dans un **panneau de score** issu du décor (chapitre 11), et la victoire ouvrira l'écran de fin (chapitre 10). Pour l'instant, contentons-nous d'un affichage lisible.
 
 ---
 
@@ -180,20 +165,15 @@ Puis, dans la scène :
    - un score neuf vaut 0 – 0 ;
    - marquer à gauche incrémente **seulement** la gauche ;
    - un côté invalide lève `ValueError` ;
-   - `Score(points_to_win=3)` : le troisième point déclare un vainqueur, pas le
-     deuxième ;
+   - `Score(points_to_win=3)` : le troisième point déclare un vainqueur, pas le deuxième ;
    - `reset()` remet tout à zéro.
-3. Dans `GameScene`, comptez les points quand la balle sort, remettez en jeu avec
-   le décompte, et affichez le score.
-4. Quand quelqu'un gagne… contentez-vous d'afficher « Partie terminée » au centre
-   pour le moment (le vrai écran de fin arrive au chapitre 10).
+3. Dans `GameScene`, comptez les points quand la balle sort, remettez en jeu avec le décompte, et affichez le score.
+4. Quand quelqu'un gagne… contentez-vous d'afficher « Partie terminée » au centre pour le moment (le vrai écran de fin arrive au chapitre 10).
 
 <details>
 <summary>Un indice sur le décompte</summary>
 
-N'oubliez pas de **décrémenter** `serve_timer` et de **sortir** de `update` par un
-`return` tant qu'il est positif : la balle ne doit pas avancer, mais les raquettes,
-si.
+N'oubliez pas de **décrémenter** `serve_timer` et de **sortir** de `update` par un `return` tant qu'il est positif : la balle ne doit pas avancer, mais les raquettes, si.
 
 </details>
 
@@ -370,11 +350,9 @@ from ..score import Score
                                        settings.WINDOW_HEIGHT // 2 + 80))
 ```
 
-Vous avez maintenant **un Pong complet qui se joue** : deux raquettes, une balle,
-une IA, un score et une victoire. La partie 2 est terminée !
+Vous avez maintenant **un Pong complet qui se joue** : deux raquettes, une balle, une IA, un score et une victoire. La partie 2 est terminée !
 
-> **Dans le projet de référence :** `pong/score.py` est identique. La scène ajoutera
-> le son, la pause et l'écran de fin aux chapitres suivants.
+> **Dans le projet de référence :** `pong/score.py` est identique. La scène ajoutera le son, la pause et l'écran de fin aux chapitres suivants.
 
 </details>
 
@@ -382,12 +360,10 @@ une IA, un score et une victoire. La partie 2 est terminée !
 
 ## En résumé
 
-- Les **règles** (le score) vivent dans leur propre module, sans affichage : on les
-  teste en trois lignes.
+- Les **règles** (le score) vivent dans leur propre module, sans affichage : on les teste en trois lignes.
 - `add_point` renvoie **directement** le vainqueur : une opération, une réponse.
 - Une **remise en jeu** avec décompte et recentrage rend le jeu équitable.
-- Un utilitaire `draw_text` centralise le rendu du texte — pratique pour tout
-  afficher, et pour changer de police plus tard sans rien casser.
+- Un utilitaire `draw_text` centralise le rendu du texte — pratique pour tout afficher, et pour changer de police plus tard sans rien casser.
 
 ---
 

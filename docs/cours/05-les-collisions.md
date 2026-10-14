@@ -9,8 +9,7 @@
 - Détecter le contact entre un **cercle** (la balle) et un **rectangle** (la raquette).
 - Pourquoi la détection par « boîte englobante » **rate** les contacts sur un coin.
 - Calculer une **normale** et une **pénétration** pour repousser proprement la balle.
-- Éviter le **« tunneling »** (la balle qui traverse une raquette) grâce aux
-  sous-étapes.
+- Éviter le **« tunneling »** (la balle qui traverse une raquette) grâce aux sous-étapes.
 - Écrire le **test de non-régression** qui reproduit le bug du coin.
 
 **Fichiers du projet :** `pong/collision.py`, `pong/scenes/game.py`
@@ -20,17 +19,13 @@
 
 ## 1. Le problème
 
-La balle rebondit sur les murs, mais passe encore à travers les raquettes. Il faut
-détecter le contact. Question simple, en apparence : « est-ce que la balle touche
-le rectangle ? »
+La balle rebondit sur les murs, mais passe encore à travers les raquettes. Il faut détecter le contact. Question simple, en apparence : « est-ce que la balle touche le rectangle ? »
 
 ---
 
 ## 2. La tentation : les boîtes englobantes
 
-pygame propose une méthode séduisante : `rect.colliderect(other)`. Elle compare
-deux rectangles. Comme la balle possède un `rect` (son carré englobant), on
-écrirait :
+pygame propose une méthode séduisante : `rect.colliderect(other)`. Elle compare deux rectangles. Comme la balle possède un `rect` (son carré englobant), on écrirait :
 
 ```python
 if ball.rect.colliderect(paddle.rect):
@@ -39,26 +34,17 @@ if ball.rect.colliderect(paddle.rect):
 
 C'est simple… et **faux**. Deux problèmes :
 
-1. **Le carré n'est pas un cercle.** Aux coins, le carré de la balle touche le
-   rectangle alors que la balle (le disque) ne le touche **pas encore** — on
-   déclenche un rebond « dans le vide ».
-2. **L'inégalité est stricte.** Quand le carré de la balle est exactement
-   **tangent** au bord de la raquette, `colliderect` renvoie `False` : le contact
-   réel est **raté**. C'est précisément le bug que ce chapitre corrige : la balle
-   traversait la raquette quand elle l'effleurait sur un coin.
+1. **Le carré n'est pas un cercle.** Aux coins, le carré de la balle touche le rectangle alors que la balle (le disque) ne le touche **pas encore** — on déclenche un rebond « dans le vide ».
+2. **L'inégalité est stricte.** Quand le carré de la balle est exactement **tangent** au bord de la raquette, `colliderect` renvoie `False` : le contact réel est **raté**. C'est précisément le bug que ce chapitre corrige : la balle traversait la raquette quand elle l'effleurait sur un coin.
 
 > [!WARNING]
-> **Le bug du coin.** Un contact manqué une seule image, et la balle se retrouve
-> de l'autre côté de la raquette. Ce genre de défaut est intermittent (il dépend de
-> la vitesse et de l'angle), donc pénible à reproduire… et c'est exactement
-> pourquoi on écrit un **test** qui le reproduit.
+> **Le bug du coin.** Un contact manqué une seule image, et la balle se retrouve de l'autre côté de la raquette. Ce genre de défaut est intermittent (il dépend de la vitesse et de l'angle), donc pénible à reproduire… et c'est exactement pourquoi on écrit un **test** qui le reproduit.
 
 ---
 
 ## 3. La bonne modélisation : un cercle contre un rectangle
 
-On modélise la balle comme un **cercle** de centre `(cx, cy)` et de rayon `r`, et
-la raquette comme un rectangle. La détection exacte se fait en trois temps :
+On modélise la balle comme un **cercle** de centre `(cx, cy)` et de rayon `r`, et la raquette comme un rectangle. La détection exacte se fait en trois temps :
 
 **① Trouver le point du rectangle le plus proche du centre.**
 
@@ -103,8 +89,7 @@ dist2 = dx * dx + dy * dy
 
 Quand il y a contact, on a besoin de **deux informations** pour réagir :
 
-- la **normale** : la direction à suivre pour sortir du rectangle (du point le
-  plus proche vers le centre du cercle, normalisée en longueur 1) ;
+- la **normale** : la direction à suivre pour sortir du rectangle (du point le plus proche vers le centre du cercle, normalisée en longueur 1) ;
 - la **pénétration** : de combien il faut reculer pour ne plus se chevaucher.
 
 ```python
@@ -114,24 +99,19 @@ penetration = radius - dist
 ```
 
 > [!NOTE]
-> Si le centre du cercle est **dans** le rectangle, `dx = dy = 0` : on ne peut pas
-> normaliser. On choisit alors une direction de secours (`(0, -1)`, vers le haut).
-> Ce cas ne se produit pas dans notre jeu (la scène traite d'abord la face
-> latérale), mais mieux vaut un contrat explicite qu'un plantage.
+> Si le centre du cercle est **dans** le rectangle, `dx = dy = 0` : on ne peut pas normaliser. On choisit alors une direction de secours (`(0, -1)`, vers le haut). Ce cas ne se produit pas dans notre jeu (la scène traite d'abord la face latérale), mais mieux vaut un contrat explicite qu'un plantage.
 
 ---
 
 ## 5. `circle_rect_contact`
 
-Ce calcul n'a besoin ni de pygame ni d'une fenêtre : c'est de la géométrie pure,
-donc **testable**. On l'isole dans `pong/collision.py`.
+Ce calcul n'a besoin ni de pygame ni d'une fenêtre : c'est de la géométrie pure, donc **testable**. On l'isole dans `pong/collision.py`.
 
 ---
 
 ## 6. Résoudre la collision dans la scène
 
-Détecter ne suffit pas : il faut **repositionner** la balle, sinon elle resterait
-engagée dans la raquette et déclencherait un rebond à chaque image.
+Détecter ne suffit pas : il faut **repositionner** la balle, sinon elle resterait engagée dans la raquette et déclencherait un rebond à chaque image.
 
 Deux cas à distinguer :
 
@@ -155,25 +135,20 @@ else:
     ball.y += normal_y * penetration
 ```
 
-On ne teste la collision que si la balle **se dirige vers** la raquette
-(`ball.vx * direction >= 0` → on saute). Sinon, une balle qui vient de rebondir
-serait « rattrapée » par la même raquette et resterait collée.
+On ne teste la collision que si la balle **se dirige vers** la raquette (`ball.vx * direction >= 0` → on saute). Sinon, une balle qui vient de rebondir serait « rattrapée » par la même raquette et resterait collée.
 
 ---
 
 ## 7. Le « tunneling » : quand le temps va trop vite
 
-À chaque image, la balle avance de `v × dt`. Si elle est très rapide et l'image
-longue, elle peut parcourir **plus que l'épaisseur de la raquette** en une seule
-étape :
+À chaque image, la balle avance de `v × dt`. Si elle est très rapide et l'image longue, elle peut parcourir **plus que l'épaisseur de la raquette** en une seule étape :
 
 ```
    image N                    image N+1
    ●  ─────────────────────────────▶        ●      (la raquette ▐ est sautée !)
 ```
 
-C'est le **tunneling**. La parade : découper le déplacement en **sous-étapes** dont
-chacune ne dépasse pas le rayon de la balle.
+C'est le **tunneling**. La parade : découper le déplacement en **sous-étapes** dont chacune ne dépasse pas le rayon de la balle.
 
 ```python
 distance = max(abs(self.ball.vx), abs(self.ball.vy)) * dt
@@ -195,21 +170,16 @@ Le coût est négligeable (quelques étapes de plus), et le bug disparaît.
 2. Écrivez les tests **avant** :
    - un cercle loin du rectangle → `None` ;
    - un cercle qui touche la face → une normale horizontale ;
-   - un cercle **tangent** au bord → un contact (c'est le bug du coin : la boîte
-     englobante répondrait `False` ici) ;
+   - un cercle **tangent** au bord → un contact (c'est le bug du coin : la boîte englobante répondrait `False` ici) ;
    - un cercle qui chevauche un **coin** → une normale oblique ;
    - un cercle à l'intérieur → une normale de secours.
-3. Branchez la collision dans `GameScene` (`_handle_paddles`, `_resolve_paddle`) et
-   ajoutez les sous-étapes dans la mise à jour de la balle.
-4. Écrivez un **test de non-régression** : une balle qui frôle le coin d'une
-   raquette ne doit **jamais** la traverser.
+3. Branchez la collision dans `GameScene` (`_handle_paddles`, `_resolve_paddle`) et ajoutez les sous-étapes dans la mise à jour de la balle.
+4. Écrivez un **test de non-régression** : une balle qui frôle le coin d'une raquette ne doit **jamais** la traverser.
 
 <details>
 <summary>Un indice sur la tangence</summary>
 
-Un cercle de rayon `r` centré à `cx = rect.left - r` (donc **juste** à gauche du
-rectangle) a `dist2 == r²`. Le contact existe : la fonction doit renvoyer une
-normale, pas `None`. Utilisez `<=` dans la comparaison, pas `<`.
+Un cercle de rayon `r` centré à `cx = rect.left - r` (donc **juste** à gauche du rectangle) a `dist2 == r²`. Le contact existe : la fonction doit renvoyer une normale, pas `None`. Utilisez `<=` dans la comparaison, pas `<`.
 
 </details>
 
@@ -376,15 +346,11 @@ def test_ball_bounces_when_touching_paddle_corner():
 ```
 
 > [!IMPORTANT]
-> Écrivez ce test **avant** d'écrire `_resolve_paddle`. Vous le verrez échouer
-> (la balle traverse), puis passer après la correction. C'est votre assurance
-> contre le retour du bug.
+> Écrivez ce test **avant** d'écrire `_resolve_paddle`. Vous le verrez échouer (la balle traverse), puis passer après la correction. C'est votre assurance contre le retour du bug.
 
-La balle rebondit désormais sur les raquettes, coins compris. Il manque encore un
-adversaire pour la raquette de droite : l'IA.
+La balle rebondit désormais sur les raquettes, coins compris. Il manque encore un adversaire pour la raquette de droite : l'IA.
 
-> **Dans le projet de référence :** `pong/collision.py` est identique. Le
-> sous-échantillonnage (`_advance_ball`) y est expliqué par le même commentaire.
+> **Dans le projet de référence :** `pong/collision.py` est identique. Le sous-échantillonnage (`_advance_ball`) y est expliqué par le même commentaire.
 
 </details>
 
@@ -392,12 +358,9 @@ adversaire pour la raquette de droite : l'IA.
 
 ## En résumé
 
-- **N'utilisez pas** `Rect.colliderect` pour un cercle : elle rate les contacts au
-  coin (inégalité stricte), et se trompe aux angles.
-- Cercle/rectangle : on mesure la distance au **point le plus proche**, puis on la
-  compare au rayon (`<=`, pas `<`).
-- On résout la collision en **repositionnant** la balle (face : devant la raquette ;
-  coin : le long de la normale).
+- **N'utilisez pas** `Rect.colliderect` pour un cercle : elle rate les contacts au coin (inégalité stricte), et se trompe aux angles.
+- Cercle/rectangle : on mesure la distance au **point le plus proche**, puis on la compare au rayon (`<=`, pas `<`).
+- On résout la collision en **repositionnant** la balle (face : devant la raquette ; coin : le long de la normale).
 - Les **sous-étapes** éliminent le tunneling.
 - Un test de non-régression transforme un bug intermittent en garde-fou permanent.
 

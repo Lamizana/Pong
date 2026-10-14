@@ -20,15 +20,12 @@
 
 ## 1. Du dessin au sprite
 
-Jusqu'ici, nos raquettes étaient des `pygame.draw.rect`. C'est efficace, mais
-austère. Pour habiller le jeu, on va charger des **images** (des « sprites »).
+Jusqu'ici, nos raquettes étaient des `pygame.draw.rect`. C'est efficace, mais austère. Pour habiller le jeu, on va charger des **images** (des « sprites »).
 
 La question à se poser tout de suite : **où** charger ces images ?
 
-- ❌ Les charger à chaque image (60 fois par seconde) : lecture disque permanente,
-  jeu lent.
-- ❌ Les charger dans chaque scène : on relit les mêmes fichiers, et on duplique le
-  code.
+- ❌ Les charger à chaque image (60 fois par seconde) : lecture disque permanente, jeu lent.
+- ❌ Les charger dans chaque scène : on relit les mêmes fichiers, et on duplique le code.
 - ✅ Les charger **une fois**, au démarrage, dans un objet partagé.
 
 Ce sera le rôle de l'**`AssetStore`**.
@@ -37,9 +34,7 @@ Ce sera le rôle de l'**`AssetStore`**.
 
 ## 2. La chaîne des assets
 
-Un sprite de jeu a rarement la forme finale souhaitée. Nos images sources viennent
-d'un générateur d'images : elles sont en JPEG, sur **fond vert**, en très haute
-résolution.
+Un sprite de jeu a rarement la forme finale souhaitée. Nos images sources viennent d'un générateur d'images : elles sont en JPEG, sur **fond vert**, en très haute résolution.
 
 ```
   images/raquette_gauche.jpeg         (source, 2816 × 1536, fond vert)
@@ -62,16 +57,13 @@ Trois étapes, trois responsabilités :
 | `AssetStore` | au lancement | charger en mémoire, une seule fois |
 
 > [!NOTE]
-> **Pourquoi préparer hors ligne ?** Parce que le détourage est coûteux (des
-> millions de pixels) et surtout parce que le résultat doit être **identique à
-> chaque lancement**. Le joueur, lui, ne paie rien : il charge juste des PNG.
+> **Pourquoi préparer hors ligne ?** Parce que le détourage est coûteux (des millions de pixels) et surtout parce que le résultat doit être **identique à chaque lancement**. Le joueur, lui, ne paie rien : il charge juste des PNG.
 
 ---
 
 ## 3. Le détourage (« chroma-key »)
 
-Le fond vert n'est pas décoratif : c'est un **fond à supprimer**. On rend
-transparent tout pixel où le vert domine nettement.
+Le fond vert n'est pas décoratif : c'est un **fond à supprimer**. On rend transparent tout pixel où le vert domine nettement.
 
 ```python
 GREEN_THRESHOLD = 40
@@ -81,8 +73,7 @@ def is_green_background(r, g, b):
     return g > r + GREEN_THRESHOLD and g > b + GREEN_THRESHOLD
 ```
 
-En pratique, on le fait d'un coup sur toute l'image avec des opérations PIL
-(librairie **Pillow**), bien plus rapides qu'une boucle Python :
+En pratique, on le fait d'un coup sur toute l'image avec des opérations PIL (librairie **Pillow**), bien plus rapides qu'une boucle Python :
 
 ```python
     r, g, b = image.convert("RGB").split()
@@ -98,10 +89,8 @@ En pratique, on le fait d'un coup sur toute l'image avec des opérations PIL
 Quelques compléments indispensables :
 
 - **érosion** (`MinFilter`) : retire le liseré vert d'un pixel sur le contour ;
-- **`clean_alpha`** : force à zéro les opacités minuscules (1-2 %) laissées par le
-  redimensionnement, pour des coins nets ;
-- **`despill`** : sur les seuls pixels semi-transparents, ramène le vert à
-  `max(rouge, bleu)` — supprime la teinte verte résiduelle.
+- **`clean_alpha`** : force à zéro les opacités minuscules (1-2 %) laissées par le redimensionnement, pour des coins nets ;
+- **`despill`** : sur les seuls pixels semi-transparents, ramène le vert à `max(rouge, bleu)` — supprime la teinte verte résiduelle.
 
 ```python
 def despill_green(image):
@@ -112,11 +101,7 @@ def despill_green(image):
 ```
 
 > [!WARNING]
-> **Le seuil se calibre sur les vraies images.** `GREEN_THRESHOLD = 40` (« le
-> vert dépasse le rouge et le bleu d'au moins 40 ») a été réglé sur nos sources :
-> trop haut, des restes de fond subsistent ; trop bas, des pixels du sujet
-> disparaissent. D'où `remove_green_background`, qu'on vérifie **sur les vraies
-> images**, jamais « en principe ».
+> **Le seuil se calibre sur les vraies images.** `GREEN_THRESHOLD = 40` (« le vert dépasse le rouge et le bleu d'au moins 40 ») a été réglé sur nos sources : trop haut, des restes de fond subsistent ; trop bas, des pixels du sujet disparaissent. D'où `remove_green_background`, qu'on vérifie **sur les vraies images**, jamais « en principe ».
 
 ---
 
@@ -136,8 +121,7 @@ Deux conversions sont possibles, et le choix n'est **pas** anodin :
 | `.convert_alpha()` | image avec **transparence** (un sprite) | conserve le canal alpha |
 
 > [!TIP]
-> Convertir une image au format de l'écran accélère énormément le dessin. On le
-> fait **une fois**, au chargement — jamais par image.
+> Convertir une image au format de l'écran accélère énormément le dessin. On le fait **une fois**, au chargement — jamais par image.
 
 ---
 
@@ -157,9 +141,7 @@ def asset_path(name):
     return path
 ```
 
-Pourquoi `Path(__file__).resolve().parent` et pas un chemin relatif ? Parce que
-l'exécutable packagé (chapitre 12) n'a pas le même dossier courant que le projet :
-le chemin **relatif à ce fichier** est le seul fiable dans les deux cas.
+Pourquoi `Path(__file__).resolve().parent` et pas un chemin relatif ? Parce que l'exécutable packagé (chapitre 12) n'a pas le même dossier courant que le projet : le chemin **relatif à ce fichier** est le seul fiable dans les deux cas.
 
 ---
 
@@ -188,16 +170,13 @@ Et dans `App.__init__` :
         self.assets = AssetStore()
 ```
 
-Toutes les scènes y accèdent par `self.app.assets.paddle_left`,
-`self.app.assets.ball`, etc.
+Toutes les scènes y accèdent par `self.app.assets.paddle_left`, `self.app.assets.ball`, etc.
 
 ---
 
 ## 7. Le sprite n'est que l'habillage
 
-Point crucial : passer aux images **ne change pas la logique**. Le rectangle de
-collision reste `paddle.rect` (calculé), et le sprite est simplement **blitté
-dessus**.
+Point crucial : passer aux images **ne change pas la logique**. Le rectangle de collision reste `paddle.rect` (calculé), et le sprite est simplement **blitté dessus**.
 
 ```python
     def _draw_paddles(self, surface):
@@ -211,13 +190,9 @@ dessus**.
 ```
 
 > [!IMPORTANT]
-> **La règle d'or :** la physique ne dépend jamais d'une taille de sprite. Ici,
-> le sprite **déborde vers l'extérieur** du rectangle de collision, dont le bord
-> intérieur marque la zone de frappe. Si vous régénérez l'image avec une autre
-> largeur, le jeu reste correct — au pire, l'alignement visuel bouge d'un pixel.
+> **La règle d'or :** la physique ne dépend jamais d'une taille de sprite. Ici, le sprite **déborde vers l'extérieur** du rectangle de collision, dont le bord intérieur marque la zone de frappe. Si vous régénérez l'image avec une autre largeur, le jeu reste correct — au pire, l'alignement visuel bouge d'un pixel.
 
-Et la balle gagne même une petite animation : elle **tourne sur elle-même**,
-proportionnellement à sa vitesse.
+Et la balle gagne même une petite animation : elle **tourne sur elle-même**, proportionnellement à sa vitesse.
 
 ```python
     def _spin_ball(self, dt):
@@ -230,9 +205,7 @@ proportionnellement à sa vitesse.
 
 ## 8. Le panneau et le titre du menu
 
-Last but not least : habiller les menus. L'image `menu_frame.png` est un panneau
-avec un bord néon ; on la **réduit** pour qu'elle tienne dans le rectangle lumineux
-du décor, puis on y dessine les choix.
+Last but not least : habiller les menus. L'image `menu_frame.png` est un panneau avec un bord néon ; on la **réduit** pour qu'elle tienne dans le rectangle lumineux du décor, puis on y dessine les choix.
 
 ```python
 def fit_menu_frame(frame):
@@ -249,29 +222,21 @@ def panel_rect(frame):
         (settings.FIELD_TOP + settings.FIELD_BOTTOM) // 2))
 ```
 
-On regroupe ces helpers d'écran dans `pong/ui.py`, aux côtés de `navigation_index` :
-**aucune scène n'a besoin de connaître la taille du panneau** pour l'afficher.
+On regroupe ces helpers d'écran dans `pong/ui.py`, aux côtés de `navigation_index` : **aucune scène n'a besoin de connaître la taille du panneau** pour l'afficher.
 
-L'écran d'accueil, lui, est un fond **opaque** : `start_screen.png`, chargé par
-`AssetStore` sous le nom `ASSET_START`. Le texte passe en **clair** (le panneau
-est sombre) : ce sont les constantes `TEXT_COLOR` / `TEXT_DIM` de `settings.py`.
+L'écran d'accueil, lui, est un fond **opaque** : `start_screen.png`, chargé par `AssetStore` sous le nom `ASSET_START`. Le texte passe en **clair** (le panneau est sombre) : ce sont les constantes `TEXT_COLOR` / `TEXT_DIM` de `settings.py`.
 
 > [!NOTE]
-> **Un détail qui compte :** les libellés lisibles sur un panneau **cyan** doivent
-> être sombres ; sur un panneau **sombre**, ils doivent être clairs. Notre thème a
-> changé de panneau en cours de route, et c'est une constante qui l'a absorbé —
-> jamais une valeur codée en dur au fond d'une scène.
+> **Un détail qui compte :** les libellés lisibles sur un panneau **cyan** doivent être sombres ; sur un panneau **sombre**, ils doivent être clairs. Notre thème a changé de panneau en cours de route, et c'est une constante qui l'a absorbé — jamais une valeur codée en dur au fond d'une scène.
 
 ---
 
 ## À vous de jouer
 
-1. Ajoutez **Pillow** à vos dépendances de développement et écrivez
-   `scripts/prepare_assets.py` (détourage, recadrage, redimensionnement).
+1. Ajoutez **Pillow** à vos dépendances de développement et écrivez `scripts/prepare_assets.py` (détourage, recadrage, redimensionnement).
 2. Produisez (ou récupérez) les PNG dans `pong/assets/`.
 3. Écrivez `pong/resources.py` : `ASSETS_DIR`, `asset_path`, `AssetStore`.
-4. Branchez `AssetStore` dans `App` et remplacez les `pygame.draw.rect` / `draw.circle`
-   par des `surface.blit` dans `GameScene`.
+4. Branchez `AssetStore` dans `App` et remplacez les `pygame.draw.rect` / `draw.circle` par des `surface.blit` dans `GameScene`.
 5. Ajoutez `fit_menu_frame`, `panel_rect` à `pong/ui.py` et habillez `MenuScene`.
 6. Écrivez les tests :
    - chaque asset attendu existe **et** a une taille plausible ;
@@ -353,8 +318,7 @@ def build_sprite(source, dest, *, height=None, width=None, max_size=None):
 ```
 
 > [!NOTE]
-> `ImageOps.fit` fait un « scale-cover » : l'image garde **ses proportions** et
-> remplit tout le cadre, quitte à rogner. Un `resize` direct étirerait le décor.
+> `ImageOps.fit` fait un « scale-cover » : l'image garde **ses proportions** et remplit tout le cadre, quitte à rogner. Un `resize` direct étirerait le décor.
 
 ### `pong/resources.py`
 
@@ -456,9 +420,7 @@ def test_missing_asset_raises_a_clear_error():
         asset_path("fichier-inexistant.png")
 ```
 
-> **Dans le projet de référence :** c'est exactement cette architecture. Le
-> `score_screen.png` y est extrait du panneau de menu, et les positions de score
-> sont dérivées de la largeur du panneau — jamais codées en dur.
+> **Dans le projet de référence :** c'est exactement cette architecture. Le `score_screen.png` y est extrait du panneau de menu, et les positions de score sont dérivées de la largeur du panneau — jamais codées en dur.
 
 </details>
 
@@ -471,8 +433,7 @@ def test_missing_asset_raises_a_clear_error():
 - Un **détourage** se vérifie sur les vraies images (fonds de verts différents !).
 - `.convert()` pour l'opaque, `.convert_alpha()` pour la transparence.
 - Un **`AssetStore`** charge tout une fois, et le partage entre les scènes.
-- Un sprite est un **habillage** : la logique (collision, bornes) ne dépend jamais
-  de sa taille.
+- Un sprite est un **habillage** : la logique (collision, bornes) ne dépend jamais de sa taille.
 
 ---
 

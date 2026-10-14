@@ -8,8 +8,7 @@
 
 - Modéliser une **entité** du jeu par une classe (données + méthodes).
 - Utiliser `pygame.Rect`, l'outil fourre-tout de pygame.
-- Déplacer une raquette **en fonction du temps** et l'**empêcher de sortir** du
-  terrain.
+- Déplacer une raquette **en fonction du temps** et l'**empêcher de sortir** du terrain.
 - Créer la première version de la **scène de jeu** et la piloter au clavier.
 - Écrire les **tests** qui prouvent que les bornes fonctionnent.
 
@@ -20,8 +19,7 @@
 
 ## 1. Le terrain de jeu
 
-Avant de dessiner quoi que ce soit, décidons **où** les choses ont le droit
-d'aller. On n'utilise pas toute la fenêtre : on réserve de la place.
+Avant de dessiner quoi que ce soit, décidons **où** les choses ont le droit d'aller. On n'utilise pas toute la fenêtre : on réserve de la place.
 
 ```
  ┌───────────────────────────────────────────────┐  ← fenêtre 900 × 600
@@ -61,9 +59,7 @@ NEON_CYAN = (0, 229, 255)
 ```
 
 > [!NOTE]
-> **Pourquoi des marges ?** Le jeu sera habillé (chapitre 11) : le haut
-> accueillera le score, et les côtés un décor néon. Définir le terrain dès
-> maintenant évite d'avoir à tout recalculer plus tard.
+> **Pourquoi des marges ?** Le jeu sera habillé (chapitre 11) : le haut accueillera le score, et les côtés un décor néon. Définir le terrain dès maintenant évite d'avoir à tout recalculer plus tard.
 
 ---
 
@@ -71,31 +67,25 @@ NEON_CYAN = (0, 229, 255)
 
 Une raquette, c'est :
 
-- des **données** : sa position (`x`, `y`), sa taille (`width`, `height`), sa
-  vitesse (`speed`) ;
+- des **données** : sa position (`x`, `y`), sa taille (`width`, `height`), sa vitesse (`speed`) ;
 - des **comportements** : se déplacer, se recentrer, connaître son rectangle.
 
-C'est exactement ce qu'exprime une classe Python. Et comme cette logique
-n'affiche rien, on pourra la tester **sans ouvrir de fenêtre**.
+C'est exactement ce qu'exprime une classe Python. Et comme cette logique n'affiche rien, on pourra la tester **sans ouvrir de fenêtre**.
 
 ---
 
 ## 3. `pygame.Rect` : le rectangle qui sait tout faire
 
-pygame fournit une classe très pratique, `pygame.Rect`, qui représente un
-rectangle et sait :
+pygame fournit une classe très pratique, `pygame.Rect`, qui représente un rectangle et sait :
 
 - donner ses bords : `rect.left`, `rect.right`, `rect.top`, `rect.bottom` ;
 - tester un chevauchement : `rect.colliderect(other)` ;
 - être dessiné : `pygame.draw.rect(surface, couleur, rect)`.
 
-Nous l'utiliserons surtout pour **dessiner** la raquette et, plus tard, pour
-calculer les collisions.
+Nous l'utiliserons surtout pour **dessiner** la raquette et, plus tard, pour calculer les collisions.
 
 > [!NOTE]
-> `Rect` travaille en **entiers**. Nos positions internes seront donc des
-> nombres à virgule (`float`), et on ne convertira qu'au moment de dessiner :
-> la physique reste fluide, l'affichage reste net.
+> `Rect` travaille en **entiers**. Nos positions internes seront donc des nombres à virgule (`float`), et on ne convertira qu'au moment de dessiner : la physique reste fluide, l'affichage reste net.
 
 ---
 
@@ -111,8 +101,7 @@ class Paddle:
         self.y = settings.FIELD_TOP + (settings.FIELD_HEIGHT - height) / 2
 ```
 
-La raquette naît **centrée verticalement** dans le terrain : on part du haut du
-terrain (`FIELD_TOP`) et on descend de la moitié de l'espace restant.
+La raquette naît **centrée verticalement** dans le terrain : on part du haut du terrain (`FIELD_TOP`) et on descend de la moitié de l'espace restant.
 
 ```python
     @property
@@ -124,9 +113,7 @@ terrain (`FIELD_TOP`) et on descend de la moitié de l'espace restant.
         return self.y + self.height / 2
 ```
 
-`@property` permet d'utiliser `paddle.rect` comme un attribut, alors que la
-valeur est **recalculée** à chaque appel. Pratique : le rectangle suit toujours la
-position courante, sans risque d'oubli de synchronisation.
+`@property` permet d'utiliser `paddle.rect` comme un attribut, alors que la valeur est **recalculée** à chaque appel. Pratique : le rectangle suit toujours la position courante, sans risque d'oubli de synchronisation.
 
 ---
 
@@ -151,21 +138,17 @@ La ligne des bornes mérite qu'on s'y attarde :
 self.y = max(FIELD_TOP, min(self.y, FIELD_BOTTOM - self.height))
 ```
 
-- `min(self.y, FIELD_BOTTOM - self.height)` : la raquette ne descend pas plus bas
-  que le bas du terrain (son **bas** touche le bord, d'où le `- height`).
+- `min(self.y, FIELD_BOTTOM - self.height)` : la raquette ne descend pas plus bas que le bas du terrain (son **bas** touche le bord, d'où le `- height`).
 - `max(FIELD_TOP, ...)` : elle ne monte pas plus haut que le haut du terrain.
-- Ensemble, ils **coincent** la valeur dans l'intervalle autorisé. C'est le
-  « clamp », un réflexe à connaître.
+- Ensemble, ils **coincent** la valeur dans l'intervalle autorisé. C'est le « clamp », un réflexe à connaître.
 
-Décomposer `move` en `move_by` a un avantage : le déplacement **brut** (en pixels)
-sera réutilisé par l'IA, qui calcule elle-même sa distance (chapitre 06).
+Décomposer `move` en `move_by` a un avantage : le déplacement **brut** (en pixels) sera réutilisé par l'IA, qui calcule elle-même sa distance (chapitre 06).
 
 ---
 
 ## 6. Contrôler au clavier
 
-La raquette ne sait pas qu'un clavier existe : c'est la **scène** qui lit les
-touches et lui dit de bouger. Rappelons les constantes du projet :
+La raquette ne sait pas qu'un clavier existe : c'est la **scène** qui lit les touches et lui dit de bouger. Rappelons les constantes du projet :
 
 ```python
 # --- Contrôles (touches pygame) ---
@@ -179,8 +162,7 @@ P2_DOWN = (pygame.K_DOWN,)
 KEY_MENU = (pygame.K_q, pygame.K_m)
 ```
 
-On ne réagit pas à l'événement « touche pressée », mais à l'**état** du clavier à
-chaque image :
+On ne réagit pas à l'événement « touche pressée », mais à l'**état** du clavier à chaque image :
 
 ```python
 keys = pygame.key.get_pressed()
@@ -188,24 +170,20 @@ if keys[pygame.K_z]:
     ...
 ```
 
-C'est essentiel : avec les événements, il faudrait gérer des répétitions et des
-relâchements. Avec `get_pressed()`, maintenir la touche déplace la raquette en
-continu, image après image. On multiplie par `dt`, et le mouvement est fluide.
+C'est essentiel : avec les événements, il faudrait gérer des répétitions et des relâchements. Avec `get_pressed()`, maintenir la touche déplace la raquette en continu, image après image. On multiplie par `dt`, et le mouvement est fluide.
 
 ---
 
 ## À vous de jouer
 
 1. Écrivez la classe `Paddle` (fichier `pong/paddle.py`).
-2. **Écrivez d'abord les tests** : une raquette neuve est centrée, et elle ne sort
-   jamais du terrain, même si on la pousse très loin.
+2. **Écrivez d'abord les tests** : une raquette neuve est centrée, et elle ne sort jamais du terrain, même si on la pousse très loin.
 3. Créez une première **`GameScene`** (`pong/scenes/game.py`) qui :
    - place une raquette à gauche et une à droite ;
    - lit le clavier et les déplace (joueur 1 : Z/S ou W/S ; joueur 2 : flèches) ;
    - dessine les deux raquettes en rectangles néon sur fond sombre ;
    - revient au menu avec `Q` ou `M`.
-4. Déclarez `GameScene` dans `App._scenes` et lancez `python main.py`… puis
-   remplacez temporairement la scène de départ par `"game"` pour la voir.
+4. Déclarez `GameScene` dans `App._scenes` et lancez `python main.py`… puis remplacez temporairement la scène de départ par `"game"` pour la voir.
 
 <details>
 <summary>Un indice sur la méthode d'entrée</summary>
@@ -334,8 +312,7 @@ def test_reset_recenters_the_paddle():
     assert paddle.y == settings.FIELD_TOP + (settings.FIELD_HEIGHT - paddle.height) / 2
 ```
 
-Lancez `pytest` : les tests passent. Notez au passage que **ces tests n'ouvrent
-aucune fenêtre** — c'est tout l'intérêt d'avoir séparé la logique de l'affichage.
+Lancez `pytest` : les tests passent. Notez au passage que **ces tests n'ouvrent aucune fenêtre** — c'est tout l'intérêt d'avoir séparé la logique de l'affichage.
 
 ### `pong/scenes/game.py` (première version)
 
@@ -401,11 +378,9 @@ Pour l'essayer immédiatement, terminez `__init__` par :
         self.switch_scene("game", mode="2p")
 ```
 
-Z/S déplacent la raquette de gauche, les flèches celle de droite, `Q` revient au
-menu. **Vous avez un jeu qui bouge !**
+Z/S déplacent la raquette de gauche, les flèches celle de droite, `Q` revient au menu. **Vous avez un jeu qui bouge !**
 
-> **Dans le projet de référence :** `pong/paddle.py` est identique à ce corrigé.
-> La vraie `GameScene` est enrichie au fil des chapitres suivants.
+> **Dans le projet de référence :** `pong/paddle.py` est identique à ce corrigé. La vraie `GameScene` est enrichie au fil des chapitres suivants.
 
 </details>
 
@@ -416,8 +391,7 @@ menu. **Vous avez un jeu qui bouge !**
 - Une entité = **des données + des méthodes** (`Paddle`).
 - `pygame.Rect` sert à dessiner et, plus tard, à détecter les collisions.
 - On déplace avec `vitesse × dt` : la vitesse est en pixels par seconde.
-- Le « clamp » (`max(borne_min, min(valeur, borne_max))`) garde la raquette dans
-  le terrain.
+- Le « clamp » (`max(borne_min, min(valeur, borne_max))`) garde la raquette dans le terrain.
 - Le clavier se lit **par état** (`pygame.key.get_pressed()`), pas par événement.
 - La logique pure se teste **sans fenêtre**.
 

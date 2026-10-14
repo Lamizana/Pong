@@ -9,8 +9,7 @@
 - Représenter un déplacement par un **vecteur vitesse**.
 - Faire rebondir une balle sur les bords **haut et bas** sans qu'elle se « colle ».
 - Détecter qu'une balle est **sortie** du terrain.
-- Renvoyer la balle avec un **angle qui dépend du point d'impact** (la « physique
-  Pong »).
+- Renvoyer la balle avec un **angle qui dépend du point d'impact** (la « physique Pong »).
 - Accélérer progressivement le jeu à chaque échange.
 
 **Fichiers du projet :** `pong/ball.py`, `pong/scenes/game.py`, `pong/settings.py`
@@ -20,8 +19,7 @@
 
 ## 1. Un déplacement, c'est deux nombres
 
-Jusqu'ici, la raquette ne bougeait que verticalement. La balle, elle, va dans
-**toutes les directions**. On la décrit par :
+Jusqu'ici, la raquette ne bougeait que verticalement. La balle, elle, va dans **toutes les directions**. On la décrit par :
 
 - sa **position** : `x`, `y` ;
 - sa **vitesse** : `vx` (horizontale) et `vy` (verticale), en pixels par seconde.
@@ -57,8 +55,7 @@ BALL_MAX_SPEED = 820
 MAX_BOUNCE_ANGLE = 60       # angle maximal de rebond, en degrés
 ```
 
-Puis la classe `Ball`. La mise en jeu choisit une direction **au hasard**, dans un
-cône de 60° :
+Puis la classe `Ball`. La mise en jeu choisit une direction **au hasard**, dans un cône de 60° :
 
 ```python
     def reset(self, direction=None):
@@ -74,8 +71,7 @@ cône de 60° :
 
 ### Un peu de trigonométrie
 
-On veut une **vitesse totale constante** (`speed`) mais une **direction variable**.
-Si `θ` est l'angle par rapport à l'horizontale, alors :
+On veut une **vitesse totale constante** (`speed`) mais une **direction variable**. Si `θ` est l'angle par rapport à l'horizontale, alors :
 
 | Composante | Formule |
 |------------|---------|
@@ -91,10 +87,8 @@ Si `θ` est l'angle par rapport à l'horizontale, alors :
 ```
 
 - `math.radians(30)` convertit 30 degrés en radians (ce que Python attend).
-- Entre **-30° et +30°**, la balle part franchement vers la gauche ou la droite,
-  tout en variant légèrement.
-- Le paramètre `direction` (+1/-1) permet de renvoyer la balle vers le joueur qui
-  vient de marquer.
+- Entre **-30° et +30°**, la balle part franchement vers la gauche ou la droite, tout en variant légèrement.
+- Le paramètre `direction` (+1/-1) permet de renvoyer la balle vers le joueur qui vient de marquer.
 
 ---
 
@@ -116,12 +110,8 @@ Si `θ` est l'angle par rapport à l'horizontale, alors :
 
 Trois points importants :
 
-1. On teste `self.vy < 0` (la balle **monte**) avant de rebondir en haut. Sans ce
-   test, une balle immobile posée sur le bord (`vy == 0`) verrait sa vitesse
-   inversée à chaque image et **vibrerait** sur place.
-2. On **replace** la balle à l'intérieur (`self.y = FIELD_TOP + self.radius`) avant
-   d'inverser la vitesse. Sinon, une balle légèrement engagée dans le mur le
-   retraverserait à l'image suivante et pourrait « sortir ».
+1. On teste `self.vy < 0` (la balle **monte**) avant de rebondir en haut. Sans ce test, une balle immobile posée sur le bord (`vy == 0`) verrait sa vitesse inversée à chaque image et **vibrerait** sur place.
+2. On **replace** la balle à l'intérieur (`self.y = FIELD_TOP + self.radius`) avant d'inverser la vitesse. Sinon, une balle légèrement engagée dans le mur le retraverserait à l'image suivante et pourrait « sortir ».
 3. On **renvoie `True`** : la scène saura qu'il faut jouer un son (chapitre 09).
 
 ---
@@ -138,16 +128,13 @@ Trois points importants :
         return None
 ```
 
-On ne renvoie pas un booléen mais **le côté** : la scène en déduira quel joueur
-marque le point.
+On ne renvoie pas un booléen mais **le côté** : la scène en déduira quel joueur marque le point.
 
 ---
 
 ## 5. Le rebond sur la raquette : la « physique Pong »
 
-Un Pong amusant ne renvoie pas la balle toujours au même angle : **l'angle dépend
-de l'endroit où on frappe**. Frapper avec le bord de la raquette envoie la balle
-beaucoup plus en biais.
+Un Pong amusant ne renvoie pas la balle toujours au même angle : **l'angle dépend de l'endroit où on frappe**. Frapper avec le bord de la raquette envoie la balle beaucoup plus en biais.
 
 ```
    ┌──┐ ← bord haut    → balle repart vers le haut
@@ -172,41 +159,31 @@ beaucoup plus en biais.
         self.speed = min(self.speed + settings.BALL_SPEEDUP, settings.BALL_MAX_SPEED)
 ```
 
-- `offset` vaut `-1` si la balle frappe le bord **haut**, `+1` le bord **bas**, `0`
-  le centre.
+- `offset` vaut `-1` si la balle frappe le bord **haut**, `+1` le bord **bas**, `0` le centre.
 - L'angle de sortie est proportionnel : `-60°`, `0°`, `+60°`.
-- On **borne** `offset` : si la balle touche un tout petit peu au-delà du bord, on
-  reste dans l'intervalle.
+- On **borne** `offset` : si la balle touche un tout petit peu au-delà du bord, on reste dans l'intervalle.
 - La vitesse **augmente** à chaque échange : les parties ne s'éternisent pas.
 
 > [!NOTE]
-> `direction` vaut `+1` quand la balle repart vers la **droite**, `-1` vers la
-> **gauche**. C'est la scène qui le sait, car c'est elle qui vient de détecter la
-> collision (chapitre 05).
+> `direction` vaut `+1` quand la balle repart vers la **droite**, `-1` vers la **gauche**. C'est la scène qui le sait, car c'est elle qui vient de détecter la collision (chapitre 05).
 
 ---
 
 ## À vous de jouer
 
-1. Écrivez la classe `Ball` (`pong/ball.py`) avec `reset`, `update`,
-   `handle_walls`, `bounce_off_paddle` et `off_screen`.
+1. Écrivez la classe `Ball` (`pong/ball.py`) avec `reset`, `update`, `handle_walls`, `bounce_off_paddle` et `off_screen`.
 2. Écrivez les tests :
    - une balle qui monte rebondit sur le bord haut **et repart vers le bas** ;
    - une balle qui descend rebondit sur le bord bas ;
    - une balle immobile **ne bouge pas** (le bug du « tremblement ») ;
    - la balle qui sort à gauche est détectée (`"left"`) ;
-   - frappée en haut de la raquette, la balle repart **vers le haut** ; au centre,
-     **à plat**.
-3. Branchez la balle dans `GameScene` : déplacez-la, faites-la rebondir, et
-   **relancez-la au centre** dès qu'elle sort (pour l'instant, le point ne compte
-   pas — ce sera le chapitre 07).
+   - frappée en haut de la raquette, la balle repart **vers le haut** ; au centre, **à plat**.
+3. Branchez la balle dans `GameScene` : déplacez-la, faites-la rebondir, et **relancez-la au centre** dès qu'elle sort (pour l'instant, le point ne compte pas — ce sera le chapitre 07).
 
 <details>
 <summary>Un indice pour le rebond « qui repart vers le haut »</summary>
 
-Après un rebond sur le **bord haut**, `vy` doit être **positif** (la balle descend).
-Pour la raquette : frappée au-dessus du centre (`offset < 0`), l'angle est négatif,
-donc `sin(angle) < 0` → `vy < 0` → la balle repart vers le haut. ✅
+Après un rebond sur le **bord haut**, `vy` doit être **positif** (la balle descend). Pour la raquette : frappée au-dessus du centre (`offset < 0`), l'angle est négatif, donc `sin(angle) < 0` → `vy < 0` → la balle repart vers le haut. ✅
 
 </details>
 
@@ -413,12 +390,9 @@ N'oubliez pas la couleur dans `settings.py` :
 NEON_YELLOW = (255, 214, 102)
 ```
 
-La balle rebondit maintenant en haut et en bas, et sort par les côtés. **Il ne
-manque que les raquettes !** Ce sera l'objet du prochain chapitre.
+La balle rebondit maintenant en haut et en bas, et sort par les côtés. **Il ne manque que les raquettes !** Ce sera l'objet du prochain chapitre.
 
-> **Dans le projet de référence :** `pong/ball.py` correspond exactement à ce
-> corrigé. Seul `BALL_RADIUS` (8) et la taille du sprite de balle
-> (`2 × BALL_RADIUS`) seront alignés au chapitre 11.
+> **Dans le projet de référence :** `pong/ball.py` correspond exactement à ce corrigé. Seul `BALL_RADIUS` (8) et la taille du sprite de balle (`2 × BALL_RADIUS`) seront alignés au chapitre 11.
 
 </details>
 
@@ -430,8 +404,7 @@ manque que les raquettes !** Ce sera l'objet du prochain chapitre.
 - Un lancer utilise la **trigonométrie** : `vx = speed·cos θ`, `vy = speed·sin θ`.
 - Un rebond teste la **direction** (`vy < 0`) pour éviter les vibrations.
 - On **replace** la balle dans le terrain avant d'inverser la vitesse.
-- L'angle de renvoi dépend du **point d'impact** sur la raquette — c'est ce qui
-  rend le jeu intéressant.
+- L'angle de renvoi dépend du **point d'impact** sur la raquette — c'est ce qui rend le jeu intéressant.
 
 ---
 

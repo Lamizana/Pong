@@ -93,8 +93,7 @@ Détaillons chaque couche :
 - **`settings.py`** rassemble les valeurs réglables (taille de la fenêtre, couleurs, vitesses, touches). On ne les disperse pas dans le code : pour changer la vitesse de la balle, il n'y a qu'un seul endroit à modifier.
 - **`ball`, `paddle`, `ai`, `score`, `collision`** contiennent les **règles** du jeu. Ils ne dessinent rien et n'ouvrent aucune fenêtre : on peut donc les tester isolément, en quelques millisecondes.
 - **`scenes/`** contient les **écrans** : le menu, la partie, la pause, la fin de partie. Une scène **dessine** et **traduit les touches** en actions, mais délègue les calculs à la logique.
-- **`app.py`** orchestre le tout : il ouvre la fenêtre, lit le clavier, et confie le
-  travail à la **scène courante**.
+- **`app.py`** orchestre le tout : il ouvre la fenêtre, lit le clavier, et confie le travail à la **scène courante**.
 - **`main.py`** ne fait presque rien : il crée l'application et la lance.
 
 > [!NOTE]
@@ -105,8 +104,7 @@ Détaillons chaque couche :
 
 ## 4. Le développement piloté par les tests (TDD)
 
-Pour toute la logique du jeu, nous suivrons un rythme en trois temps, appelé
-**rouge → vert → refactor** :
+Pour toute la logique du jeu, nous suivrons un rythme en trois temps, appelé **rouge → vert → refactor** :
 
 ```console
    ① ROUGE                     ② VERT                    ③ REFACTOR
@@ -119,8 +117,7 @@ Pour toute la logique du jeu, nous suivrons un rythme en trois temps, appelé
 ```
 
 - **Rouge** :
-  - j'écris un test qui décrit le comportement attendu… et je vérifie
-   qu'il **échoue**. Un test qui passe tout de suite ne prouve rien.
+  - j'écris un test qui décrit le comportement attendu… et je vérifie qu'il **échoue**. Un test qui passe tout de suite ne prouve rien.
 - **Vert** :
   - j'écris juste assez de code pour que le test passe.
 - **Refactor** :
@@ -149,16 +146,14 @@ Chaque chapitre de code suit le même schéma :
 4. **Le corrigé** : le code complet, expliqué.
 5. **En résumé** : les points clés.
 
-Prenez le temps de **taper** le code plutôt que de le copier : c'est en écrivant
-qu'on apprend. Et lancez les tests à chaque étape.
+Prenez le temps de **taper** le code plutôt que de le copier : c'est en écrivant qu'on apprend. Et lancez les tests à chaque étape.
 
 ---
 
 ## En résumé
 
 - Le **Pong** est un petit jeu, mais il contient tout ce qui fait un vrai jeu.
-- Le projet est découpé en **couches** : logique d'un côté (testable), affichage de
-  l'autre, constantes regroupées dans `settings.py`.
+- Le projet est découpé en **couches** : logique d'un côté (testable), affichage de l'autre, constantes regroupées dans `settings.py`.
 - On développe en **TDD** : **rouge → vert → refactor**.
 
 ---

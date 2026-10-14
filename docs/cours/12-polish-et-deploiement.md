@@ -19,9 +19,7 @@
 
 ## 1. Les halos néon
 
-Un texte néon, c'est un texte net, doublé d'un **halo diffus**. La technique : on
-dessine d'abord la même phrase plusieurs fois, légèrement **décalée** et dans une
-couleur atténuée, puis le texte net par-dessus.
+Un texte néon, c'est un texte net, doublé d'un **halo diffus**. La technique : on dessine d'abord la même phrase plusieurs fois, légèrement **décalée** et dans une couleur atténuée, puis le texte net par-dessus.
 
 ```python
 def glow_text(surface, font, text, color, center, spread=3):
@@ -38,24 +36,20 @@ def glow_text(surface, font, text, color, center, spread=3):
 ```
 
 - `dim` est une version **assombrie** de la couleur : c'est le halo.
-- `range(-spread, spread + 1, 2)` place des copies tous les deux pixels dans un
-  carré : un halo serré et régulier.
+- `range(-spread, spread + 1, 2)` place des copies tous les deux pixels dans un carré : un halo serré et régulier.
 - Une seule fonction, utilisée par le menu, les options, la pause et la fin.
 
 > [!TIP]
-> **Un halo trop large fait « gras ».** `spread=1` donne un halo discret
-> (4 copies), `spread=4` un halo très marqué (24 copies). À régler selon le goût.
+> **Un halo trop large fait « gras ».** `spread=1` donne un halo discret (4 copies), `spread=4` un halo très marqué (24 copies). À régler selon le goût.
 
 ---
 
 ## 2. Une vraie police
 
-`SysFont(None, taille)` utilise la police du système : elle change d'une machine à
-l'autre. Pour un rendu identique partout, on **embarque** une police.
+`SysFont(None, taille)` utilise la police du système : elle change d'une machine à l'autre. Pour un rendu identique partout, on **embarque** une police.
 
 1. Déposez le fichier dans `pong/assets/` (par exemple `Orbitron.ttf`).
-2. **Ajoutez sa licence** à côté (`OFL-Orbitron.txt`) : la plupart des polices libres
-   vous y obligent. C'est une question de respect… et de légalité.
+2. **Ajoutez sa licence** à côté (`OFL-Orbitron.txt`) : la plupart des polices libres vous y obligent. C'est une question de respect… et de légalité.
 3. Chargez-la dans `App` :
 
 ```python
@@ -74,16 +68,13 @@ FONT_LARGE_SIZE = 72
 ```
 
 > [!NOTE]
-> **Pourquoi les tailles sont-elles des constantes ?** Parce qu'une police large
-> comme Orbitron ne se comporte pas comme une police étroite : on ajuste les tailles
-> à un seul endroit, sans toucher aux scènes.
+> **Pourquoi les tailles sont-elles des constantes ?** Parce qu'une police large comme Orbitron ne se comporte pas comme une police étroite : on ajuste les tailles à un seul endroit, sans toucher aux scènes.
 
 ---
 
 ## 3. Des réglages qui survivent au redémarrage
 
-Rappelez-vous le chapitre 08 : la difficulté et les points sont perdus à la
-fermeture. Écrivons-les dans un fichier.
+Rappelez-vous le chapitre 08 : la difficulté et les points sont perdus à la fermeture. Écrivons-les dans un fichier.
 
 ```python
 DEFAULTS = {"level": "moyen", "points_to_win": settings.POINTS_TO_WIN}
@@ -104,10 +95,8 @@ def config_dir():
 Trois principes de robustesse :
 
 1. **Chaque système a ses conventions** (Windows aime `%APPDATA%`, Linux `XDG`).
-2. **`PONG_CONFIG_DIR`** permet de tout rediriger — c'est ce qui rendra les tests
-   hermétiques (aucun test n'écrit dans le dossier réel de l'utilisateur).
-3. **Un fichier absent, illisible ou corrompu retombe sur les défauts.** Jamais de
-   plantage à cause d'un réglage :
+2. **`PONG_CONFIG_DIR`** permet de tout rediriger — c'est ce qui rendra les tests hermétiques (aucun test n'écrit dans le dossier réel de l'utilisateur).
+3. **Un fichier absent, illisible ou corrompu retombe sur les défauts.** Jamais de plantage à cause d'un réglage :
 
 ```python
     try:
@@ -119,16 +108,13 @@ Trois principes de robustesse :
         config["level"] = data["level"]
 ```
 
-Et l'écriture est **best-effort** : si le disque est plein, on ne fait pas échouer
-la partie pour autant (`save` renvoie `False`).
+Et l'écriture est **best-effort** : si le disque est plein, on ne fait pas échouer la partie pour autant (`save` renvoie `False`).
 
 ---
 
 ## 4. Ne jamais échouer en silence
 
-Voilà un piège classique du déploiement : l'exécutable `--windowed` **n'a pas de
-console**. Un asset manquant afficherait une trace d'erreur… nulle part. Le joueur
-voit une fenêtre s'ouvrir, puis disparaître. Mystère.
+Voilà un piège classique du déploiement : l'exécutable `--windowed` **n'a pas de console**. Un asset manquant afficherait une trace d'erreur… nulle part. Le joueur voit une fenêtre s'ouvrir, puis disparaître. Mystère.
 
 La parade tient en dix lignes, dans `main.py` :
 
@@ -161,16 +147,13 @@ def main():
     return 0
 ```
 
-Trois canaux, du plus discret au plus visible : **stderr** (console), un **fichier
-journal** (`pong-error.log`, toujours écrit), et une **boîte de dialogue** sous
-Windows. L'utilisateur a **toujours** moyen de comprendre ce qui s'est passé.
+Trois canaux, du plus discret au plus visible : **stderr** (console), un **fichier journal** (`pong-error.log`, toujours écrit), et une **boîte de dialogue** sous Windows. L'utilisateur a **toujours** moyen de comprendre ce qui s'est passé.
 
 ---
 
 ## 5. Créer un exécutable
 
-PyInstaller rassemble Python, pygame, vos modules **et vos données** dans un seul
-fichier exécutable.
+PyInstaller rassemble Python, pygame, vos modules **et vos données** dans un seul fichier exécutable.
 
 ```bash
 pyinstaller --onefile --windowed --name Pong \
@@ -183,12 +166,9 @@ pyinstaller --onefile --windowed --name Pong \
 - `--add-data` : **embarque le dossier des assets**.
 
 > [!CAUTION]
-> **L'erreur qui coûte une soirée.** Si vous oubliez `--add-data`, le jeu
-> démarrera… puis plantera au chargement des images (`Asset introuvable : …`). Les
-> données ne sont **pas** incluses automatiquement.
+> **L'erreur qui coûte une soirée.** Si vous oubliez `--add-data`, le jeu démarrera… puis plantera au chargement des images (`Asset introuvable : …`). Les données ne sont **pas** incluses automatiquement.
 >
-> Le séparateur dépend du système : **`:`** sous Linux/macOS, **`;`** sous
-> Windows. D'où un petit script qui s'adapte :
+> Le séparateur dépend du système : **`:`** sous Linux/macOS, **`;`** sous Windows. D'où un petit script qui s'adapte :
 
 ```bash
 # build.sh (Linux / macOS)
@@ -221,8 +201,7 @@ Et pour ne pas reconstruire à la main, GitHub Actions le fait à chaque version
 
 PyInstaller n'est pas le seul moyen de distribuer :
 
-- **`pip install .`** : les images et la police doivent être déclarées comme
-  **données de paquet**, sinon elles sont oubliées :
+- **`pip install .`** : les images et la police doivent être déclarées comme **données de paquet**, sinon elles sont oubliées :
 
 ```toml
 [tool.setuptools.package-data]
@@ -232,15 +211,13 @@ pong = ["assets/*", "assets/start_video/*"]
 license-files = ["LICENSE", "pong/assets/OFL-Orbitron.txt"]
 ```
 
-- **Depuis les sources** (`python main.py`) : tout fonctionne déjà, puisque le
-  chemin est résolu par rapport au fichier.
+- **Depuis les sources** (`python main.py`) : tout fonctionne déjà, puisque le chemin est résolu par rapport au fichier.
 
 ---
 
 ## 7. La qualité, à la fin
 
-Un dernier conseil : automatisez ce que vous vérifiez. Notre suite de tests attrape
-déjà :
+Un dernier conseil : automatisez ce que vous vérifiez. Notre suite de tests attrape déjà :
 
 - la physique (rebonds, bornes, collisions),
 - les règles (score, victoire),
@@ -259,26 +236,17 @@ pytest
 
 ## À vous de jouer
 
-1. Créez `pong/neon.py` avec `glow_text`, et utilisez-le pour les titres (menu,
-   options, pause, fin).
-2. Embarquez une police : téléchargez une police libre, placez-la dans
-   `pong/assets/` **avec sa licence**, et chargez-la dans `App`.
-3. Créez `pong/config.py` (dossier, `load`, `save`) et utilisez-le pour que les
-   options soient conservées entre deux lancements.
-4. Entourez `App()` d'un `try / except` dans `main.py`, avec journal et boîte de
-   dialogue sous Windows.
-5. Écrivez `build.sh` et `build.ps1`, puis **testez l'exécutable** : il doit
-   démarrer **avec** ses images.
-6. Écrivez les tests qui vous protègent : `glow_text` dessine bien, la config
-   retombe sur les défauts si le fichier est corrompu, et le séparateur du build
-   est le bon selon le système.
+1. Créez `pong/neon.py` avec `glow_text`, et utilisez-le pour les titres (menu, options, pause, fin).
+2. Embarquez une police : téléchargez une police libre, placez-la dans `pong/assets/` **avec sa licence**, et chargez-la dans `App`.
+3. Créez `pong/config.py` (dossier, `load`, `save`) et utilisez-le pour que les options soient conservées entre deux lancements.
+4. Entourez `App()` d'un `try / except` dans `main.py`, avec journal et boîte de dialogue sous Windows.
+5. Écrivez `build.sh` et `build.ps1`, puis **testez l'exécutable** : il doit démarrer **avec** ses images.
+6. Écrivez les tests qui vous protègent : `glow_text` dessine bien, la config retombe sur les défauts si le fichier est corrompu, et le séparateur du build est le bon selon le système.
 
 <details>
 <summary>Un indice pour tester la configuration</summary>
 
-Ne touchez **jamais** le vrai dossier de configuration pendant un test. Redirigez
-`PONG_CONFIG_DIR` vers un dossier temporaire (via `monkeypatch.setenv`) et testez
-`load(path)` / `save(config, path)` sur des fichiers maîtrisés.
+Ne touchez **jamais** le vrai dossier de configuration pendant un test. Redirigez `PONG_CONFIG_DIR` vers un dossier temporaire (via `monkeypatch.setenv`) et testez `load(path)` / `save(config, path)` sur des fichiers maîtrisés.
 
 </details>
 
@@ -487,16 +455,13 @@ def test_save_then_load_round_trip(tmp_path):
 - Une police **embarquée** (et sa **licence**) garantit un rendu identique partout.
 - Des réglages **validés** et un fichier corrompu qui retombe sur les défauts.
 - Une erreur de démarrage doit **toujours** laisser une trace visible.
-- PyInstaller **n'embarque pas** vos données : `--add-data` est obligatoire, avec le
-  bon séparateur selon le système.
+- PyInstaller **n'embarque pas** vos données : `--add-data` est obligatoire, avec le bon séparateur selon le système.
 
 ---
 
 ## Fin du cours
 
-Vous avez construit un jeu complet : boucle et scènes, raquettes, balle et physique,
-collisions au pixel près, IA à trois niveaux, score, menu, options, sons, pause, fin
-de partie, images, police et déploiement. Le tout **testé**.
+Vous avez construit un jeu complet : boucle et scènes, raquettes, balle et physique, collisions au pixel près, IA à trois niveaux, score, menu, options, sons, pause, fin de partie, images, police et déploiement. Le tout **testé**.
 
 ### Et maintenant ?
 
@@ -509,9 +474,7 @@ Quelques idées pour continuer par vous-même :
 - **Du son** : une musique de fond, des bruitages différents selon la raquette.
 - **Une traduction** : les libellés dans un fichier, et un choix de langue.
 
-Le plus important n'est pas la liste : c'est la méthode. **Une responsabilité par
-fichier, la logique séparée de l'affichage, et un test avant chaque fonctionnalité.**
-Elle marche pour Pong… et pour tout le reste.
+Le plus important n'est pas la liste : c'est la méthode. **Une responsabilité par fichier, la logique séparée de l'affichage, et un test avant chaque fonctionnalité.** Elle marche pour Pong… et pour tout le reste.
 
 Bon code, et amusez-vous bien !
 

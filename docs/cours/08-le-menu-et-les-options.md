@@ -9,8 +9,7 @@
 - Construire un **menu navigable** au clavier.
 - Décrire les entrées du menu par une **liste de données** plutôt que par des `if`.
 - Créer un **sous-menu de réglages** (difficulté, points pour gagner).
-- Partager un comportement entre plusieurs scènes (la **navigation**) sans le
-  dupliquer.
+- Partager un comportement entre plusieurs scènes (la **navigation**) sans le dupliquer.
 - Transmettre des **paramètres** d'une scène à l'autre.
 
 **Fichiers du projet :** `pong/scenes/menu.py`, `pong/scenes/options.py`, `pong/ui.py`
@@ -20,8 +19,7 @@
 
 ## 1. Un menu, c'est une scène
 
-Le menu est une scène comme une autre : il dessine, et il réagit au clavier. Sa
-particularité est qu'il propose des **choix**.
+Le menu est une scène comme une autre : il dessine, et il réagit au clavier. Sa particularité est qu'il propose des **choix**.
 
 Décrire ces choix par une **liste de tuples** rend le code très lisible :
 
@@ -34,9 +32,7 @@ self.options = [
 ]
 ```
 
-Chaque ligne contient : le **libellé** affiché, le **nom de la scène** à activer, et
-les **paramètres** à lui passer. Ajouter une entrée = ajouter une ligne. Et pour
-afficher le menu, on n'a qu'un seul endroit à modifier :
+Chaque ligne contient : le **libellé** affiché, le **nom de la scène** à activer, et les **paramètres** à lui passer. Ajouter une entrée = ajouter une ligne. Et pour afficher le menu, on n'a qu'un seul endroit à modifier :
 
 ```python
         ui.draw_choices(surface, self.app, frame_rect,
@@ -61,12 +57,9 @@ L'opérateur `%` (modulo) donne le **reste** de la division :
 | 2 | 3 |
 | **3** | **0** ← on boucle |
 
-Ainsi, descendre depuis la dernière ligne ramène à la première, sans `if`. Et pour
-monter, on utilise `(index - 1) % 4` — en Python, `-1 % 4` vaut bien `3`.
+Ainsi, descendre depuis la dernière ligne ramène à la première, sans `if`. Et pour monter, on utilise `(index - 1) % 4` — en Python, `-1 % 4` vaut bien `3`.
 
-Le projet accepte **deux jeux de touches** pour naviguer : les flèches (joueur 2)
-et Z/S ou W/S (joueur 1). On rassemble cela dans une petite fonction, pour ne pas
-la répéter dans chaque scène :
+Le projet accepte **deux jeux de touches** pour naviguer : les flèches (joueur 2) et Z/S ou W/S (joueur 1). On rassemble cela dans une petite fonction, pour ne pas la répéter dans chaque scène :
 
 ```python
 def navigation_index(event, index, count):
@@ -81,10 +74,7 @@ def navigation_index(event, index, count):
 ```
 
 > [!NOTE]
-> **Pourquoi renvoyer `None` plutôt que l'index inchangé ?** Parce que `None` veut
-> dire « ce n'est pas un déplacement ». L'appelant peut alors essayer autre chose
-> (valider, revenir…). Un index inchangé serait ambigu : « rien n'a bougé » ou
-> « c'était une touche que je ne gère pas » ?
+> **Pourquoi renvoyer `None` plutôt que l'index inchangé ?** Parce que `None` veut dire « ce n'est pas un déplacement ». L'appelant peut alors essayer autre chose (valider, revenir…). Un index inchangé serait ambigu : « rien n'a bougé » ou « c'était une touche que je ne gère pas » ?
 
 ---
 
@@ -102,15 +92,13 @@ def navigation_index(event, index, count):
 Deux cas particuliers élégants :
 
 - `None` comme scène signifie **quitter** (l'entrée « Quitter »).
-- `**kwargs` transmet les paramètres : `switch_scene("game", mode="1p")` appelle
-  donc `GameScene(app, mode="1p")`.
+- `**kwargs` transmet les paramètres : `switch_scene("game", mode="1p")` appelle donc `GameScene(app, mode="1p")`.
 
 ---
 
 ## 4. Le sous-menu Options
 
-L'écran Options est aussi un menu, mais chaque ligne porte une **valeur** qu'on fait
-défiler avec ← et → :
+L'écran Options est aussi un menu, mais chaque ligne porte une **valeur** qu'on fait défiler avec ← et → :
 
 ```console
    > Difficulté : Moyen
@@ -154,8 +142,7 @@ Dans l'`App`, un simple dictionnaire :
         self.config = {"level": "moyen", "points_to_win": settings.POINTS_TO_WIN}
 ```
 
-Les scènes y accèdent via `self.app.config` : la partie lit la difficulté et le
-nombre de points au moment où elle démarre.
+Les scènes y accèdent via `self.app.config` : la partie lit la difficulté et le nombre de points au moment où elle démarre.
 
 ```python
 class GameScene(Scene):
@@ -167,19 +154,16 @@ class GameScene(Scene):
 ```
 
 > [!NOTE]
-> Comme la difficulté n'est plus passée en paramètre, le menu devient plus
-> simple : `switch_scene("game", mode="1p")` suffit.
+> Comme la difficulté n'est plus passée en paramètre, le menu devient plus simple : `switch_scene("game", mode="1p")` suffit.
 
 ---
 
 ## À vous de jouer
 
 1. Créez `pong/ui.py` avec la fonction `navigation_index`.
-2. Transformez `MenuScene` : quatre entrées, navigation, validation, et —
-   depuis la pause, le retour au menu (`Q`/`M`) — le chapitre 09 branche la pause.
+2. Transformez `MenuScene` : quatre entrées, navigation, validation, et — depuis la pause, le retour au menu (`Q`/`M`) — le chapitre 09 branche la pause.
 3. Créez `OptionsScene` : deux lignes réglables et une ligne « Retour ».
-4. Créez la scène `start` (l'écran d'accueil) et enregistrez-la dans
-   `App._scenes` : le menu et les options y reviennent avec « Échap ».
+4. Créez la scène `start` (l'écran d'accueil) et enregistrez-la dans `App._scenes` : le menu et les options y reviennent avec « Échap ».
 5. Déclarez `"options"` dans `App._scenes` et ajoutez `app.config` dans `App`.
 6. Écrivez les tests :
    - depuis le menu, choisir « Options » ouvre bien `OptionsScene` ;
@@ -191,8 +175,7 @@ class GameScene(Scene):
 <details>
 <summary>Un indice sur les libellés affichés</summary>
 
-On affiche « Difficulté : Moyen », mais la valeur stockée est `"moyen"`. La
-traduction se fait à l'affichage, via le libellé du niveau :
+On affiche « Difficulté : Moyen », mais la valeur stockée est `"moyen"`. La traduction se fait à l'affichage, via le libellé du niveau :
 
 ```python
 level = settings.AI_LEVELS[self.app.config["level"]]["label"]
@@ -292,14 +275,11 @@ class MenuScene(Scene):
 ```
 
 > [!NOTE]
-> Le dessin est volontairement simple : au chapitre 11, ce menu recevra un
-> **panneau** venu d'une image, sans changer sa logique. Le mot `PONG`, lui, ira
-> sur l'écran d'accueil.
+> Le dessin est volontairement simple : au chapitre 11, ce menu recevra un **panneau** venu d'une image, sans changer sa logique. Le mot `PONG`, lui, ira sur l'écran d'accueil.
 
 ### L'écran d'accueil (`pong/scenes/start.py`)
 
-Comme le menu et les options reviennent à l'accueil avec « Échap », il faut une
-scène `start`, même minimale pour l'instant :
+Comme le menu et les options reviennent à l'accueil avec « Échap », il faut une scène `start`, même minimale pour l'instant :
 
 ```python
 """Écran d'accueil : toute touche ouvre le menu."""
@@ -326,8 +306,7 @@ class StartScene(Scene):
 ```
 
 > [!NOTE]
-> Au chapitre 11, cet écran deviendra une **vidéo** ; sa logique (toute touche
-> ouvre le menu) ne changera pas.
+> Au chapitre 11, cet écran deviendra une **vidéo** ; sa logique (toute touche ouvre le menu) ne changera pas.
 
 ### `pong/scenes/options.py`
 
@@ -473,16 +452,11 @@ def test_options_return_row_goes_back_to_menu():
 ```
 
 > [!TIP]
-> Notre `App` prend maintenant un paramètre `sound_enabled` (chapitre 09) : les
-> tests le passent à `False` pour rester silencieux. Vous pouvez aussi ajouter dès
-> maintenant un paramètre `sound_enabled=True` dans `App.__init__` sans l'utiliser.
+> Notre `App` prend maintenant un paramètre `sound_enabled` (chapitre 09) : les tests le passent à `False` pour rester silencieux. Vous pouvez aussi ajouter dès maintenant un paramètre `sound_enabled=True` dans `App.__init__` sans l'utiliser.
 
-Vous avez un vrai parcours : menu → partie → menu, options → partie réglée.
-Le jeu commence à ressembler à un jeu.
+Vous avez un vrai parcours : menu → partie → menu, options → partie réglée. Le jeu commence à ressembler à un jeu.
 
-> **Dans le projet de référence :** `pong/ui.py` grandira au chapitre 11 (panneau,
-> choix, invite) ; `pong/scenes/menu.py` et `pong/scenes/options.py` y adopteront le
-> panneau par images, sans que leur logique change.
+> **Dans le projet de référence :** `pong/ui.py` grandira au chapitre 11 (panneau, choix, invite) ; `pong/scenes/menu.py` et `pong/scenes/options.py` y adopteront le panneau par images, sans que leur logique change.
 
 </details>
 
