@@ -507,4 +507,4 @@ Elle marche pour Pong… et pour tout le reste.
 
 Bon code, et amusez-vous bien !
 
-→ Retour au [sommaire du cours](README.md)
+[**Retour au sommaire du cours >>>**](README.md)

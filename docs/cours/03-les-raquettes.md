@@ -418,4 +418,4 @@ menu. **Vous avez un jeu qui bouge !**
 
 ## Étape suivante
 
-→ [04. La balle](04-la-balle.md)
+[**04. La balle >>>**](04-la-balle.md)

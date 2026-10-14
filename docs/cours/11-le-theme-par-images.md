@@ -467,4 +467,4 @@ def test_missing_asset_raises_a_clear_error():
 
 ## Étape suivante
 
-→ [12. Le polish et le déploiement](12-polish-et-deploiement.md)
+[**12. Le polish et le déploiement >>>**](12-polish-et-deploiement.md)

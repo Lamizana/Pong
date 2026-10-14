@@ -337,4 +337,4 @@ immédiatement.
 
 ## Étape suivante
 
-→ [07. Le score et la victoire](07-le-score.md)
+[**07. Le score et la victoire >>>**](07-le-score.md)
