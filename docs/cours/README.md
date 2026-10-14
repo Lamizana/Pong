@@ -8,7 +8,7 @@ Bienvenue ! Ce cours vous apprend à construire **de A à Z** un jeu **Pong** co
 
 > [!NOTE]
 > **Vous allez écrire le code vous-même.**
-> - Chaque chapitre se termine par un exercice « ***À vous de jouer !*** », suivi de son corrigé complet.
+> - Chaque chapitre se termine par un exercice « ***À vous de jouer*** », suivi de son corrigé complet.
 
 ---
 
@@ -26,9 +26,9 @@ Chaque chapitre suit le même déroulé :
 
 1. **Objectifs** : ce que vous saurez faire à la fin du chapitre.
 2. **Théorie** : les concepts, expliqués simplement (avec schémas et tableaux).
-3. **À vous de jouer !** : Un exercice : c'est **vous** qui écrivez le code, et le **test d'abord**.
-4. **Corrigé** : La solution complète, expliquée ligne à ligne.
-5. **En résumé** :  L'essentiel à retenir.
+3. **À vous de jouer** : un exercice : c'est **vous** qui écrivez le code, et le **test d'abord**.
+4. **Corrigé** : la solution complète, expliquée ligne à ligne.
+5. **En résumé** : l'essentiel à retenir.
 
 Le corrigé est **autonome** :
 
@@ -40,16 +40,16 @@ Le corrigé est **autonome** :
 ## Les 4 parties
 
 | Partie | Ce que vous construisez | Chapitres |
-|--------|-------------------------|-----------|
-| **1. Les fondations** | L'environnement, la boucle de jeu, les scènes | 00 → 02 |
-| **2. La logique du jeu** | Les raquettes, la balle, les collisions, l'IA, le score | 03 → 07 |
-| **3. Les écrans** | Le menu, les options, les sons, la pause, la fin de partie | 08 → 10 |
-| **4. L'habillage** | Le thème par images, le polish et le déploiement | 11 → 12 |
+| -------- | ------------------------- | ----------- |
+| **1. Les fondations** | L'environnement, la boucle de jeu, les scènes | *00 → 02* |
+| **2. La logique du jeu** | Les raquettes, la balle, les collisions, l'IA, le score | *03 → 07* |
+| **3. Les écrans** | Le menu, les options, les sons, la pause, la fin de partie | *08 → 10* |
+| **4. L'habillage** | Le thème par images, le polish et le déploiement | *11 → 12* |
 
 ## Table des chapitres
 
 | # | Chapitre | Ce que vous y apprenez |
-|---|----------|------------------------|
+| --- | ---------- | ------------------------ |
 | *00* | [Introduction et architecture](00-introduction.md) | Le jeu, l'architecture du projet, le TDD |
 | *01* | [L'environnement](01-environnement.md) | venv, pygame, pytest, première fenêtre |
 | *02* | [La boucle et les scènes](02-boucle-et-scenes.md) | `App`, delta time, `Scene`, constantes |
