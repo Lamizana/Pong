@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="https://github.com/Lamizana/Pong/actions/workflows/build.yml">
-    <img src="https://github.com/Lamizana/Pong/actions/workflows/build.yml/badge.svg?branch=main" alt="CI — Build & tests">
+    <img src="https://github.com/Lamizana/Pong/actions/workflows/build.yml/badge.svg?branch=main" alt="CI - Build & tests">
   </a>
 </p>
 
@@ -222,7 +222,7 @@ Il se trouve dans **[`docs/cours/`](docs/cours/README.md)** : 13 chapitres, de l
 
 ## Licence
 
-Distribué sous licence **MIT** — libre d'utilisation, de modification et de partage.
+Distribué sous licence **MIT** - libre d'utilisation, de modification et de partage.
 
 La police **Orbitron**, embarquée dans `pong/assets/`, est distribuée sous
 **SIL Open Font License 1.1** (voir `pong/assets/OFL-Orbitron.txt`).
@@ -234,4 +234,4 @@ La police **Orbitron**, embarquée dans `pong/assets/`, est distribuée sous
 **Alex Lamizana** : Étudiant 42 Angoulême, spécialisation Data & IA
 
 - [Site](https://lamizana.github.io/ZehdBox/)
-- [GitHub](https://github.com/Lamizana/TokenizeArt)
+- [GitHub](https://github.com/Lamizana)
