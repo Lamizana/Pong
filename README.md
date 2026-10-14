@@ -14,7 +14,7 @@
 <h1 align="center">Pong</h1>
 
 <p align="center">
-  <strong>Jeu Pong en Python (pygame) — 1 ou 2 joueurs</strong>
+  <strong>Jeu Pong en Python (pygame) - 1 ou 2 joueurs</strong>
 </p>
 
 <p align="center">
@@ -25,18 +25,13 @@
 
 ## A propos
 
-**Pong** est un jeu d'arcade complet écrit en **Python** avec **pygame**. Il propose un
-mode **un joueur** face à une IA à trois niveaux de difficulté, ou un mode **deux
-joueurs** en local sur le même clavier.
+**Pong** est un jeu d'arcade complet écrit en **Python** avec **pygame**. Il propose un mode **un joueur** face à une IA à trois niveaux de difficulté, ou un mode **deux joueurs** en local sur le même clavier.
 
-Le projet est pensé comme un **exemple pédagogique** : la logique du jeu (physique, IA,
-score) est **séparée de l'affichage**, entièrement **testée**, et accompagnée d'un
-**cours pas à pas en français**. Il se déploie en **exécutable autonome** (Linux et
-Windows) via PyInstaller et GitHub Actions.
+Le projet est pensé comme un **exemple pédagogique** : la logique du jeu (physique, IA, score) est **séparée de l'affichage**, entièrement **testée**, et accompagnée d'un **cours pas à pas en français**. Il se déploie en **exécutable autonome** (Linux et Windows) via PyInstaller et GitHub Actions.
 
-Le tout habillé d'un thème **cyberpunk** : fond illustré (ville néon, portail
-doré, grille en perspective), raquettes mécaniques, balle cybernétique — des
-images générées par IA chargées comme assets.
+Le tout habillé d'un thème **cyberpunk** : fond illustré (ville néon, portail doré, grille en perspective), raquettes mécaniques, balle cybernétique.
+
+*Ce sont des images générées par IA chargées comme assets.*
 
 ---
 
@@ -58,6 +53,7 @@ images générées par IA chargées comme assets.
 
 - [A propos](#a-propos)
 - [Apercu](#apercu)
+- [Table des matieres](#table-des-matieres)
 - [Fonctionnalites](#fonctionnalites)
 - [Stack technique](#stack-technique)
 - [Structure du projet](#structure-du-projet)
@@ -69,6 +65,7 @@ images générées par IA chargées comme assets.
 - [Packaging et deploiement](#packaging-et-deploiement)
 - [Cours complet](#cours-complet)
 - [Licence](#licence)
+- [Auteur](#auteur)
 
 ---
 
@@ -175,9 +172,7 @@ python main.py
 pytest
 ```
 
-Les tests couvrent la physique de la balle, les raquettes, l'IA, le score, la génération
-des sons, les collisions, le prétraitement des images, la cohérence de la documentation
-et le parcours complet des scènes — **sans fenêtre**.
+Les tests couvrent la physique de la balle, les raquettes, l'IA, le score, la génération des sons, les collisions, le prétraitement des images, la cohérence de la documentation et le parcours complet des scènes **sans fenêtre**.
 
 ---
 
@@ -191,25 +186,37 @@ et le parcours complet des scènes — **sans fenêtre**.
 .\build.ps1       # Windows -> dist\Pong.exe
 ```
 
-> **Important** : PyInstaller ne compile pas pour un autre système. Le `.exe` Windows
-> doit être produit **sous Windows** — c'est la **CI GitHub Actions** qui s'en charge à
-> chaque `push` sur `main`, à chaque tag `v*`, ou manuellement. Les exécutables sont
-> ensuite téléchargeables dans l'onglet **Actions** (artefacts `Pong-linux` et
-> `Pong-windows`).
+> [!IMPORTANT]
+> **PyInstaller** ne compile pas pour un autre système. Le `.exe` Windows
+> doit être produit **sous Windows**. C'est la **CI GitHub Actions** qui s'en charge à chaque `push` sur `main`, à chaque tag `v*`, ou manuellement. Les exécutables sont ensuite téléchargeables dans l'onglet **Actions** (artefacts `Pong-linux` et `Pong-windows`).
 
 ---
 
 ## Cours complet
 
-Un **cours complet pas à pas**, sur le modèle d'OpenClassrooms — objectifs,
-théorie, exercices « à vous de jouer » et corrigés — se trouve dans
-**[`docs/cours/`](docs/cours/README.md)** : 13 chapitres, de l'architecture au
-déploiement. Vous y écrivez le jeu vous-même, brique par brique.
+Un **cours complet pas à pas**, sur le modèle d'OpenClassrooms :
 
-00. Introduction · 01. Environnement · 02. Boucle et scènes · 03. Raquettes ·
-04. Balle · 05. Collisions · 06. IA · 07. Score · 08. Menu et options ·
-09. Sons et pause · 10. Fin de partie · 11. Thème par images ·
-12. Polish et déploiement
+> [!NOTE]
+> **Objectif**
+> - théorie
+> - exercices « à vous de jouer »
+> - corrigés
+
+Il se trouve dans **[`docs/cours/`](docs/cours/README.md)** : 13 chapitres, de l'architecture au déploiement. Vous y écrivez le jeu vous-même, brique par brique.
+
+1. Introduction
+2. Environnement
+3. Boucle et scènes
+4. Raquettes
+5. Balle
+6. Collisions
+7. IA
+8. Score
+9. Menu et options
+10. Sons et pause
+11. Fin de partie
+12. Thème par images
+13. Polish et déploiement
 
 ---
 
@@ -219,3 +226,12 @@ Distribué sous licence **MIT** — libre d'utilisation, de modification et de p
 
 La police **Orbitron**, embarquée dans `pong/assets/`, est distribuée sous
 **SIL Open Font License 1.1** (voir `pong/assets/OFL-Orbitron.txt`).
+
+---
+
+## Auteur
+
+**Alex Lamizana** : Étudiant 42 Angoulême, spécialisation Data & IA
+
+- [Site](https://lamizana.github.io/ZehdBox/)
+- [GitHub](https://github.com/Lamizana/TokenizeArt)
