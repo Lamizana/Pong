@@ -16,7 +16,7 @@
 
 Le **Pong** est l'un des tout premiers jeux vidéo (1972).
 
-Deux raquettes verticales se font face et une balle rebondit entre elles.Un joueur marque un point quand la balle passe derrière la raquette adverse.
+Deux raquettes verticales se font face et une balle rebondit entre elles. Un joueur marque un point quand la balle passe derrière la raquette adverse.
 
 <div align="center">
   <p>
@@ -98,8 +98,8 @@ Détaillons chaque couche :
 - **`main.py`** ne fait presque rien : il crée l'application et la lance.
 
 > [!NOTE]
-> **Pourquoi cette séparation ?** Parce qu'elle rend chaque chapitre très lisible:
-> - On parle d'**un fichier à la fois**. Et surtout, elle permet de tester la physique du jeu **sans ouvrir de fenêtre**,ce qui sera notre filet de sécurité.
+> **Pourquoi cette séparation ?** Parce qu'elle rend chaque chapitre très lisible :
+> - On parle d'**un fichier à la fois**. Et surtout, elle permet de tester la physique du jeu **sans ouvrir de fenêtre**, ce qui sera notre filet de sécurité.
 
 ---
 
@@ -128,7 +128,7 @@ Pour toute la logique du jeu, nous suivrons un rythme en trois temps, appelé
 
 > [!NOTE]
 > **Pourquoi écrire le test d'abord ?**
->- Parce qu'un test écrit *après* le code vérifie seulement « ce que le code fait », alors qu'un test écrit *avant* dit « ce que le code **doit** faire ». C'est toute la différence.
+> - Parce qu'un test écrit *après* le code vérifie seulement « ce que le code fait », alors qu'un test écrit *avant* dit « ce que le code **doit** faire ». C'est toute la différence.
 
 Nous utiliserons **pytest**. Un test, c'est une simple fonction :
 
