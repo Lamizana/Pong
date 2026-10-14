@@ -11,6 +11,24 @@ from pong.app import App
 LOG_NAME = "pong-error.log"
 
 
+def _show_error_dialog(message):
+    """Affiche le message dans une boîte Windows (sans effet sur les autres systèmes).
+
+    Isolée dans sa propre fonction pour servir de point d'injection : `MessageBoxW`
+    est modale et sans timeout, un appel réel bloquerait une CI Windows (aucun
+    utilisateur pour cliquer « OK »). Les tests neutralisent cette fonction.
+    """
+    if sys.platform != "win32":
+        return
+    try:
+        import ctypes
+
+        ctypes.windll.user32.MessageBoxW(
+            None, message, "Pong — démarrage impossible", 0x10)
+    except Exception:  # boîte indisponible : le journal reste la trace
+        pass
+
+
 def report_startup_error(message, log_dir=None):
     """Signale une erreur de démarrage là où l'utilisateur peut la voir.
 
@@ -30,14 +48,7 @@ def report_startup_error(message, log_dir=None):
     else:
         print(f"Détail écrit dans {log_path}", file=sys.stderr)
 
-    if sys.platform == "win32":
-        try:
-            import ctypes
-
-            ctypes.windll.user32.MessageBoxW(
-                None, message, "Pong — démarrage impossible", 0x10)
-        except Exception:  # boîte indisponible : le journal reste la trace
-            pass
+    _show_error_dialog(message)
 
     return log_path
 

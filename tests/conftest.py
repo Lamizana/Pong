@@ -27,3 +27,16 @@ def pygame_env():
 def isolated_config(tmp_path, monkeypatch):
     """Isole les réglages persistants : chaque test a son propre dossier."""
     monkeypatch.setenv("PONG_CONFIG_DIR", str(tmp_path / "config"))
+
+
+@pytest.fixture(autouse=True)
+def no_gui_dialog(monkeypatch):
+    """Neutralise la boîte de dialogue Windows pour toute la suite de tests.
+
+    `MessageBoxW` est modale et sans timeout : sous Windows en CI, personne ne
+    peut cliquer « OK », le test se bloque jusqu'au timeout du job (6 h par
+    défaut). C'est la panne des runs #6 et #7.
+    """
+    import main
+
+    monkeypatch.setattr(main, "_show_error_dialog", lambda message: None)
