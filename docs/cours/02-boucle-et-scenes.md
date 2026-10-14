@@ -40,7 +40,7 @@ FPS = 60
 CAPTION = "Pong"
 ```
 
-> 💡 **Pourquoi un fichier dédié ?** Imaginez `900` recopié dans huit fichiers :
+> **Pourquoi un fichier dédié ?** Imaginez `900` recopié dans huit fichiers :
 > pour changer la taille de la fenêtre, il faudrait tous les retrouver. Ici, une
 > seule ligne à modifier.
 

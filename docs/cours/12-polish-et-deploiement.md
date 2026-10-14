@@ -38,7 +38,7 @@ def glow_text(surface, font, text, color, center, spread=3):
   carré : un halo serré et régulier.
 - Une seule fonction, utilisée par le menu, les options, la pause et la fin.
 
-> ⚠️ **Un halo trop large fait « gras ».** `spread=1` donne un halo discret
+> **Un halo trop large fait « gras ».** `spread=1` donne un halo discret
 > (4 copies), `spread=4` un halo très marqué (24 copies). À régler selon le goût.
 
 ## 2. Une vraie police
@@ -66,7 +66,7 @@ FONT_MEDIUM_SIZE = 44
 FONT_LARGE_SIZE = 72
 ```
 
-> 💡 **Pourquoi les tailles sont-elles des constantes ?** Parce qu'une police large
+> **Pourquoi les tailles sont-elles des constantes ?** Parce qu'une police large
 > comme Orbitron ne se comporte pas comme une police étroite : on ajuste les tailles
 > à un seul endroit, sans toucher aux scènes.
 
@@ -168,11 +168,11 @@ pyinstaller --onefile --windowed --name Pong \
 - `--windowed` : pas de console (d'où l'importance du point 4 !).
 - `--add-data` : **embarque le dossier des assets**.
 
-> 🔴 **L'erreur qui coûte une soirée.** Si vous oubliez `--add-data`, le jeu
+> **L'erreur qui coûte une soirée.** Si vous oubliez `--add-data`, le jeu
 > démarrera… puis plantera au chargement des images (`Asset introuvable : …`). Les
 > données ne sont **pas** incluses automatiquement.
 >
-> ⚠️ Le séparateur dépend du système : **`:`** sous Linux/macOS, **`;`** sous
+> Le séparateur dépend du système : **`:`** sous Linux/macOS, **`;`** sous
 > Windows. D'où un petit script qui s'adapte :
 
 ```bash
@@ -462,7 +462,7 @@ def test_save_then_load_round_trip(tmp_path):
 
 ---
 
-## 🎉 Fin du cours
+## Fin du cours
 
 Vous avez construit un jeu complet : boucle et scènes, raquettes, balle et physique,
 collisions au pixel près, IA à trois niveaux, score, menu, options, sons, pause, fin
@@ -483,7 +483,7 @@ Le plus important n'est pas la liste : c'est la méthode. **Une responsabilité 
 fichier, la logique séparée de l'affichage, et un test avant chaque fonctionnalité.**
 Elle marche pour Pong… et pour tout le reste.
 
-Bon code, et amusez-vous bien ! 🏓
+Bon code, et amusez-vous bien !
 
 ---
 

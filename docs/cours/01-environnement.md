@@ -106,7 +106,7 @@ mkdir pong\scenes, tests
 New-Item pong\__init__.py, pong\scenes\__init__.py -ItemType File
 ```
 
-> 💡 **Pourquoi un dossier `pong/` dans le dossier `pong/` ?** Le dossier externe
+> **Pourquoi un dossier `pong/` dans le dossier `pong/` ?** Le dossier externe
 > est *le projet*, le dossier interne est *le paquet* (la partie importable :
 > `from pong.app import App`). C'est une convention courante en Python.
 

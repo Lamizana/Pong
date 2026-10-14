@@ -137,7 +137,7 @@ Et les polices dans `App.__init__` :
         self.font_large = pygame.font.SysFont(None, 72)
 ```
 
-> 💡 `SysFont(None, taille)` utilise la police système par défaut : aucune ressource
+> `SysFont(None, taille)` utilise la police système par défaut : aucune ressource
 > à embarquer. Au chapitre 12, nous la remplacerons par une **vraie police** venue
 > d'un fichier — sans changer une seule ligne des scènes, puisque tout passe par
 > `draw_text`.
@@ -351,7 +351,7 @@ from ..score import Score
 ```
 
 Vous avez maintenant **un Pong complet qui se joue** : deux raquettes, une balle,
-une IA, un score et une victoire. La partie 2 est terminée ! 🏓
+une IA, un score et une victoire. La partie 2 est terminée !
 
 > **Dans le projet de référence :** `pong/score.py` est identique. La scène ajoutera
 > le son, la pause et l'écran de fin aux chapitres suivants.

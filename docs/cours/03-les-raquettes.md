@@ -56,7 +56,7 @@ NEON_PINK = (255, 45, 149)
 NEON_CYAN = (0, 229, 255)
 ```
 
-> 💡 **Pourquoi des marges ?** Le jeu sera habillé (chapitre 11) : le haut
+> **Pourquoi des marges ?** Le jeu sera habillé (chapitre 11) : le haut
 > accueillera le score, et les côtés un décor néon. Définir le terrain dès
 > maintenant évite d'avoir à tout recalculer plus tard.
 
@@ -83,7 +83,7 @@ rectangle et sait :
 Nous l'utiliserons surtout pour **dessiner** la raquette et, plus tard, pour
 calculer les collisions.
 
-> ⚠️ `Rect` travaille en **entiers**. Nos positions internes seront donc des
+> `Rect` travaille en **entiers**. Nos positions internes seront donc des
 > nombres à virgule (`float`), et on ne convertira qu'au moment de dessiner :
 > la physique reste fluide, l'affichage reste net.
 

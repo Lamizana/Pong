@@ -98,7 +98,7 @@ Et l'action :
             self.app.switch_scene("menu")
 ```
 
-> 💡 On stocke une **action** (`"replay"` / `"menu"`), pas une scène : « Rejouer »
+> On stocke une **action** (`"replay"` / `"menu"`), pas une scène : « Rejouer »
 > n'est pas un écran, c'est un comportement qui dépend du mode. Cette petite
 > indirection garde le menu déclaratif.
 
@@ -290,7 +290,7 @@ def test_escape_returns_to_home_screen():
     assert isinstance(app.scene, StartScene)
 ```
 
-> 💡 Ces tests n'ouvrent aucune fenêtre : ils **simulent** des événements clavier et
+> Ces tests n'ouvrent aucune fenêtre : ils **simulent** des événements clavier et
 > vérifient l'état de l'application. C'est rapide et fiable.
 
 ### Le lien dans `GameScene`

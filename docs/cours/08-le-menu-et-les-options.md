@@ -74,7 +74,7 @@ def navigation_index(event, index, count):
     return None
 ```
 
-> 💡 **Pourquoi renvoyer `None` plutôt que l'index inchangé ?** Parce que `None` veut
+> **Pourquoi renvoyer `None` plutôt que l'index inchangé ?** Parce que `None` veut
 > dire « ce n'est pas un déplacement ». L'appelant peut alors essayer autre chose
 > (valider, revenir…). Un index inchangé serait ambigu : « rien n'a bougé » ou
 > « c'était une touche que je ne gère pas » ?
@@ -153,7 +153,7 @@ class GameScene(Scene):
         self.ai = AI(level=self.level) if mode == "1p" else None
 ```
 
-> 💡 Comme la difficulté n'est plus passée en paramètre, le menu devient plus
+> Comme la difficulté n'est plus passée en paramètre, le menu devient plus
 > simple : `switch_scene("game", mode="1p")` suffit.
 
 ## À vous de jouer
@@ -270,7 +270,7 @@ class MenuScene(Scene):
                                    settings.WINDOW_HEIGHT - 30))
 ```
 
-> 💡 Le dessin est volontairement simple : au chapitre 11, ce menu recevra un
+> Le dessin est volontairement simple : au chapitre 11, ce menu recevra un
 > **panneau** venu d'une image, sans changer sa logique. Le mot `PONG`, lui, ira
 > sur l'écran d'accueil.
 
@@ -303,7 +303,7 @@ class StartScene(Scene):
                                    settings.WINDOW_HEIGHT // 2))
 ```
 
-> 💡 Au chapitre 11, cet écran deviendra une **vidéo** ; sa logique (toute touche
+> Au chapitre 11, cet écran deviendra une **vidéo** ; sa logique (toute touche
 > ouvre le menu) ne changera pas.
 
 ### `pong/scenes/options.py`
@@ -449,7 +449,7 @@ def test_options_return_row_goes_back_to_menu():
     assert isinstance(app.scene, MenuScene)
 ```
 
-> 💡 Notre `App` prend maintenant un paramètre `sound_enabled` (chapitre 09) : les
+> Notre `App` prend maintenant un paramètre `sound_enabled` (chapitre 09) : les
 > tests le passent à `False` pour rester silencieux. Vous pouvez aussi ajouter dès
 > maintenant un paramètre `sound_enabled=True` dans `App.__init__` sans l'utiliser.
 
