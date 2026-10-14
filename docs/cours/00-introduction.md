@@ -1,12 +1,13 @@
 # 00. Introduction et architecture
 
+---
 
 ## Objectifs
 
 À la fin de ce chapitre, vous saurez :
 
-- Ce que vous allez construire, chapitre après chapitre ;
-- Comment le projet est **organisé en couches**, et pourquoi cette séparation est la clé d'un code lisible ;
+- Ce que vous allez construire, chapitre après chapitre.
+- Comment le projet est **organisé en couches**, et pourquoi cette séparation est la clé d'un code lisible.
 - Ce qu'est le **développement piloté par les tests** (TDD), qu'on appliquera partout.
 
 ---
@@ -98,7 +99,7 @@ Détaillons chaque couche :
 
 > [!NOTE]
 > **Pourquoi cette séparation ?** Parce qu'elle rend chaque chapitre très lisible:
-> - on parle d'**un fichier à la fois**. Et surtout, elle permet de tester la physique du jeu **sans ouvrir de fenêtre**,ce qui sera notre filet de sécurité.
+> - On parle d'**un fichier à la fois**. Et surtout, elle permet de tester la physique du jeu **sans ouvrir de fenêtre**,ce qui sera notre filet de sécurité.
 
 ---
 

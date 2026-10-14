@@ -74,8 +74,8 @@ Ils reviennent dans chaque chapitre :
 2. **Séparer la logique de l'affichage.** Les règles du jeu (physique, IA, score) ne dépendent pas de l'affichage : on peut les tester sans ouvrir de fenêtre.
 3. **Développer par les tests (TDD).** Pour chaque brique de logique : un test qui échoue, puis le code qui le fait passer au vert.
 
-Bonne route, et amusez-vous bien ! 🏓
+Bonne route, et amusez-vous bien !
 
 ---
 
-**Premier chapitre : [00. Introduction et architecture >>>](00-introduction.md)**
+**Suivant : [00. Introduction et architecture >>>](00-introduction.md)**

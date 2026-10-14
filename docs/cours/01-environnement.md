@@ -1,4 +1,4 @@
-# 01 — L'environnement
+# 01. L'environnement
 
 ## Objectifs
 
@@ -18,13 +18,12 @@ Ouvrez un terminal et tapez :
 python3 --version
 ```
 
-Vous devez voir `Python 3.10` ou plus récent. Sinon, installez Python depuis
-[python.org](https://www.python.org/downloads/) (sous Windows, cochez « Add Python
-to PATH » pendant l'installation).
+Vous devez voir `Python 3.10` ou plus récent. Sinon, installez Python depuis [**python.org**](https://www.python.org/downloads/) (sous Windows, cochez « `Add Python to PATH` » pendant l'installation).
 
 ## 2. Créer le dossier du projet
 
 ```bash
+# Création du dossier :
 mkdir pong
 cd pong
 ```
@@ -33,9 +32,7 @@ Tous les fichiers du cours vivront dans ce dossier.
 
 ## 3. Un environnement virtuel
 
-Un **environnement virtuel** est une copie isolée de Python, avec ses propres
-bibliothèques. Cela évite de polluer votre système et de mélanger les versions
-entre projets.
+Un **environnement virtuel** est une copie isolée de Python, avec ses propres bibliothèques. Cela évite de polluer votre système et de mélanger les versions entre projets.
 
 ```bash
 # Linux / macOS
