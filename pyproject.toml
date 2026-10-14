@@ -22,3 +22,6 @@ pong = ["assets/*", "assets/start_video/*"]
 pythonpath = ["."]
 testpaths = ["tests"]
 addopts = "-q"
+# Si un test se bloque (ex. sous Windows en CI), pytest imprime au bout de 60 s
+# la pile Python du test en cours : on sait immédiatement lequel est fautif.
+faulthandler_timeout = 60

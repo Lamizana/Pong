@@ -12,6 +12,9 @@ jobs:
   build:
     name: Build (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
+    # Un blocage (tests ou PyInstaller) doit échouer vite : le timeout GitHub
+    # par défaut de 6 h immobilise un runner pour rien (cf. runs #6 et #7).
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -33,7 +36,10 @@ jobs:
         run: pip install -r requirements-dev.txt
 
       - name: Lancer les tests
-        run: python -m pytest
+        # -v : nomme chaque test dans le log (pour repérer celui qui bloque sous
+        # Windows) ; -o addopts= neutralise le « -q » de pyproject.toml.
+        timeout-minutes: 10
+        run: python -m pytest -v -o addopts=
 
       - name: Construire l'exécutable
         shell: bash
