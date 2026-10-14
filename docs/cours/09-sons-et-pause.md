@@ -276,6 +276,9 @@ expected_bytes *= 2                    # 2 octets par échantillon (16 bits)
 
 ## Corrigé
 
+<details>
+<summary>Le corrigé (cliquez pour déplier)</summary>
+
 ### `pong/sound.py`
 
 ```python
@@ -450,6 +453,8 @@ exactement où vous en étiez — même score, mêmes positions.
 > **Dans le projet de référence :** `pong/sound.py` est identique. La pause
 > utilisera `pong/ui.py` pour centrer ses trois lignes sur les métriques de police
 > (chapitre 11) et un halo néon (chapitre 12).
+
+</details>
 
 ---
 

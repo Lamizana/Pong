@@ -162,6 +162,9 @@ assert scene.index == 1
 
 ## Corrigé
 
+<details>
+<summary>Le corrigé (cliquez pour déplier)</summary>
+
 ### `pong/scenes/gameover.py`
 
 ```python
@@ -344,6 +347,8 @@ sons, pause et fin de partie : tout y est.
 > **Dans le projet de référence :** `pong/scenes/gameover.py` recevra au chapitre 11
 > le panneau par images. Ses tests sont ceux de ce corrigé, rejoints par un test
 > d'affichage sans erreur.
+
+</details>
 
 ---
 

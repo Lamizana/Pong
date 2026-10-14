@@ -204,6 +204,9 @@ level = settings.AI_LEVELS[self.app.config["level"]]["label"]
 
 ## Corrigé
 
+<details>
+<summary>Le corrigé (cliquez pour déplier)</summary>
+
 ### `pong/ui.py`
 
 ```python
@@ -480,6 +483,8 @@ Le jeu commence à ressembler à un jeu.
 > **Dans le projet de référence :** `pong/ui.py` grandira au chapitre 11 (panneau,
 > choix, invite) ; `pong/scenes/menu.py` et `pong/scenes/options.py` y adopteront le
 > panneau par images, sans que leur logique change.
+
+</details>
 
 ---
 

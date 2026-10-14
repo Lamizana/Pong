@@ -164,6 +164,9 @@ while running:
 
 ## Corrigé
 
+<details>
+<summary>Le corrigé (cliquez pour déplier)</summary>
+
 ```python
 """Point d'entrée minimal : une fenêtre qui s'ouvre et se ferme proprement."""
 
@@ -258,6 +261,8 @@ python main.py
 ```
 
 Une fenêtre sombre doit s'ouvrir. Fermez-la : le programme se termine sans erreur.
+
+</details>
 
 ---
 

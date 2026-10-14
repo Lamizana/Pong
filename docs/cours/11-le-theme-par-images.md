@@ -295,6 +295,9 @@ with pytest.raises(FileNotFoundError, match="introuvable"):
 
 ## Corrigé
 
+<details>
+<summary>Le corrigé (cliquez pour déplier)</summary>
+
 ### `scripts/prepare_assets.py` (extraits)
 
 ```python
@@ -456,6 +459,8 @@ def test_missing_asset_raises_a_clear_error():
 > **Dans le projet de référence :** c'est exactement cette architecture. Le
 > `score_screen.png` y est extrait du panneau de menu, et les positions de score
 > sont dérivées de la largeur du panneau — jamais codées en dur.
+
+</details>
 
 ---
 

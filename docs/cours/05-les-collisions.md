@@ -217,6 +217,9 @@ normale, pas `None`. Utilisez `<=` dans la comparaison, pas `<`.
 
 ## Corrigé
 
+<details>
+<summary>Le corrigé (cliquez pour déplier)</summary>
+
 ### `pong/collision.py`
 
 ```python
@@ -382,6 +385,8 @@ adversaire pour la raquette de droite : l'IA.
 
 > **Dans le projet de référence :** `pong/collision.py` est identique. Le
 > sous-échantillonnage (`_advance_ball`) y est expliqué par le même commentaire.
+
+</details>
 
 ---
 

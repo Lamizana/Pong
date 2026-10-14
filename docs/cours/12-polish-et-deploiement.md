@@ -286,6 +286,9 @@ Ne touchez **jamais** le vrai dossier de configuration pendant un test. Redirige
 
 ## Corrigé
 
+<details>
+<summary>Le corrigé (cliquez pour déplier)</summary>
+
 ### `pong/neon.py`
 
 ```python
@@ -473,6 +476,8 @@ def test_save_then_load_round_trip(tmp_path):
     loaded = config.load(path)
     assert loaded == {"level": "difficile", "points_to_win": 3}
 ```
+
+</details>
 
 ---
 

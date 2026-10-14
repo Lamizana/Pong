@@ -214,6 +214,9 @@ donc `sin(angle) < 0` → `vy < 0` → la balle repart vers le haut. ✅
 
 ## Corrigé
 
+<details>
+<summary>Le corrigé (cliquez pour déplier)</summary>
+
 ### `pong/ball.py`
 
 ```python
@@ -416,6 +419,8 @@ manque que les raquettes !** Ce sera l'objet du prochain chapitre.
 > **Dans le projet de référence :** `pong/ball.py` correspond exactement à ce
 > corrigé. Seul `BALL_RADIUS` (8) et la taille du sprite de balle
 > (`2 × BALL_RADIUS`) seront alignés au chapitre 11.
+
+</details>
 
 ---
 

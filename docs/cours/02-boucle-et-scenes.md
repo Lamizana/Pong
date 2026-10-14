@@ -217,6 +217,9 @@ Placez-la dans `tests/conftest.py` : pytest l'appliquera à tous les tests.
 
 ## Corrigé
 
+<details>
+<summary>Le corrigé (cliquez pour déplier)</summary>
+
 ### `pong/settings.py`
 
 ```python
@@ -391,6 +394,8 @@ Vous devez voir `1 passed`. Bravo : vous avez votre premier test.
 > **Dans le projet de référence :** `pong/app.py` est bien plus complet à la fin du
 > cours (assets, polices, son, réglages). Nous l'enrichirons chapitre après
 > chapitre — c'est exactement comme cela qu'on construit un jeu.
+
+</details>
 
 ---
 

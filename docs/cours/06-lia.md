@@ -188,6 +188,9 @@ ai.target_offset = 0.0
 
 ## Corrigé
 
+<details>
+<summary>Le corrigé (cliquez pour déplier)</summary>
+
 ### `pong/ai.py`
 
 ```python
@@ -322,6 +325,8 @@ immédiatement.
 > plus passé par le menu mais lu dans les **options** (chapitre 08), et l'IA
 > recevra une nouvelle visée après chaque échange (`randomize_offset` appelé par la
 > scène).
+
+</details>
 
 ---
 

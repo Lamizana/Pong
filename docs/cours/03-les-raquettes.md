@@ -224,6 +224,9 @@ elif any(keys[k] for k in settings.P1_DOWN):
 
 ## Corrigé
 
+<details>
+<summary>Le corrigé (cliquez pour déplier)</summary>
+
 ### `pong/paddle.py`
 
 ```python
@@ -403,6 +406,8 @@ menu. **Vous avez un jeu qui bouge !**
 
 > **Dans le projet de référence :** `pong/paddle.py` est identique à ce corrigé.
 > La vraie `GameScene` est enrichie au fil des chapitres suivants.
+
+</details>
 
 ---
 

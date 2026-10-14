@@ -201,6 +201,9 @@ si.
 
 ## Corrigé
 
+<details>
+<summary>Le corrigé (cliquez pour déplier)</summary>
+
 ### `pong/score.py`
 
 ```python
@@ -372,6 +375,8 @@ une IA, un score et une victoire. La partie 2 est terminée !
 
 > **Dans le projet de référence :** `pong/score.py` est identique. La scène ajoutera
 > le son, la pause et l'écran de fin aux chapitres suivants.
+
+</details>
 
 ---
 
