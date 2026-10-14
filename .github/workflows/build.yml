@@ -12,8 +12,6 @@ jobs:
   build:
     name: Build (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
-    # Un blocage (tests ou PyInstaller) doit échouer vite : le timeout GitHub
-    # par défaut de 6 h immobilise un runner pour rien (cf. runs #6 et #7).
     timeout-minutes: 30
     strategy:
       fail-fast: false
