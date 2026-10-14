@@ -47,6 +47,7 @@ C'est simple… et **faux**. Deux problèmes :
    réel est **raté**. C'est précisément le bug que ce chapitre corrige : la balle
    traversait la raquette quand elle l'effleurait sur un coin.
 
+> [!WARNING]
 > **Le bug du coin.** Un contact manqué une seule image, et la balle se retrouve
 > de l'autre côté de la raquette. Ce genre de défaut est intermittent (il dépend de
 > la vitesse et de l'angle), donc pénible à reproduire… et c'est exactement
@@ -112,6 +113,7 @@ normale = (dx / dist, dy / dist)
 penetration = radius - dist
 ```
 
+> [!NOTE]
 > Si le centre du cercle est **dans** le rectangle, `dx = dy = 0` : on ne peut pas
 > normaliser. On choisit alors une direction de secours (`(0, -1)`, vers le haut).
 > Ce cas ne se produit pas dans notre jeu (la scène traite d'abord la face
@@ -370,6 +372,7 @@ def test_ball_bounces_when_touching_paddle_corner():
     assert ball.vx > 0                # repartie vers la droite, pas traversée
 ```
 
+> [!IMPORTANT]
 > Écrivez ce test **avant** d'écrire `_resolve_paddle`. Vous le verrez échouer
 > (la balle traverse), puis passer après la correction. C'est votre assurance
 > contre le retour du bug.

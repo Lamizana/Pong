@@ -179,6 +179,7 @@ beaucoup plus en biais.
   reste dans l'intervalle.
 - La vitesse **augmente** à chaque échange : les parties ne s'éternisent pas.
 
+> [!NOTE]
 > `direction` vaut `+1` quand la balle repart vers la **droite**, `-1` vers la
 > **gauche**. C'est la scène qui le sait, car c'est elle qui vient de détecter la
 > collision (chapitre 05).

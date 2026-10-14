@@ -186,6 +186,7 @@ Dans `GameScene`, on profite des valeurs déjà renvoyées par la logique :
             self.app.sound.win()
 ```
 
+> [!NOTE]
 > Voyez comme le fait d'avoir fait **renvoyer un booléen** à `handle_walls`
 > (chapitre 04) et `_handle_paddles` (chapitre 05) paie maintenant : le son se
 > branche là où la collision est déjà détectée (`_after_paddle_hit`), et le `break`

@@ -61,6 +61,7 @@ Trois étapes, trois responsabilités :
 | `pong/assets/*.png` | — | le résultat, **embarqué** avec le jeu |
 | `AssetStore` | au lancement | charger en mémoire, une seule fois |
 
+> [!NOTE]
 > **Pourquoi préparer hors ligne ?** Parce que le détourage est coûteux (des
 > millions de pixels) et surtout parce que le résultat doit être **identique à
 > chaque lancement**. Le joueur, lui, ne paie rien : il charge juste des PNG.
@@ -110,6 +111,7 @@ def despill_green(image):
     return Image.merge("RGBA", (r, Image.composite(vert_limite, g, semi), b, a))
 ```
 
+> [!WARNING]
 > **Le seuil se calibre sur les vraies images.** `GREEN_THRESHOLD = 40` (« le
 > vert dépasse le rouge et le bleu d'au moins 40 ») a été réglé sur nos sources :
 > trop haut, des restes de fond subsistent ; trop bas, des pixels du sujet
@@ -133,6 +135,7 @@ Deux conversions sont possibles, et le choix n'est **pas** anodin :
 | `.convert()` | image **opaque** (un fond) | format d'affichage, plus rapide à dessiner |
 | `.convert_alpha()` | image avec **transparence** (un sprite) | conserve le canal alpha |
 
+> [!TIP]
 > Convertir une image au format de l'écran accélère énormément le dessin. On le
 > fait **une fois**, au chargement — jamais par image.
 
@@ -207,6 +210,7 @@ dessus**.
                              self.right_paddle.center_y - right.get_height() // 2))
 ```
 
+> [!IMPORTANT]
 > **La règle d'or :** la physique ne dépend jamais d'une taille de sprite. Ici,
 > le sprite **déborde vers l'extérieur** du rectangle de collision, dont le bord
 > intérieur marque la zone de frappe. Si vous régénérez l'image avec une autre
@@ -252,6 +256,7 @@ L'écran d'accueil, lui, est un fond **opaque** : `start_screen.png`, chargé pa
 `AssetStore` sous le nom `ASSET_START`. Le texte passe en **clair** (le panneau
 est sombre) : ce sont les constantes `TEXT_COLOR` / `TEXT_DIM` de `settings.py`.
 
+> [!NOTE]
 > **Un détail qui compte :** les libellés lisibles sur un panneau **cyan** doivent
 > être sombres ; sur un panneau **sombre**, ils doivent être clairs. Notre thème a
 > changé de panneau en cours de route, et c'est une constante qui l'a absorbé —
@@ -344,6 +349,7 @@ def build_sprite(source, dest, *, height=None, width=None, max_size=None):
     ...
 ```
 
+> [!NOTE]
 > `ImageOps.fit` fait un « scale-cover » : l'image garde **ses proportions** et
 > remplit tout le cadre, quitte à rogner. Un `resize` direct étirerait le décor.
 

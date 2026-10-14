@@ -42,6 +42,7 @@ def glow_text(surface, font, text, color, center, spread=3):
   carré : un halo serré et régulier.
 - Une seule fonction, utilisée par le menu, les options, la pause et la fin.
 
+> [!TIP]
 > **Un halo trop large fait « gras ».** `spread=1` donne un halo discret
 > (4 copies), `spread=4` un halo très marqué (24 copies). À régler selon le goût.
 
@@ -72,6 +73,7 @@ FONT_MEDIUM_SIZE = 44
 FONT_LARGE_SIZE = 72
 ```
 
+> [!NOTE]
 > **Pourquoi les tailles sont-elles des constantes ?** Parce qu'une police large
 > comme Orbitron ne se comporte pas comme une police étroite : on ajuste les tailles
 > à un seul endroit, sans toucher aux scènes.
@@ -180,6 +182,7 @@ pyinstaller --onefile --windowed --name Pong \
 - `--windowed` : pas de console (d'où l'importance du point 4 !).
 - `--add-data` : **embarque le dossier des assets**.
 
+> [!CAUTION]
 > **L'erreur qui coûte une soirée.** Si vous oubliez `--add-data`, le jeu
 > démarrera… puis plantera au chargement des images (`Asset introuvable : …`). Les
 > données ne sont **pas** incluses automatiquement.

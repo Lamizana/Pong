@@ -65,6 +65,7 @@ ligne.
 | Moyen | 440 px/s | ±35 px | équilibré |
 | Difficile | 640 px/s | ±8 px | très présent, mais pas parfait |
 
+> [!NOTE]
 > La vitesse du joueur est `PADDLE_SPEED = 520`. En « facile », l'IA est donc
 > **plus lente** que vous : vous pouvez la déborder.
 

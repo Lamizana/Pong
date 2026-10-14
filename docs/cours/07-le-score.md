@@ -149,6 +149,7 @@ Et les polices dans `App.__init__` :
         self.font_large = pygame.font.SysFont(None, 72)
 ```
 
+> [!NOTE]
 > `SysFont(None, taille)` utilise la police système par défaut : aucune ressource
 > à embarquer. Au chapitre 12, nous la remplacerons par une **vraie police** venue
 > d'un fichier — sans changer une seule ligne des scènes, puisque tout passe par
