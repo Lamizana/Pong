@@ -1,14 +1,18 @@
 # 01. L'environnement
 
+---
+
 ## Objectifs
 
 À la fin de ce chapitre, vous saurez :
 
-- vérifier que Python est installé ;
-- créer un **environnement virtuel** et y installer pygame ;
-- installer **pytest**, l'outil qui lancera nos tests ;
-- créer la **structure de dossiers** du projet ;
-- afficher votre **première fenêtre** avec pygame, qui se ferme proprement.
+- Vérifier que Python est installé.
+- Créer un **environnement virtuel** et y installer pygame.
+- Installer **pytest**, l'outil qui lancera nos tests.
+- Créer la **structure de dossiers** du projet.
+- Afficher votre **première fenêtre** avec pygame, qui se ferme proprement.
+
+---
 
 ## 1. Vérifier Python
 
@@ -20,6 +24,8 @@ python3 --version
 
 Vous devez voir `Python 3.10` ou plus récent. Sinon, installez Python depuis [**python.org**](https://www.python.org/downloads/) (sous Windows, cochez « `Add Python to PATH` » pendant l'installation).
 
+---
+
 ## 2. Créer le dossier du projet
 
 ```bash
@@ -29,6 +35,8 @@ cd pong
 ```
 
 Tous les fichiers du cours vivront dans ce dossier.
+
+---
 
 ## 3. Un environnement virtuel
 
@@ -46,8 +54,9 @@ python -m venv .venv
 .venv\Scripts\Activate.ps1
 ```
 
-Le prompt du terminal affiche maintenant `(.venv)`. C'est bon signe : tout ce qu'on
-installera ira **dans ce dossier**.
+Le prompt du terminal affiche maintenant `(.venv)`. C'est bon signe : tout ce qu'on installera ira **dans ce dossier**.
+
+---
 
 ## 4. Installer pygame et pytest
 
@@ -72,6 +81,8 @@ Vérifions que tout fonctionne :
 ```bash
 python -c "import pygame; print(pygame.version.ver)"
 ```
+
+---
 
 ## 5. La structure du projet
 
@@ -106,9 +117,12 @@ mkdir pong\scenes, tests
 New-Item pong\__init__.py, pong\scenes\__init__.py -ItemType File
 ```
 
-> **Pourquoi un dossier `pong/` dans le dossier `pong/` ?** Le dossier externe
-> est *le projet*, le dossier interne est *le paquet* (la partie importable :
-> `from pong.app import App`). C'est une convention courante en Python.
+> [!NOTE]
+> **Pourquoi un dossier `pong/` dans le dossier `pong/` ?**
+> - Le dossier externe est *le projet*
+> - Le dossier interne est *le paquet* (la partie importable : `from pong.app import App`). C'est une convention courante en Python.
+
+---
 
 ## À vous de jouer
 
@@ -145,6 +159,8 @@ while running:
 ```
 
 </details>
+
+---
 
 ## Corrigé
 
@@ -243,6 +259,8 @@ python main.py
 
 Une fenêtre sombre doit s'ouvrir. Fermez-la : le programme se termine sans erreur.
 
+---
+
 ## En résumé
 
 - On travaille toujours dans un **environnement virtuel** (`.venv`).
@@ -256,6 +274,8 @@ Une fenêtre sombre doit s'ouvrir. Fermez-la : le programme se termine sans erre
 > chapitre 01. Au chapitre 02, il devient un `main.py` de trois lignes et une vraie
 > classe `App` dans `pong/app.py`.
 
+---
+
 ## Étape suivante
 
-→ [02. La boucle et les scènes](02-boucle-et-scenes.md)
+[**02. La boucle et les scènes**](02-boucle-et-scenes.md)
