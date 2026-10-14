@@ -129,7 +129,7 @@ le dictionnaire** : on fabrique la scène nous-mêmes, avec ses paramètres.
 
 ---
 
-## À vous de jouer !
+## À vous de jouer
 
 1. Écrivez `pong/scenes/gameover.py`.
 2. Écrivez les tests (`tests/test_gameover_scene.py`) :

@@ -181,7 +181,7 @@ Deux subtilités :
 
 ---
 
-## À vous de jouer !
+## À vous de jouer
 
 Reprenez le code du chapitre 01 et transformez-le :
 

@@ -254,7 +254,7 @@ pytest
 
 ---
 
-## À vous de jouer !
+## À vous de jouer
 
 1. Créez `pong/neon.py` avec `glow_text`, et utilisez-le pour les titres (menu,
    options, pause, fin).

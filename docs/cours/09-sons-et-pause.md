@@ -248,7 +248,7 @@ Et dans `GameScene` :
 
 ---
 
-## À vous de jouer !
+## À vous de jouer
 
 1. Ajoutez les constantes de son et `OVERLAY_COLOR` à `settings.py`.
 2. Écrivez `generate_tone` et `SoundManager` (`pong/sound.py`).

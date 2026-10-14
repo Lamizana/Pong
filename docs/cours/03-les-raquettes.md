@@ -192,7 +192,7 @@ continu, image après image. On multiplie par `dt`, et le mouvement est fluide.
 
 ---
 
-## À vous de jouer !
+## À vous de jouer
 
 1. Écrivez la classe `Paddle` (fichier `pong/paddle.py`).
 2. **Écrivez d'abord les tests** : une raquette neuve est centrée, et elle ne sort

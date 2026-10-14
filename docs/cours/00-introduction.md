@@ -145,7 +145,7 @@ Chaque chapitre de code suit le même schéma :
 
 1. **Le problème** : qu'est-ce qu'on cherche à faire ?
 2. **La théorie** : les concepts Python/pygame nécessaires.
-3. **À vous de jouer !** : l'exercice, avec le **test à écrire d'abord**.
+3. **À vous de jouer** : l'exercice, avec le **test à écrire d'abord**.
 4. **Le corrigé** : le code complet, expliqué.
 5. **En résumé** : les points clés.
 

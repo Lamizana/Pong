@@ -172,7 +172,7 @@ Puis, dans la scène :
 
 ---
 
-## À vous de jouer !
+## À vous de jouer
 
 1. Écrivez la classe `Score` (`pong/score.py`).
 2. Écrivez les tests :

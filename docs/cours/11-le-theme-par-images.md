@@ -259,7 +259,7 @@ est sombre) : ce sont les constantes `TEXT_COLOR` / `TEXT_DIM` de `settings.py`.
 
 ---
 
-## À vous de jouer !
+## À vous de jouer
 
 1. Ajoutez **Pillow** à vos dépendances de développement et écrivez
    `scripts/prepare_assets.py` (détourage, recadrage, redimensionnement).

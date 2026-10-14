@@ -153,7 +153,7 @@ deux méthodes au chapitre 03.
 
 ---
 
-## À vous de jouer !
+## À vous de jouer
 
 1. Ajoutez `AI_LEVELS` et `AI_DEAD_ZONE` à `settings.py`.
 2. Écrivez la classe `AI` (`pong/ai.py`).

@@ -185,7 +185,7 @@ beaucoup plus en biais.
 
 ---
 
-## À vous de jouer !
+## À vous de jouer
 
 1. Écrivez la classe `Ball` (`pong/ball.py`) avec `reset`, `update`,
    `handle_walls`, `bounce_off_paddle` et `off_screen`.

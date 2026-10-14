@@ -187,7 +187,7 @@ Le coût est négligeable (quelques étapes de plus), et le bug disparaît.
 
 ---
 
-## À vous de jouer !
+## À vous de jouer
 
 1. Écrivez `pong/collision.py` avec `circle_rect_contact(cx, cy, radius, rect)`.
 2. Écrivez les tests **avant** :
