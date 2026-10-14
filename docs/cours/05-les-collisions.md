@@ -1,5 +1,7 @@
 # 05. Les collisions
 
+---
+
 ## Objectifs
 
 À la fin de ce chapitre, vous saurez :
@@ -14,11 +16,15 @@
 **Fichiers du projet :** `pong/collision.py`, `pong/scenes/game.py`
 **Test du projet :** `tests/test_collision.py`, `tests/test_game_scene.py`
 
+---
+
 ## 1. Le problème
 
 La balle rebondit sur les murs, mais passe encore à travers les raquettes. Il faut
 détecter le contact. Question simple, en apparence : « est-ce que la balle touche
 le rectangle ? »
+
+---
 
 ## 2. La tentation : les boîtes englobantes
 
@@ -45,6 +51,8 @@ C'est simple… et **faux**. Deux problèmes :
 > de l'autre côté de la raquette. Ce genre de défaut est intermittent (il dépend de
 > la vitesse et de l'angle), donc pénible à reproduire… et c'est exactement
 > pourquoi on écrit un **test** qui le reproduit.
+
+---
 
 ## 3. La bonne modélisation : un cercle contre un rectangle
 
@@ -88,6 +96,8 @@ dist2 = dx * dx + dy * dy
    pas de contact      contact (tangent)   pénétration
 ```
 
+---
+
 ## 4. Normale et pénétration
 
 Quand il y a contact, on a besoin de **deux informations** pour réagir :
@@ -107,10 +117,14 @@ penetration = radius - dist
 > Ce cas ne se produit pas dans notre jeu (la scène traite d'abord la face
 > latérale), mais mieux vaut un contrat explicite qu'un plantage.
 
+---
+
 ## 5. `circle_rect_contact`
 
 Ce calcul n'a besoin ni de pygame ni d'une fenêtre : c'est de la géométrie pure,
 donc **testable**. On l'isole dans `pong/collision.py`.
+
+---
 
 ## 6. Résoudre la collision dans la scène
 
@@ -143,6 +157,8 @@ On ne teste la collision que si la balle **se dirige vers** la raquette
 (`ball.vx * direction >= 0` → on saute). Sinon, une balle qui vient de rebondir
 serait « rattrapée » par la même raquette et resterait collée.
 
+---
+
 ## 7. Le « tunneling » : quand le temps va trop vite
 
 À chaque image, la balle avance de `v × dt`. Si elle est très rapide et l'image
@@ -169,6 +185,8 @@ for _ in range(steps):
 
 Le coût est négligeable (quelques étapes de plus), et le bug disparaît.
 
+---
+
 ## À vous de jouer !
 
 1. Écrivez `pong/collision.py` avec `circle_rect_contact(cx, cy, radius, rect)`.
@@ -192,6 +210,8 @@ rectangle) a `dist2 == r²`. Le contact existe : la fonction doit renvoyer une
 normale, pas `None`. Utilisez `<=` dans la comparaison, pas `<`.
 
 </details>
+
+---
 
 ## Corrigé
 
@@ -360,6 +380,8 @@ adversaire pour la raquette de droite : l'IA.
 > **Dans le projet de référence :** `pong/collision.py` est identique. Le
 > sous-échantillonnage (`_advance_ball`) y est expliqué par le même commentaire.
 
+---
+
 ## En résumé
 
 - **N'utilisez pas** `Rect.colliderect` pour un cercle : elle rate les contacts au
@@ -370,6 +392,8 @@ adversaire pour la raquette de droite : l'IA.
   coin : le long de la normale).
 - Les **sous-étapes** éliminent le tunneling.
 - Un test de non-régression transforme un bug intermittent en garde-fou permanent.
+
+---
 
 ## Étape suivante
 

@@ -1,5 +1,7 @@
 # 10. La fin de partie
 
+---
+
 ## Objectifs
 
 À la fin de ce chapitre, vous saurez :
@@ -11,6 +13,8 @@
 
 **Fichiers du projet :** `pong/scenes/gameover.py`, `pong/scenes/game.py`
 **Test du projet :** `tests/test_gameover_scene.py`
+
+---
 
 ## 1. Un écran dédié
 
@@ -36,6 +40,8 @@ On lui transmet **deux informations** :
 - `mode` : dans quel mode la partie se jouait — indispensable pour rejouer **à
   l'identique**.
 
+---
+
 ## 2. Le bon message
 
 Trois cas à distinguer, car il n'y a pas toujours deux joueurs :
@@ -56,6 +62,8 @@ Trois cas à distinguer, car il n'y a pas toujours deux joueurs :
   gauche, quel que soit le mode) ;
 - « droite » gagne en 1 joueur → c'est **l'IA** ;
 - « droite » gagne en 2 joueurs → c'est le **joueur 2**.
+
+---
 
 ## 3. Un menu de fin navigable
 
@@ -102,6 +110,8 @@ Et l'action :
 > n'est pas un écran, c'est un comportement qui dépend du mode. Cette petite
 > indirection garde le menu déclaratif.
 
+---
+
 ## 4. Le lien depuis la partie
 
 Dans `GameScene`, au moment où le score désigne un vainqueur :
@@ -116,6 +126,8 @@ Dans `GameScene`, au moment où le score désigne un vainqueur :
 
 On utilise `set_scene` (et non `switch_scene`) car il n'y a **rien à construire via
 le dictionnaire** : on fabrique la scène nous-mêmes, avec ses paramètres.
+
+---
 
 ## À vous de jouer !
 
@@ -144,6 +156,8 @@ assert scene.index == 1
 ```
 
 </details>
+
+---
 
 ## Corrigé
 
@@ -329,6 +343,8 @@ sons, pause et fin de partie : tout y est.
 > le panneau par images. Ses tests sont ceux de ce corrigé, rejoints par un test
 > d'affichage sans erreur.
 
+---
+
 ## En résumé
 
 - Un état de jeu mérite **sa propre scène** : plus clair, et testable.
@@ -337,6 +353,8 @@ sons, pause et fin de partie : tout y est.
 - Stocker une **action** plutôt qu'une scène garde le menu déclaratif.
 - `set_scene` quand on construit la scène soi-même, `switch_scene` quand c'est le
   dictionnaire qui la fabrique.
+
+---
 
 ## Étape suivante
 

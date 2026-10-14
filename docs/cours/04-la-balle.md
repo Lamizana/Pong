@@ -1,5 +1,7 @@
 # 04. La balle
 
+---
+
 ## Objectifs
 
 À la fin de ce chapitre, vous saurez :
@@ -13,6 +15,8 @@
 
 **Fichiers du projet :** `pong/ball.py`, `pong/scenes/game.py`, `pong/settings.py`
 **Test du projet :** `tests/test_ball.py`
+
+---
 
 ## 1. Un déplacement, c'est deux nombres
 
@@ -37,6 +41,8 @@ C'est un **vecteur vitesse** :
 self.x += self.vx * dt
 self.y += self.vy * dt
 ```
+
+---
 
 ## 2. Lancer la balle dans une direction
 
@@ -90,6 +96,8 @@ Si `θ` est l'angle par rapport à l'horizontale, alors :
 - Le paramètre `direction` (+1/-1) permet de renvoyer la balle vers le joueur qui
   vient de marquer.
 
+---
+
 ## 3. Rebondir sur les bords haut et bas
 
 ```python
@@ -116,6 +124,8 @@ Trois points importants :
    retraverserait à l'image suivante et pourrait « sortir ».
 3. On **renvoie `True`** : la scène saura qu'il faut jouer un son (chapitre 09).
 
+---
+
 ## 4. Détecter la sortie
 
 ```python
@@ -130,6 +140,8 @@ Trois points importants :
 
 On ne renvoie pas un booléen mais **le côté** : la scène en déduira quel joueur
 marque le point.
+
+---
 
 ## 5. Le rebond sur la raquette : la « physique Pong »
 
@@ -171,6 +183,8 @@ beaucoup plus en biais.
 > **gauche**. C'est la scène qui le sait, car c'est elle qui vient de détecter la
 > collision (chapitre 05).
 
+---
+
 ## À vous de jouer !
 
 1. Écrivez la classe `Ball` (`pong/ball.py`) avec `reset`, `update`,
@@ -194,6 +208,8 @@ Pour la raquette : frappée au-dessus du centre (`offset < 0`), l'angle est nég
 donc `sin(angle) < 0` → `vy < 0` → la balle repart vers le haut. ✅
 
 </details>
+
+---
 
 ## Corrigé
 
@@ -400,6 +416,8 @@ manque que les raquettes !** Ce sera l'objet du prochain chapitre.
 > corrigé. Seul `BALL_RADIUS` (8) et la taille du sprite de balle
 > (`2 × BALL_RADIUS`) seront alignés au chapitre 11.
 
+---
+
 ## En résumé
 
 - La vitesse est un **vecteur** `(vx, vy)` ; on avance de `v × dt`.
@@ -408,6 +426,8 @@ manque que les raquettes !** Ce sera l'objet du prochain chapitre.
 - On **replace** la balle dans le terrain avant d'inverser la vitesse.
 - L'angle de renvoi dépend du **point d'impact** sur la raquette — c'est ce qui
   rend le jeu intéressant.
+
+---
 
 ## Étape suivante
 

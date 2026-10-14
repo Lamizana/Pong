@@ -1,5 +1,7 @@
 # 08. Le menu et les options
 
+---
+
 ## Objectifs
 
 À la fin de ce chapitre, vous saurez :
@@ -13,6 +15,8 @@
 
 **Fichiers du projet :** `pong/scenes/menu.py`, `pong/scenes/options.py`, `pong/ui.py`
 **Test du projet :** `tests/test_options_scene.py`, `tests/test_app_smoke.py`
+
+---
 
 ## 1. Un menu, c'est une scène
 
@@ -38,6 +42,8 @@ afficher le menu, on n'a qu'un seul endroit à modifier :
         ui.draw_choices(surface, self.app, frame_rect,
                         [label for label, _, _ in self.options], self.index)
 ```
+
+---
 
 ## 2. Naviguer : l'index et le modulo
 
@@ -79,6 +85,8 @@ def navigation_index(event, index, count):
 > (valider, revenir…). Un index inchangé serait ambigu : « rien n'a bougé » ou
 > « c'était une touche que je ne gère pas » ?
 
+---
+
 ## 3. Valider un choix
 
 ```python
@@ -95,6 +103,8 @@ Deux cas particuliers élégants :
 - `None` comme scène signifie **quitter** (l'entrée « Quitter »).
 - `**kwargs` transmet les paramètres : `switch_scene("game", mode="1p")` appelle
   donc `GameScene(app, mode="1p")`.
+
+---
 
 ## 4. Le sous-menu Options
 
@@ -132,6 +142,8 @@ Et le changement se fait par **rotation circulaire** :
 
 Le même `%` que pour la navigation : arrivé au bout de la liste, on repart au début.
 
+---
+
 ## 5. Où stocker les réglages ?
 
 Dans l'`App`, un simple dictionnaire :
@@ -155,6 +167,8 @@ class GameScene(Scene):
 
 > Comme la difficulté n'est plus passée en paramètre, le menu devient plus
 > simple : `switch_scene("game", mode="1p")` suffit.
+
+---
 
 ## À vous de jouer
 
@@ -183,6 +197,8 @@ level = settings.AI_LEVELS[self.app.config["level"]]["label"]
 ```
 
 </details>
+
+---
 
 ## Corrigé
 
@@ -460,6 +476,8 @@ Le jeu commence à ressembler à un jeu.
 > choix, invite) ; `pong/scenes/menu.py` et `pong/scenes/options.py` y adopteront le
 > panneau par images, sans que leur logique change.
 
+---
+
 ## En résumé
 
 - Un menu se décrit par une **liste de données** (libellé, scène, paramètres).
@@ -467,6 +485,8 @@ Le jeu commence à ressembler à un jeu.
 - Renvoyer `None` plutôt qu'une valeur sentinelle rend `navigation_index` réutilisable.
 - `**kwargs` transmet les paramètres d'une scène à l'autre.
 - Les réglages vivent dans `app.config` (la **persistance** viendra au chapitre 12).
+
+---
 
 ## Étape suivante
 

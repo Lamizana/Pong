@@ -1,5 +1,7 @@
 # 06. L'IA
 
+---
+
 ## Objectifs
 
 À la fin de ce chapitre, vous saurez :
@@ -12,6 +14,8 @@
 
 **Fichiers du projet :** `pong/ai.py`, `pong/settings.py`
 **Test du projet :** `tests/test_ai.py`
+
+---
 
 ## 1. Le principe
 
@@ -30,6 +34,8 @@ n'est pas amusant — il faut lui donner deux faiblesses **contrôlées** :
 
 1. une **vitesse limitée** : elle ne peut pas rattraper une balle trop rapide ;
 2. une **imprécision de visée** : elle vise à côté, un peu au hasard.
+
+---
 
 ## 2. Les niveaux de difficulté
 
@@ -62,6 +68,8 @@ ligne.
 > La vitesse du joueur est `PADDLE_SPEED = 520`. En « facile », l'IA est donc
 > **plus lente** que vous : vous pouvez la déborder.
 
+---
+
 ## 3. La zone morte : éviter le tremblement
 
 Si l'IA vise une cible et s'y arrête pile, elle oscille : elle monte, se retrouve
@@ -74,6 +82,8 @@ La parade : ne rien faire tant qu'on est **assez proche** de la cible.
 if abs(diff) <= settings.AI_DEAD_ZONE:
     return
 ```
+
+---
 
 ## 4. La classe `AI`
 
@@ -98,6 +108,8 @@ Deux détails de qualité :
   un `random.Random(42)`, dont la suite de nombres est **toujours la même** : on
   teste un comportement aléatoire sans qu'il soit imprévisible.
 
+---
+
 ## 5. Viser… à côté
 
 L'imprécision n'est pas tirée à chaque image (l'IA tremblerait), mais **une fois
@@ -109,6 +121,8 @@ visée.
         """Tire une nouvelle imprécision de visée (à chaque nouvel échange)."""
         self.target_offset = self._rng.uniform(-self.error, self.error)
 ```
+
+---
 
 ## 6. Se déplacer
 
@@ -136,6 +150,8 @@ Notez que l'IA utilise `paddle.move_by` (le déplacement **brut**) et non
 `paddle.move` : elle calcule elle-même sa distance, et `move_by` continue de
 respecter les bornes du terrain. C'est exactement pourquoi nous avions découpé les
 deux méthodes au chapitre 03.
+
+---
 
 ## À vous de jouer !
 
@@ -166,6 +182,8 @@ ai.target_offset = 0.0
 ```
 
 </details>
+
+---
 
 ## Corrigé
 
@@ -304,6 +322,8 @@ immédiatement.
 > recevra une nouvelle visée après chaque échange (`randomize_offset` appelé par la
 > scène).
 
+---
+
 ## En résumé
 
 - Une IA parfaite n'est pas amusante : on la rend **battable** (vitesse + erreur).
@@ -312,6 +332,8 @@ immédiatement.
 - Un **générateur aléatoire injectable** rend un comportement aléatoire testable.
 - Valider les entrées (`ValueError` sur un niveau inconnu) échoue **tôt** et
   clairement.
+
+---
 
 ## Étape suivante
 

@@ -1,5 +1,7 @@
 # 11. Le thème par images
 
+---
+
 ## Objectifs
 
 À la fin de ce chapitre, vous saurez :
@@ -13,6 +15,8 @@
 
 **Fichiers du projet :** `scripts/prepare_assets.py`, `pong/resources.py`, `pong/ui.py`, `pong/scenes/*.py`
 **Test du projet :** `tests/test_assets.py`, `tests/test_prepare_assets.py`
+
+---
 
 ## 1. Du dessin au sprite
 
@@ -28,6 +32,8 @@ La question à se poser tout de suite : **où** charger ces images ?
 - ✅ Les charger **une fois**, au démarrage, dans un objet partagé.
 
 Ce sera le rôle de l'**`AssetStore`**.
+
+---
 
 ## 2. La chaîne des assets
 
@@ -58,6 +64,8 @@ Trois étapes, trois responsabilités :
 > **Pourquoi préparer hors ligne ?** Parce que le détourage est coûteux (des
 > millions de pixels) et surtout parce que le résultat doit être **identique à
 > chaque lancement**. Le joueur, lui, ne paie rien : il charge juste des PNG.
+
+---
 
 ## 3. Le détourage (« chroma-key »)
 
@@ -108,6 +116,8 @@ def despill_green(image):
 > disparaissent. D'où `remove_green_background`, qu'on vérifie **sur les vraies
 > images**, jamais « en principe ».
 
+---
+
 ## 4. Charger une image avec pygame
 
 ```python
@@ -125,6 +135,8 @@ Deux conversions sont possibles, et le choix n'est **pas** anodin :
 
 > Convertir une image au format de l'écran accélère énormément le dessin. On le
 > fait **une fois**, au chargement — jamais par image.
+
+---
 
 ## 5. `asset_path` : des erreurs claires
 
@@ -145,6 +157,8 @@ def asset_path(name):
 Pourquoi `Path(__file__).resolve().parent` et pas un chemin relatif ? Parce que
 l'exécutable packagé (chapitre 12) n'a pas le même dossier courant que le projet :
 le chemin **relatif à ce fichier** est le seul fiable dans les deux cas.
+
+---
 
 ## 6. L'`AssetStore`
 
@@ -173,6 +187,8 @@ Et dans `App.__init__` :
 
 Toutes les scènes y accèdent par `self.app.assets.paddle_left`,
 `self.app.assets.ball`, etc.
+
+---
 
 ## 7. Le sprite n'est que l'habillage
 
@@ -205,6 +221,8 @@ proportionnellement à sa vitesse.
         spin = math.degrees(self.ball.vx / max(1.0, self.ball.radius))
         self.ball_angle = (self.ball_angle + spin * dt * settings.BALL_SPIN_FACTOR) % 360
 ```
+
+---
 
 ## 8. Le panneau et le titre du menu
 
@@ -239,6 +257,8 @@ est sombre) : ce sont les constantes `TEXT_COLOR` / `TEXT_DIM` de `settings.py`.
 > changé de panneau en cours de route, et c'est une constante qui l'a absorbé —
 > jamais une valeur codée en dur au fond d'une scène.
 
+---
+
 ## À vous de jouer !
 
 1. Ajoutez **Pillow** à vos dépendances de développement et écrivez
@@ -265,6 +285,8 @@ with pytest.raises(FileNotFoundError, match="introuvable"):
 ```
 
 </details>
+
+---
 
 ## Corrigé
 
@@ -429,6 +451,8 @@ def test_missing_asset_raises_a_clear_error():
 > `score_screen.png` y est extrait du panneau de menu, et les positions de score
 > sont dérivées de la largeur du panneau — jamais codées en dur.
 
+---
+
 ## En résumé
 
 - La chaîne est **source → script de préparation → PNG → chargement**.
@@ -438,6 +462,8 @@ def test_missing_asset_raises_a_clear_error():
 - Un **`AssetStore`** charge tout une fois, et le partage entre les scènes.
 - Un sprite est un **habillage** : la logique (collision, bornes) ne dépend jamais
   de sa taille.
+
+---
 
 ## Étape suivante
 

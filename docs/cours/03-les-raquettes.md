@@ -1,5 +1,7 @@
 # 03. Les raquettes
 
+---
+
 ## Objectifs
 
 À la fin de ce chapitre, vous saurez :
@@ -13,6 +15,8 @@
 
 **Fichiers du projet :** `pong/paddle.py`, `pong/scenes/game.py`, `pong/settings.py`
 **Test du projet :** `tests/test_paddle.py`
+
+---
 
 ## 1. Le terrain de jeu
 
@@ -60,6 +64,8 @@ NEON_CYAN = (0, 229, 255)
 > accueillera le score, et les côtés un décor néon. Définir le terrain dès
 > maintenant évite d'avoir à tout recalculer plus tard.
 
+---
+
 ## 2. Une entité = des données + des méthodes
 
 Une raquette, c'est :
@@ -70,6 +76,8 @@ Une raquette, c'est :
 
 C'est exactement ce qu'exprime une classe Python. Et comme cette logique
 n'affiche rien, on pourra la tester **sans ouvrir de fenêtre**.
+
+---
 
 ## 3. `pygame.Rect` : le rectangle qui sait tout faire
 
@@ -86,6 +94,8 @@ calculer les collisions.
 > `Rect` travaille en **entiers**. Nos positions internes seront donc des
 > nombres à virgule (`float`), et on ne convertira qu'au moment de dessiner :
 > la physique reste fluide, l'affichage reste net.
+
+---
 
 ## 4. La classe `Paddle`
 
@@ -115,6 +125,8 @@ terrain (`FIELD_TOP`) et on descend de la moitié de l'espace restant.
 `@property` permet d'utiliser `paddle.rect` comme un attribut, alors que la
 valeur est **recalculée** à chaque appel. Pratique : le rectangle suit toujours la
 position courante, sans risque d'oubli de synchronisation.
+
+---
 
 ## 5. Se déplacer, sans sortir
 
@@ -146,6 +158,8 @@ self.y = max(FIELD_TOP, min(self.y, FIELD_BOTTOM - self.height))
 Décomposer `move` en `move_by` a un avantage : le déplacement **brut** (en pixels)
 sera réutilisé par l'IA, qui calcule elle-même sa distance (chapitre 06).
 
+---
+
 ## 6. Contrôler au clavier
 
 La raquette ne sait pas qu'un clavier existe : c'est la **scène** qui lit les
@@ -176,6 +190,8 @@ C'est essentiel : avec les événements, il faudrait gérer des répétitions et
 relâchements. Avec `get_pressed()`, maintenir la touche déplace la raquette en
 continu, image après image. On multiplie par `dt`, et le mouvement est fluide.
 
+---
+
 ## À vous de jouer !
 
 1. Écrivez la classe `Paddle` (fichier `pong/paddle.py`).
@@ -201,6 +217,8 @@ elif any(keys[k] for k in settings.P1_DOWN):
 ```
 
 </details>
+
+---
 
 ## Corrigé
 
@@ -384,6 +402,8 @@ menu. **Vous avez un jeu qui bouge !**
 > **Dans le projet de référence :** `pong/paddle.py` est identique à ce corrigé.
 > La vraie `GameScene` est enrichie au fil des chapitres suivants.
 
+---
+
 ## En résumé
 
 - Une entité = **des données + des méthodes** (`Paddle`).
@@ -393,6 +413,8 @@ menu. **Vous avez un jeu qui bouge !**
   le terrain.
 - Le clavier se lit **par état** (`pygame.key.get_pressed()`), pas par événement.
 - La logique pure se teste **sans fenêtre**.
+
+---
 
 ## Étape suivante
 

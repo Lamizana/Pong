@@ -1,5 +1,7 @@
 # 12. Le polish et le déploiement
 
+---
+
 ## Objectifs
 
 À la fin de ce chapitre, vous saurez :
@@ -12,6 +14,8 @@
 
 **Fichiers du projet :** `pong/neon.py`, `pong/config.py`, `main.py`, `build.sh`, `build.ps1`, `.github/workflows/build.yml`, `pyproject.toml`
 **Test du projet :** `tests/test_neon.py`, `tests/test_config.py`, `tests/test_main.py`, `tests/test_build_config.py`
+
+---
 
 ## 1. Les halos néon
 
@@ -41,6 +45,8 @@ def glow_text(surface, font, text, color, center, spread=3):
 > **Un halo trop large fait « gras ».** `spread=1` donne un halo discret
 > (4 copies), `spread=4` un halo très marqué (24 copies). À régler selon le goût.
 
+---
+
 ## 2. Une vraie police
 
 `SysFont(None, taille)` utilise la police du système : elle change d'une machine à
@@ -69,6 +75,8 @@ FONT_LARGE_SIZE = 72
 > **Pourquoi les tailles sont-elles des constantes ?** Parce qu'une police large
 > comme Orbitron ne se comporte pas comme une police étroite : on ajuste les tailles
 > à un seul endroit, sans toucher aux scènes.
+
+---
 
 ## 3. Des réglages qui survivent au redémarrage
 
@@ -112,6 +120,8 @@ Trois principes de robustesse :
 Et l'écriture est **best-effort** : si le disque est plein, on ne fait pas échouer
 la partie pour autant (`save` renvoie `False`).
 
+---
+
 ## 4. Ne jamais échouer en silence
 
 Voilà un piège classique du déploiement : l'exécutable `--windowed` **n'a pas de
@@ -152,6 +162,8 @@ def main():
 Trois canaux, du plus discret au plus visible : **stderr** (console), un **fichier
 journal** (`pong-error.log`, toujours écrit), et une **boîte de dialogue** sous
 Windows. L'utilisateur a **toujours** moyen de comprendre ce qui s'est passé.
+
+---
 
 ## 5. Créer un exécutable
 
@@ -200,6 +212,8 @@ Et pour ne pas reconstruire à la main, GitHub Actions le fait à chaque version
           --add-data "pong/assets${SEP}pong/assets" main.py
 ```
 
+---
+
 ## 6. Penser aux autres chemins d'installation
 
 PyInstaller n'est pas le seul moyen de distribuer :
@@ -218,6 +232,8 @@ license-files = ["LICENSE", "pong/assets/OFL-Orbitron.txt"]
 - **Depuis les sources** (`python main.py`) : tout fonctionne déjà, puisque le
   chemin est résolu par rapport au fichier.
 
+---
+
 ## 7. La qualité, à la fin
 
 Un dernier conseil : automatisez ce que vous vérifiez. Notre suite de tests attrape
@@ -235,6 +251,8 @@ En tout, plus de **cent tests** qui tournent en quelques secondes :
 ```bash
 pytest
 ```
+
+---
 
 ## À vous de jouer !
 
@@ -260,6 +278,8 @@ Ne touchez **jamais** le vrai dossier de configuration pendant un test. Redirige
 `load(path)` / `save(config, path)` sur des fichiers maîtrisés.
 
 </details>
+
+---
 
 ## Corrigé
 
@@ -451,6 +471,8 @@ def test_save_then_load_round_trip(tmp_path):
     assert loaded == {"level": "difficile", "points_to_win": 3}
 ```
 
+---
+
 ## En résumé
 
 - Un halo néon, c'est du texte atténué répété en décalage, puis le texte net.
@@ -484,7 +506,5 @@ fichier, la logique séparée de l'affichage, et un test avant chaque fonctionna
 Elle marche pour Pong… et pour tout le reste.
 
 Bon code, et amusez-vous bien !
-
----
 
 → Retour au [sommaire du cours](README.md)

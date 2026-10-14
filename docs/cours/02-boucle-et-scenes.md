@@ -1,5 +1,7 @@
 # 02. La boucle et les scènes
 
+---
+
 ## Objectifs
 
 À la fin de ce chapitre, vous saurez :
@@ -13,6 +15,8 @@
 **Fichiers du projet :** `main.py`, `pong/app.py`, `pong/scenes/base.py`, `pong/scenes/menu.py`, `pong/settings.py`
 **Test du projet :** `tests/test_app_smoke.py`
 
+---
+
 ## 1. Du script à l'application
 
 Au chapitre 01, tout tenait dans `main.py`. Ça fonctionne, mais un jeu complet a
@@ -21,6 +25,8 @@ courante…). Garder tout dans une seule boucle deviendrait vite illisible.
 
 Nous allons donc créer une classe **`App`** qui possède la fenêtre, l'horloge et la
 scène courante, et qui contient **la boucle**. `main.py` se réduira à trois lignes.
+
+---
 
 ## 2. `settings.py` : les constantes au même endroit
 
@@ -44,6 +50,8 @@ CAPTION = "Pong"
 > pour changer la taille de la fenêtre, il faudrait tous les retrouver. Ici, une
 > seule ligne à modifier.
 
+---
+
 ## 3. La classe `App`
 
 ```python
@@ -60,6 +68,8 @@ class App:
 - `self.screen` est la **surface** de la fenêtre : c'est là qu'on dessine.
 - `self.clock` servira à cadrer la cadence.
 - `self.running` est le drapeau qui maintient la boucle en vie.
+
+---
 
 ## 4. Le delta time : la clé d'un jeu fluide
 
@@ -91,6 +101,8 @@ self.x += self.vx * dt        # vx en pixels/seconde
 Le plafond de 50 ms évite un autre problème : si vous déplacez la fenêtre ou si la
 machine est occupée, `dt` peut devenir énorme et la balle « sauterait » à travers
 les murs au retour.
+
+---
 
 ## 5. Les scènes
 
@@ -134,6 +146,8 @@ La différence entre les deux est importante :
 - `set_scene` **réactive** une scène existante — c'est ce qui permettra de
   reprendre une partie après une pause **sans la recréer**.
 
+---
+
 ## 6. La boucle complète
 
 ```python
@@ -165,6 +179,8 @@ Deux subtilités :
   interrompue par un `break`. Autrement dit, si on vient de fermer la fenêtre, on
   **saute** la mise à jour et le dessin de cette image.
 
+---
+
 ## À vous de jouer !
 
 Reprenez le code du chapitre 01 et transformez-le :
@@ -195,6 +211,8 @@ os.environ["SDL_VIDEODRIVER"] = "dummy"
 Placez-la dans `tests/conftest.py` : pytest l'appliquera à tous les tests.
 
 </details>
+
+---
 
 ## Corrigé
 
@@ -373,6 +391,8 @@ Vous devez voir `1 passed`. Bravo : vous avez votre premier test.
 > cours (assets, polices, son, réglages). Nous l'enrichirons chapitre après
 > chapitre — c'est exactement comme cela qu'on construit un jeu.
 
+---
+
 ## En résumé
 
 - L'`App` possède la fenêtre et **la boucle** ; `main.py` ne fait que la lancer.
@@ -380,6 +400,8 @@ Vous devez voir `1 passed`. Bravo : vous avez votre premier test.
 - Une **scène** expose `handle_event`, `update`, `draw`.
 - `switch_scene` crée une scène ; `set_scene` en réactive une.
 - `for ... else` et la variable locale `scene` évitent deux bugs classiques.
+
+---
 
 ## Étape suivante
 

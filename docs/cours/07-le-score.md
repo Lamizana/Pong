@@ -1,5 +1,7 @@
 # 07. Le score et la victoire
 
+---
+
 ## Objectifs
 
 À la fin de ce chapitre, vous saurez :
@@ -12,6 +14,8 @@
 
 **Fichiers du projet :** `pong/score.py`, `pong/scenes/game.py`, `pong/settings.py`
 **Test du projet :** `tests/test_score.py`
+
+---
 
 ## 1. Les règles en une phrase
 
@@ -27,6 +31,8 @@ Ajoutez à `settings.py` :
 # --- Score ---
 POINTS_TO_WIN = 5
 ```
+
+---
 
 ## 2. La classe `Score`
 
@@ -65,6 +71,8 @@ Le paramètre `points_to_win` rend la règle **configurable** : les options du m
 régleront sur 3, 5 ou 10 (chapitre 08). C'est aussi ce qui rend le test de victoire
 plus rapide à écrire : `Score(points_to_win=1)`.
 
+---
+
 ## 3. Compter les points dans la scène
 
 La balle sort d'un côté, c'est le camp **opposé** qui marque :
@@ -78,6 +86,8 @@ if side is None:
 scorer = "right" if side == "left" else "left"
 winner = self.score.add_point(scorer)
 ```
+
+---
 
 ## 4. La remise en jeu
 
@@ -110,6 +120,8 @@ Dans `update` :
             self.serve_timer -= dt
             return                       # la balle attend encore
 ```
+
+---
 
 ## 5. Afficher le score
 
@@ -158,6 +170,8 @@ Puis, dans la scène :
 > score** issu du décor (chapitre 11), et la victoire ouvrira l'écran de fin
 > (chapitre 10). Pour l'instant, contentons-nous d'un affichage lisible.
 
+---
+
 ## À vous de jouer !
 
 1. Écrivez la classe `Score` (`pong/score.py`).
@@ -181,6 +195,8 @@ N'oubliez pas de **décrémenter** `serve_timer` et de **sortir** de `update` pa
 si.
 
 </details>
+
+---
 
 ## Corrigé
 
@@ -356,6 +372,8 @@ une IA, un score et une victoire. La partie 2 est terminée !
 > **Dans le projet de référence :** `pong/score.py` est identique. La scène ajoutera
 > le son, la pause et l'écran de fin aux chapitres suivants.
 
+---
+
 ## En résumé
 
 - Les **règles** (le score) vivent dans leur propre module, sans affichage : on les
@@ -364,6 +382,8 @@ une IA, un score et une victoire. La partie 2 est terminée !
 - Une **remise en jeu** avec décompte et recentrage rend le jeu équitable.
 - Un utilitaire `draw_text` centralise le rendu du texte — pratique pour tout
   afficher, et pour changer de police plus tard sans rien casser.
+
+---
 
 ## Étape suivante
 

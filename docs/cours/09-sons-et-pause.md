@@ -1,5 +1,7 @@
 # 09. Les sons et la pause
 
+---
+
 ## Objectifs
 
 À la fin de ce chapitre, vous saurez :
@@ -12,6 +14,8 @@
 
 **Fichiers du projet :** `pong/sound.py`, `pong/scenes/pause.py`, `pong/settings.py`
 **Test du projet :** `tests/test_sound.py`
+
+---
 
 ## 1. Un son, c'est une suite de nombres
 
@@ -52,6 +56,8 @@ SOUND_DURATION_MS = 90
 Chaque bruitage a sa **fréquence** : aiguë pour la raquette, grave pour le point,
 plus aiguë encore pour la victoire.
 
+---
+
 ## 2. Du Python à pygame : le buffer PCM
 
 pygame attend un **buffer** : une suite d'octets. On la construit avec `array` :
@@ -68,6 +74,8 @@ return samples.tobytes()
 - **16 bits signés** : chaque échantillon va de -32767 à +32767. C'est le format
   demandé par `pygame.mixer.init(size=-16, channels=2)`.
 - **stéréo** : on écrit deux fois la même valeur (gauche et droite).
+
+---
 
 ## 3. Le fondu : éviter le « clic »
 
@@ -94,6 +102,8 @@ Couper une sinusoïde net produit un **clic** désagréable. On applique donc un
 ```
 
 Un dixième de la durée de chaque côté suffit : le son est doux, sans perte notable.
+
+---
 
 ## 4. `SoundManager` : le son, mais pas indispensable
 
@@ -139,6 +149,8 @@ Trois choix de conception à retenir :
         self.play("hit")
 ```
 
+---
+
 ## 5. Brancher les sons
 
 Dans `GameScene`, on profite des valeurs déjà renvoyées par la logique :
@@ -179,6 +191,8 @@ Dans `GameScene`, on profite des valeurs déjà renvoyées par la logique :
 > branche là où la collision est déjà détectée (`_after_paddle_hit`), et le `break`
 > sort proprement des sous-étapes. En profiter pour réarmer la visée de l'IA
 > (`randomize_offset`) évite un second `if` ailleurs.
+
+---
 
 ## 6. La pause
 
@@ -232,6 +246,8 @@ Et dans `GameScene` :
             self.app.set_scene(PauseScene(self.app, self))
 ```
 
+---
+
 ## À vous de jouer !
 
 1. Ajoutez les constantes de son et `OVERLAY_COLOR` à `settings.py`.
@@ -254,6 +270,8 @@ expected_bytes *= 2                    # 2 octets par échantillon (16 bits)
 ```
 
 </details>
+
+---
 
 ## Corrigé
 
@@ -432,6 +450,8 @@ exactement où vous en étiez — même score, mêmes positions.
 > utilisera `pong/ui.py` pour centrer ses trois lignes sur les métriques de police
 > (chapitre 11) et un halo néon (chapitre 12).
 
+---
+
 ## En résumé
 
 - Un son numérique est une suite d'**échantillons** ; une note pure est une
@@ -440,6 +460,8 @@ exactement où vous en étiez — même score, mêmes positions.
 - Un **fondu** aux extrémités supprime le « clic ».
 - Un module de son doit **dégrader proprement** : le jeu ne plante pas sans audio.
 - La pause **recouvre** la partie ; `set_scene` la reprend sans la recréer.
+
+---
 
 ## Étape suivante
 
